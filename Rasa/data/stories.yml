@@ -4,16 +4,16 @@ stories:
 
 - story: happy path
   steps:
-  - intent: greet
+  # - intent: greet
   # - action: action_set_slot_from_user_input
-  - action: utter_greet
+  # - action: utter_greet
   - intent: mood_great
   - action: utter_happy
 
-- story: happy path 2
+- story: search product by barcode
   steps:
-  - intent: greet
-  - action: utter_greet
+  # - intent: greet
+  # - action: utter_greet
   - intent: scan_barcode
   - action: action_get_product_info_by_barcode
   - action: utter_did_that_help
@@ -22,8 +22,8 @@ stories:
 
 - story: sad path 1
   steps:
-  - intent: greet
-  - action: utter_greet
+  # - intent: greet
+  # - action: utter_greet
   - intent: mood_unhappy
   - action: utter_cheer_up
   - action: utter_did_that_help
@@ -32,8 +32,8 @@ stories:
 
 - story: sad path 2
   steps:
-  - intent: greet
-  - action: utter_greet
+  # - intent: greet
+  # - action: utter_greet
   - intent: mood_unhappy
   - action: utter_cheer_up
   - action: utter_did_that_help

@@ -7,6 +7,17 @@ const Chat = () => {
   const [chat, setChat] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const [botTyping, setbotTyping] = useState(false);
+  const name = "Test";
+
+  useEffect(() => {
+    const request_temp = {
+      sender: "bot",
+      sender_id: name,
+      msg: "Hi, I’m Eco! 👋I’m a sustainable nutritional bot. I can help you get information about a product or I can give you recommendations for food. What would you like to do? 👀",
+    };
+
+    setChat([...chat, request_temp]);
+  }, []);
 
   useEffect(() => {
     const objDiv = document.getElementById("messageArea");
@@ -15,7 +26,7 @@ const Chat = () => {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    const name = "Test";
+
     const request_temp = { sender: "user", sender_id: name, msg: inputMessage };
 
     if (inputMessage !== "") {
@@ -64,7 +75,7 @@ const Chat = () => {
   return (
     <div className="h-screen lg:px-60 lg:py-4 lg:bg-slate-900">
       <div className="lg:rounded-lg lg:border-2 lg:border-black">
-        <div className="bg-red-300 lg:rounded-t-lg h-[100px]">
+        <div className="bg-green-700 lg:rounded-t-lg h-[100px]">
           <h1 className="text-4xl text-center pt-4 font-bold text-slate-900">
             KI-SusCheck
           </h1>
@@ -81,14 +92,15 @@ const Chat = () => {
             >
               {user.sender === "bot" ? (
                 <div
-                  className={
+                  className={ 
+                    key === 0 ? "flex items-center gap-x-2 bg-slate-300 px-3 pt-3 rounded-t-lg pb-3 rounded-b-lg":
                     chat[key + 1]?.sender !== "bot"
                       ? "flex items-center gap-x-2 bg-slate-300 px-3 pb-3 rounded-b-lg"
                       : "flex items-center gap-x-2 bg-slate-300 px-3 pb-3"
                   }
                 >
                   {chat[key - 1]?.sender !== "bot" ? (
-                    <BiBot className="border-2 border-slate-900 rounded-full p-1 text-4xl" />
+                    <BiBot className="border-2 border-slate-900 rounded-full p-1 text-4xl min-w-[35px]" />
                   ) : (
                     <div className="pl-9" />
                   )}
@@ -115,13 +127,13 @@ const Chat = () => {
                   <h5 className="bg-yellow-100 rounded-lg py-2 px-3 mb-2">
                     {user.msg}
                   </h5>
-                  <BiUser className="border-2 border-slate-900 rounded-full p-1 text-4xl" />
+                  <BiUser className="border-2 border-slate-900 rounded-full p-1 text-4xl min-w-[35px]" />
                 </div>
               )}
             </div>
           ))}
         </div>
-        <div className="bg-red-300 lg:rounded-b-lg h-[100px] px-2 lg:px-40">
+        <div className="bg-green-700 lg:rounded-b-lg h-[100px] px-2 lg:px-40">
           <form
             className="flex items-center justify-center gap-x-2 h-full"
             onSubmit={handleSubmit}

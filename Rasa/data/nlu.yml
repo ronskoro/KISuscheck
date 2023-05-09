@@ -16,8 +16,8 @@ nlu:
     - goodmorning
     - goodevening
     - good afternoon
-    - hello I am [John] (name)
-    - hi I am [Mary] (name)
+    - hello I am [John] (user_name)
+    - hi I am [Mary] (user_name)
 
 - intent: scan_barcode
   examples: |

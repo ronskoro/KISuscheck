@@ -11,15 +11,16 @@ intents:
   - scan_barcode
 
 entities:
-  - name
+  - user_name
   - barcode
+  - product_name
 
 slots:
-  name:
+  user_name:
     type: text
     mappings:
       - type: from_entity
-        entity: name
+        entity: user_name
         initial_value: ""
     influence_conversation: false
 
@@ -28,11 +29,11 @@ actions:
   - action_get_product_info_by_barcode
 
 responses:
-  utter_greet:
-  # - text: "Hey {name}! How are you?"
-  # - text: "Hey {name}! What's up?"
-  - text: "Hey! How are you?"
-  - text: "Hey! What's up?"
+  # utter_greet:
+  # - text: "Hey {user_name}! How are you?"
+  # - text: "Hey {user_name}! What's up?"
+  # - text: "Hey! How are you?"
+  # - text: "Hey! What's up?"
 
   utter_cheer_up:
   - text: "Here is something to cheer you up:"

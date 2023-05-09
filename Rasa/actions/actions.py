@@ -46,7 +46,7 @@ class SetSlotFromUserInput(Action):
         # slot_value = user_input # Replace this with your own logic to extract the slot value
         
         # Set the slot value
-        return [SlotSet("name", user_input)]
+        return [SlotSet("user_name", user_input)]
 
 class getProductInfoByBarcode(Action):
     def name(self) -> Text:
@@ -62,5 +62,9 @@ class getProductInfoByBarcode(Action):
         # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
         response = requests.get('https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
         dispatcher.utter_message(image=response.json()['product']['image_url'])
+        dispatcher.utter_message(text="Product Name is " + response.json()['product']['generic_name'])
+        dispatcher.utter_message(text= "Product Labels: " + response.json()['product']['labels'])
+        dispatcher.utter_message(text="Nutrition score = " + response.json()['product']['nutriscore_data']['score'].__str__())
+        dispatcher.utter_message(text="Nutrition grade = " + response.json()['product']['nutriscore_grade'])
         return []
 
