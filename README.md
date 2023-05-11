@@ -7,7 +7,7 @@
 
 2- Open 2 Anaconda Prompts
 
-3- Run “rasa train” command then “rasa run --cors "*" --enable-api” command in the first terminal
+3- Run “rasa run --cors "*" --enable-api” command in the first terminal
 
 4- Run “rasa run actions” command in the second terminal
 ```
