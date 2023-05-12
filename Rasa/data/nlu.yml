@@ -100,3 +100,10 @@ nlu:
     - are you a human?
     - am I talking to a bot?
     - am I talking to a human?
+
+- intent: compare_products
+  examples: |
+    - Can you please compare two products?
+    - Can you compare two products?
+    - Can you compare some products?
+    - 

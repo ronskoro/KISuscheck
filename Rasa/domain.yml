@@ -35,6 +35,10 @@ responses:
   # - text: "Hey! How are you?"
   # - text: "Hey! What's up?"
 
+  utter_greet:
+  - text: "Hi, I'm Eco! 👋 I'm a sustainable nutritional bot. 🌿 
+  Can I assist you by providing information about a product or giving you recommendations for food? 👀"
+
   utter_cheer_up:
   - text: "Here is something to cheer you up:"
     image: "https://i.imgur.com/nGF1K8f.jpg"
