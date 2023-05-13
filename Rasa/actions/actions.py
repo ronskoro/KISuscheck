@@ -68,3 +68,48 @@ class getProductInfoByBarcode(Action):
         dispatcher.utter_message(text="Nutrition grade = " + response.json()['product']['nutriscore_grade'])
         return []
 
+# Method to set preferences from the following categories:
+# nutritional value, food processing value, allergens, ingredients, labels, environment
+# More info can be found here: "https://docs.google.com/document/d/100quDLq2fWTMjHoeyUZulthfNG3Fq8NsalNo_DacQHk/edit?usp=sharing"
+# Returns: sets the slot type to the list of preferences set by the user. 
+class ActionSetPreference(Action):
+    def name(self) -> Text:
+        return "action_set_preference"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+                  tracker: Tracker,
+                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        # preference categories
+        preferences = {
+            "ingredient_preference": "ingredient preferences",
+            "nutr_value_preference": "nutritional value preferences",
+            "food_processing_preference": "food processing preferences",
+            "allergen_preference": "allergen preferences",
+            "label_preference": "label preferences",
+            "env_preference": "environmental preferences",
+        }
+        
+        # todo: Fix this. Right now, it has it's own slot type here. 
+        # Need to find out which slot type is being set. 
+        # 1st possibility: set two slots: preference_type, and preference
+        preference_type = tracker.get_slot("preference_type")
+        preferences = list(tracker.get_latest_entity_values("preference"))
+
+        # check if the preference type has been set
+        if not preference_type:
+            msg = "I am sorry. I didn't get the type of preference you want to set. Could you specify it again?"
+            dispatcher.utter_message(text=msg)
+            return []
+
+        # check if there are preferences
+        if not preferences:
+            msg = "I am sorry. I didn't get that. Could you specify your preferences again?"
+            dispatcher.utter_message(text=msg)
+            return []
+
+        msg = f"Ok, got it! I've updated your {preferences[preference_type]}."
+        dispatcher.utter_message(text=msg)
+
+        return [SlotSet(preference_type, preferences)]
+

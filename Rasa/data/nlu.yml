@@ -26,7 +26,70 @@ nlu:
     - scan barco [1234567890123] (barcode)
     - scan barcod [1234567890123] (barcode)
     - scan this barcode [1234567890123] (barcode)
-    
+  
+- intent: set_ingredient_preference
+  examples: |
+    - I am [vegan](ingredient_preference).
+    - I am [vegetarian](ingredient_preference).
+    - I would like [Palm-oil free](ingredient_preference) choices.
+    - I would like [Palm-oil free](ingredient_preference) choices.
+    - Give choices that have no [palm oil](ingredient_preference).
+
+-lookup: ingredient_preference
+  examples: |
+    - vegan
+    - Vegan
+    - Vegetarian
+    - vegetarian 
+    - palm oil
+    - palm-oil free
+    - palm oil free
+
+- intent: set_allergen_preference
+  examples: |
+    - I am allergic to [milk](allergen_preference).
+    - I am can't eat [eggs](allergen_preference).
+    - Give me choices that are [gluten-free](allergen_preference).
+    - Give me food that is [gluten-free](allergen_preference).
+    - I have an allergy to [peanuts](allergen_preference). 
+
+-lookup: allergen_preference
+  examples: |
+    - Gluten
+    - gluten-free
+    - gluten
+    - Milk
+    - milk
+    - Eggs
+    - eggs
+    - Nuts
+    - nuts
+    - Peanuts
+    - peanuts
+    - Sesame Seeds
+    - sesame seeds
+    - sesame
+    - Soybeans
+    - soy
+    - soybeans
+    - Celery
+    - celery
+    - Mustard
+    - mustard
+    - Lupin
+    - lupin
+    - Fish
+    - fish
+    - Crustaceans
+    - crustaceans
+    - Molluscs
+    - molluscs
+    - Sulphur dioxide and sulphites
+    - sulphur dioxide
+    - sulphites
+    - sulphur dioxide and sulphites
+  
+# TODO: Create the rest of the intents for the other preferences
 
 - intent: goodbye
   examples: |
@@ -101,9 +164,10 @@ nlu:
     - am I talking to a bot?
     - am I talking to a human?
 
-- intent: compare_products
-  examples: |
-    - Can you please compare two products?
-    - Can you compare two products?
-    - Can you compare some products?
-    - 
+# - intent: compare_products
+#   examples: |
+#     - Can you please compare two products?
+#     - Can you compare two products?
+#     - Can you compare some products?
+#     - Please compare these products:
+#     - Please compare the products: 

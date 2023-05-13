@@ -39,3 +39,50 @@ stories:
   - action: utter_did_that_help
   - intent: deny
   - action: utter_goodbye
+
+# Stories surrounding setting the category of the user preferences from the following:
+# nutritional value, food processing value, allergens, ingredients, labels, environment
+# TODO: stories may need readjustment
+- story: set ingredient preference
+  steps: 
+  - intent: set_ingredient_preference
+  - action: action_set_preference
+  - slot_was_set: 
+    - preference_type: ingredient_preference  
+
+- story: set nutritional value preference
+  steps: 
+  - intent: set_nutr_value_preference
+  - action: action_set_preference
+  - slot_was_set: 
+    - preference_type: nutr_value_preference  
+
+- story: set food processing preference
+  steps: 
+  - intent: set_food_processing_preference
+  - action: action_set_preference
+  - slot_was_set: 
+    - preference_type: food_processing_preference
+
+- story: set allergen preference
+  steps: 
+  - intent: set_allergen_preference
+  - action: action_set_preference
+  - slot_was_set: 
+    - preference_type: allergen_preference
+
+- story: set label preference
+  steps: 
+  - intent: set_label_preference
+  - action: action_set_preference
+  - slot_was_set: 
+    - preference_type: label_preference
+
+- story: set environment preference
+  steps: 
+  - intent: set_env_preference
+  - action: action_set_preference
+  - slot_was_set: 
+    - preference_type: env_preference
+
+
