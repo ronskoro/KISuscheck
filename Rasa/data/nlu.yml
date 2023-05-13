@@ -34,8 +34,10 @@ nlu:
     - I would like [Palm-oil free](ingredient_preference) choices.
     - I would like [Palm-oil free](ingredient_preference) choices.
     - Give choices that have no [palm oil](ingredient_preference).
+    - Give choices that are [palm oil free](ingredient_preference).
+    - Give choices that are [vegan](ingredient_preference).
 
--lookup: ingredient_preference
+- lookup: ingredient_preference
   examples: |
     - vegan
     - Vegan
@@ -53,7 +55,7 @@ nlu:
     - Give me food that is [gluten-free](allergen_preference).
     - I have an allergy to [peanuts](allergen_preference). 
 
--lookup: allergen_preference
+- lookup: allergen_preference
   examples: |
     - Gluten
     - gluten-free
@@ -88,7 +90,7 @@ nlu:
     - sulphur dioxide
     - sulphites
     - sulphur dioxide and sulphites
-  
+
 # TODO: Create the rest of the intents for the other preferences
 
 - intent: goodbye

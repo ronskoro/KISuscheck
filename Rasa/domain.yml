@@ -9,11 +9,26 @@ intents:
   - mood_unhappy
   - bot_challenge
   - scan_barcode
+  - compare_products
+  - set_ingredient_preference
+  - set_nutr_value_preference
+  - set_food_processing_preference
+  - set_allergen_preference
+  - set_label_preference
+  - set_env_preference
 
 entities:
   - user_name
   - barcode
   - product_name
+  - preference_type
+  - ingredient_preference
+  - allergen_preference 
+  - nutr_value_preference
+  - food_processing_preference
+  - set_allergen_preference
+  - label_preference
+  - env_preference
 
 slots:
   user_name:
@@ -23,21 +38,65 @@ slots:
         entity: user_name
         initial_value: ""
     influence_conversation: false
+  preference_type:
+    type: text
+    mappings: 
+      - type: from_entity
+        entity: preference_type
+  ingredient_preference:
+    type: list
+    mappings: 
+      - type: from_entity
+        entity: ingredient_preference
+        intent: set_ingredient_preference
+    influence_conversation: true
+  nutr_value_preference:
+    type: list
+    mappings: 
+      - type: from_entity
+        entity: nutr_value_preference
+    influence_conversation: true
+  # todo: fill in the intents that trigger the rest of the slots
+  food_processing_preference:
+    type: list
+    mappings: 
+      - type: from_entity
+        entity: food_processing_preference
+    influence_conversation: true
+  allergen_preference:
+    type: list
+    mappings: 
+      - type: from_entity
+        entity: allergen_preference
+        intent: set_allergen_preference
+    influence_conversation: true
+  label_preference:
+    type: list
+    mappings: 
+      - type: from_entity
+        entity: label_preference
+    influence_conversation: true
+  env_preference:
+    type: list
+    mappings: 
+      - type: from_entity
+        entity: env_preference
+    influence_conversation: true
 
 actions:
   - action_set_slot_from_user_input
   - action_get_product_info_by_barcode
+  - action_greet
+  - action_set_preference
 
 responses:
-  # utter_greet:
+  # utter_greet: 
   # - text: "Hey {user_name}! How are you?"
   # - text: "Hey {user_name}! What's up?"
   # - text: "Hey! How are you?"
   # - text: "Hey! What's up?"
-
   utter_greet:
-  - text: "Hi, I'm Eco! 👋 I'm a sustainable nutritional bot. 🌿 
-  Can I assist you by providing information about a product or giving you recommendations for food? 👀"
+  - text: "Hi, I'm Eco! 👋 I'm a sustainable nutritional bot. 🌿 Can I assist you by providing information about a product or giving you recommendations for food? 👀"
 
   utter_cheer_up:
   - text: "Here is something to cheer you up:"

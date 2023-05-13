@@ -89,12 +89,9 @@ class ActionSetPreference(Action):
             "label_preference": "label preferences",
             "env_preference": "environmental preferences",
         }
-        
-        # todo: Fix this. Right now, it has it's own slot type here. 
-        # Need to find out which slot type is being set. 
-        # 1st possibility: set two slots: preference_type, and preference
+
         preference_type = tracker.get_slot("preference_type")
-        preferences = list(tracker.get_latest_entity_values("preference"))
+        new_preferences = list(tracker.get_latest_entity_values(preference_type))
 
         # check if the preference type has been set
         if not preference_type:
@@ -103,10 +100,18 @@ class ActionSetPreference(Action):
             return []
 
         # check if there are preferences
-        if not preferences:
+        if not new_preferences:
             msg = "I am sorry. I didn't get that. Could you specify your preferences again?"
             dispatcher.utter_message(text=msg)
             return []
+        
+        # get the current value of the slot
+        preferences = tracker.slots.get(preference_type, [])
+
+        # TODO: test if the action is working and if the new preferences are getting appended.
+
+        # append the new preferences
+        preferences.append(new_preferences)
 
         msg = f"Ok, got it! I've updated your {preferences[preference_type]}."
         dispatcher.utter_message(text=msg)
