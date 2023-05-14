@@ -75,7 +75,7 @@ class getProductInfoByBarcode(Action):
                     dispatcher.utter_message(text="Product Name is " + response.json()['product']['generic_name'])
                 if(response.json()['product'].get("labels") is not None):
                     dispatcher.utter_message(text= "Product Labels: " + response.json()['product']['labels'])
-                if(response.json()['product'].get("nutriscore_data") is not None):
+                if(response.json()['product'].get("nutriscore_data") is not None and response.json()['product']['nutriscore_data'].get("score") is not None):
                     dispatcher.utter_message(text="Nutrition score = " + response.json()['product']['nutriscore_data']['score'].__str__())
                 if(response.json()['product'].get("nutriscore_grade") is not None):
                     dispatcher.utter_message(text="Nutrition grade = " + response.json()['product']['nutriscore_grade'])
@@ -127,7 +127,7 @@ class getProductInfoByName(Action):
                         dispatcher.utter_message(text="Product Name is " + product['product_name'])
                     if(product.get("labels") is not None):
                         dispatcher.utter_message(text= "Product Labels: " + product['labels'])
-                    if(product.get("nutriscore_data") is not None):
+                    if(product.get("nutriscore_data") is not None and product['nutriscore_data'].get("score") is not None):
                         dispatcher.utter_message(text="Nutrition score = " + product['nutriscore_data']['score'].__str__())
                     if(product.get("nutriscore_grade") is not None):
                         dispatcher.utter_message(text="Nutrition grade = " + product['nutriscore_grade'])
@@ -164,4 +164,94 @@ class getProductInfoByName(Action):
                     return []
         dispatcher.utter_message(text="Sorry, I did not get that!")   
         return []
+    
 
+
+class answerAboutProductPropertyByBarcode(Action):
+    def name(self) -> Text:
+        return "action_answer_about_product_property_by_barcode"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+
+        barcode = None
+        property = None
+        entities = tracker.latest_message["entities"]
+        print(entities)
+
+        for entity in entities:
+            if entity["entity"] == "barcode":
+                barcode = entity["value"]
+            elif entity["entity"] == "food_property":
+                property = entity["value"]
+
+        # API endpoint
+        if(barcode is not None and property is not None):
+            # "https://world.openfoodfacts.org/api/v2/search?labels_tags="+property+"&sort_by=popularity_key"
+            url = 'https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json'
+
+            # Send GET request
+            response = requests.get(url)
+
+            # Check if the request was successful
+            if response.status_code == 200:
+                
+                product = response.json()['product']
+                generic_name = ""
+                
+
+                # data = response.json()
+
+                # products = data["products"]
+                # for product in products:
+
+                    # print("xxxxxxxxxxx",product["code"])
+
+                if(product.get("_id") is not None and product["_id"] == barcode):
+                    if(product.get("generic_name") is not None):
+                        generic_name = product['generic_name']
+
+                    if(product.get("labels") is not None):
+                        labels = product['labels'].split(',')
+                        stripped_labels = [word.strip().lower() for word in labels]
+
+                        if(property.lower() in stripped_labels):
+                            dispatcher.utter_message(text= generic_name + " ( barcode: " + barcode + " )" +  " has " + property + " ingredients")
+                        else:
+                            if(product.get("labels_old") is not None):
+                                labels = product['labels_old'].split(',')
+                                stripped_labels = [word.strip().lower() for word in labels]
+
+                                if(property.lower() in stripped_labels):
+                                    dispatcher.utter_message(text= generic_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
+                                else:
+                                    if(product.get("ingredients_analysis_tags") is not None):
+                                        labels = product['ingredients_analysis_tags']
+                                        stripped_labels = [word.strip().lower() for word in labels]
+
+                                        for label in stripped_labels:
+                                            if(property.lower() in label and 'no' not in label):
+                                                dispatcher.utter_message(text= generic_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients") 
+                                                return []                                            
+                                        
+                                        dispatcher.utter_message(text= generic_name + " ( barcode: " + barcode + " )" +  " has no " + property + " ingredients")
+                        return []
+                    # print("yyyyyyyyyy",product)
+                #     dispatcher.utter_message(text=str(i+1) +"- Barcode is " + product['code'])
+                # if(product.get("image_url") is not None):
+                #     dispatcher.utter_message(image=product['image_url'])
+                # if(product.get("product_name") is not None):
+                #     dispatcher.utter_message(text="Product Name is " + product['product_name'])
+                # if(product.get("labels") is not None):
+                #     dispatcher.utter_message(text= "Product Labels: " + product['labels'])
+                # if(product.get("nutriscore_data") is not None):
+                #     dispatcher.utter_message(text="Nutrition score = " + product['nutriscore_data']['score'].__str__())
+                # if(product.get("nutriscore_grade") is not None):
+                #     dispatcher.utter_message(text="Nutrition grade = " + product['nutriscore_grade'])
+            # dispatcher.utter_message(text="No, the product of barcode: " + barcode +  " is not " + property)
+            # return []
+        
+        dispatcher.utter_message(text="Sorry, I did not get that property!")   
+        return []

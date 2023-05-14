@@ -109,6 +109,9 @@ nlu:
     - [pasta](food) details please
     - [oranges](food) info please
     - [nutella](food) information
+    - what do you know about [milk](food)
+    - what info do you know about [yogurt](food)
+    - what details do you know about [chocolate](food)
 
 - lookup: food
   examples: |
@@ -300,6 +303,48 @@ nlu:
     - [1234567890123](barcode) details please
     - [1234567890123](barcode) info please
     - [1234567890123](barcode) information
+
+- intent: ask_about_product_property_by_name
+  examples: |
+    - Is [cereal](food) suitable for [vegetarians](food_property)?
+    - Does [pasta](food) contain [gluten](food_property)?
+    - Any information on the [fat](food_property) content in [fish](food)?
+    - does [honey](food) contain [palm oil](food_property)?
+    - does [bread](food) contain [nuts](food_property)?
+    - does [chips](food) contain [soy](food_property)?
+    - Is [nuts](food) suitable for [vegan](food_property)?
+    - Is [banana](food) high in [salt](food_property)?
+    - Is [nuts](food) low in [salt](food_property)?
+    - Is [cake](food) high in [sugar](food_property)?
+    - Is [cereal](food) low in [sugar](food_property)?
+    - does [pasta](food) contain [milk](food_property)?
+    - does [lasagna](food) has [additives](food_property)?
+    - what is [nutella](food) [eco score](food_property)?
+    - what is [chocolate](food) [nutri score](food_property)?
+    - what is [meat](food) [nutrition score](food_property)?
+    - what is [chicken](food) [nova score](food_property)?
+    - is [cheese](food) [organic](food_property)?
+
+- intent: ask_about_product_property_by_barcode
+  examples: |
+    - Is [1234567890123](barcode) suitable for [vegetarians](food_property)?
+    - Does [1234567890123](barcode) contain [gluten](food_property)?
+    - Any information on the [fat](food_property) content in [1234567890123](barcode)?
+    - does [1234567890123](barcode) contain [palm oil](food_property)?
+    - does [1234567890123](barcode) contain [nuts](food_property)?
+    - does [1234567890123](barcode) contain [soy](food_property)?
+    - Is [1234567890123](barcode) suitable for [vegan](food_property)?
+    - Is [1234567890123](barcode) high in [salt](food_property)?
+    - Is [1234567890123](barcode) low in [salt](food_property)?
+    - Is [1234567890123](barcode) high in [sugar](food_property)?
+    - Is [1234567890123](barcode) low in [sugar](food_property)?
+    - does [1234567890123](barcode) contain [milk](food_property)?
+    - does [1234567890123](barcode) has [additives](food_property)?
+    - what is [1234567890123](barcode) [eco score](food_property)?
+    - what is [1234567890123](barcode) [nutri score](food_property)?
+    - what is [1234567890123](barcode) [nutrition score](food_property)?
+    - what is [1234567890123](barcode) [nova score](food_property)?
+    - is [1234567890123](barcode) [organic](food_property)?
 
 - intent: compare_products
   examples: |
