@@ -11,34 +11,40 @@ intents:
   - scan_barcode
   - compare_products
   - get_top_product_info_by_name
+  - ask_about_product_property
 
 entities:
   - user_name
-  - product_barcode
-  - product_name
+  - barcode
+  - food
+  - food_property
 
-# slots:
-#   user_name:
-#     type: text
-#     mappings:
-#       - type: from_entity
-#         entity: user_name
-#         initial_value: ""
-#     influence_conversation: false
-#   product_name:
-#     type: text
-#     mappings:
-#       - type: from_entity
-#         entity: product_name
-#         initial_value: ""
-#     influence_conversation: true
-#   product_barcode:
-#     type: text
-#     mappings:
-#       - type: from_entity
-#         entity: product_barcode
-#         initial_value: ""
-#     influence_conversation: true
+slots:
+  # user_name:
+  #   type: text
+  #   mappings:
+  #     - type: from_entity
+  #       entity: user_name
+  #       initial_value: ""
+  # influence_conversation: false
+  food:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: food
+    influence_conversation: true
+  barcode:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: barcode
+    influence_conversation: true
+  food_property:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: food_property
+    influence_conversation: true
 
 
 actions:

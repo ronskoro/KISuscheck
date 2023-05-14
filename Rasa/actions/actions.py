@@ -56,13 +56,12 @@ class getProductInfoByBarcode(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
-        # Extract the value from the user input
-        # barcode = list(tracker.latest_message.get('text').split())[-1]
+        # Extract the barcode from the user input
         barcode = None
         entities = tracker.latest_message["entities"]
         print(entities)
         for entity in entities:
-            if entity["entity"] == "product_barcode":
+            if entity["entity"] == "barcode":
                 barcode = entity["value"]
                 break
 
@@ -83,6 +82,7 @@ class getProductInfoByBarcode(Action):
                 return []
             
             dispatcher.utter_message(text="Sorry, I can't find the product.")
+        dispatcher.utter_message(text="Oh I could not find that product! Please recheck that you entered it correctly.")
         return []
     
 
@@ -99,41 +99,69 @@ class getProductInfoByName(Action):
         entities = tracker.latest_message["entities"]
         print(entities)
         for entity in entities:
-            if entity["entity"] == "product_name":
+            if entity["entity"] == "food":
                 productName = entity["value"]
                 break
 
-
         # API endpoint
-        url = "https://world.openfoodfacts.org/api/v2/search?brands_tags="+productName
+        if(productName is not None):
+            url = "https://world.openfoodfacts.org/api/v2/search?categories_tags="+productName+"&sort_by=popularity_key"
 
-        # Send GET request
-        response = requests.get(url)
-                                # , params=payload)
+            # Send GET request
+            response = requests.get(url)
 
-        # Check if the request was successful
-        if response.status_code == 200:
+            # Check if the request was successful
+            if response.status_code == 200:
+                
+                data = response.json()
+
+                products = data["products"]
+                for i, product in enumerate(products):
+                    if i == 3:
+                        break
+                    if(product.get("code") is not None):
+                        dispatcher.utter_message(text=str(i+1) +"- Barcode is " + product['code'])
+                    if(product.get("image_url") is not None):
+                        dispatcher.utter_message(image=product['image_url'])
+                    if(product.get("product_name") is not None):
+                        dispatcher.utter_message(text="Product Name is " + product['product_name'])
+                    if(product.get("labels") is not None):
+                        dispatcher.utter_message(text= "Product Labels: " + product['labels'])
+                    if(product.get("nutriscore_data") is not None):
+                        dispatcher.utter_message(text="Nutrition score = " + product['nutriscore_data']['score'].__str__())
+                    if(product.get("nutriscore_grade") is not None):
+                        dispatcher.utter_message(text="Nutrition grade = " + product['nutriscore_grade'])
+                return []
             
-            data = response.json()
+            else:
+                url = "https://world.openfoodfacts.org/api/v2/search?brand_tags="+productName+"&sort_by=popularity_key"
 
-            products = data["products"]
+                # Send GET request
+                response = requests.get(url)
 
-            for i, product in enumerate(products):
-                if i == 3:
-                    break
-                if(product.get("code") is not None):
-                    dispatcher.utter_message(text=str(i+1) +"- Barcode is " + product['code'])
-                if(product.get("image_url") is not None):
-                    dispatcher.utter_message(image=product['image_url'])
-                if(product.get("product_name") is not None):
-                    dispatcher.utter_message(text="Product Name is " + product['product_name'])
-                if(product.get("labels") is not None):
-                    dispatcher.utter_message(text= "Product Labels: " + product['labels'])
-                if(product.get("nutriscore_data") is not None):
-                    dispatcher.utter_message(text="Nutrition score = " + product['nutriscore_data']['score'].__str__())
-                if(product.get("nutriscore_grade") is not None):
-                    dispatcher.utter_message(text="Nutrition grade = " + product['nutriscore_grade'])
-        else:
-            print("An error occurred with status code:", response.status_code)
+                # Check if the request was successful
+                if response.status_code == 200:
+                    
+                    data = response.json()
+
+                    products = data["products"]
+                    
+                    for i, product in enumerate(products):
+                        if i == 3:
+                            break
+                        if(product.get("code") is not None):
+                            dispatcher.utter_message(text=str(i+1) +"- Barcode is " + product['code'])
+                        if(product.get("image_url") is not None):
+                            dispatcher.utter_message(image=product['image_url'])
+                        if(product.get("product_name") is not None):
+                            dispatcher.utter_message(text="Product Name is " + product['product_name'])
+                        if(product.get("labels") is not None):
+                            dispatcher.utter_message(text= "Product Labels: " + product['labels'])
+                        if(product.get("nutriscore_data") is not None):
+                            dispatcher.utter_message(text="Nutrition score = " + product['nutriscore_data']['score'].__str__())
+                        if(product.get("nutriscore_grade") is not None):
+                            dispatcher.utter_message(text="Nutrition grade = " + product['nutriscore_grade'])
+                    return []
+        dispatcher.utter_message(text="Sorry, I did not get that!")   
         return []
 
