@@ -9,6 +9,7 @@ intents:
   - mood_unhappy
   - bot_challenge
   - scan_barcode
+  - compare_products
 
 entities:
   - user_name
@@ -43,9 +44,6 @@ responses:
   - text: "Here is something to cheer you up:"
     image: "https://i.imgur.com/nGF1K8f.jpg"
 
-  utter_did_that_help:
-  - text: "Did that help you?"
-
   utter_happy:
   - text: "Great, carry on!"
 
@@ -54,6 +52,13 @@ responses:
 
   utter_iamabot:
   - text: "I am a bot, powered by Rasa."
+
+  utter_did_that_help:
+  - text: "Did that help you?"
+
+  # ask user to provide product barcode/name in plain text
+  utter_ask_for_product_id:
+  - text: "Could you please provide me the barcode/name of the product(s)?"
 
 session_config:
   session_expiration_time: 60
