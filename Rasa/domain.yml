@@ -9,24 +9,42 @@ intents:
   - mood_unhappy
   - bot_challenge
   - scan_barcode
+  - compare_products
+  - get_top_product_info_by_name
 
 entities:
   - user_name
-  - barcode
+  - product_barcode
   - product_name
 
-slots:
-  user_name:
-    type: text
-    mappings:
-      - type: from_entity
-        entity: user_name
-        initial_value: ""
-    influence_conversation: false
+# slots:
+#   user_name:
+#     type: text
+#     mappings:
+#       - type: from_entity
+#         entity: user_name
+#         initial_value: ""
+#     influence_conversation: false
+#   product_name:
+#     type: text
+#     mappings:
+#       - type: from_entity
+#         entity: product_name
+#         initial_value: ""
+#     influence_conversation: true
+#   product_barcode:
+#     type: text
+#     mappings:
+#       - type: from_entity
+#         entity: product_barcode
+#         initial_value: ""
+#     influence_conversation: true
+
 
 actions:
-  - action_set_slot_from_user_input
+  # - action_set_slot_from_user_input
   - action_get_product_info_by_barcode
+  - action_get_top_product_info_by_name
 
 responses:
   # utter_greet:

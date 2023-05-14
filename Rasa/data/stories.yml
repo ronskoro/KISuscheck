@@ -9,6 +9,14 @@ stories:
   # - action: utter_greet
   - intent: mood_great
   - action: utter_happy
+  
+- story: search product by name
+  steps:
+  - intent: get_top_product_info_by_name
+  - action: action_get_top_product_info_by_name
+  - action: utter_did_that_help
+  - intent: deny
+  - action: utter_goodbye
 
 - story: search product by barcode
   steps:
@@ -19,6 +27,7 @@ stories:
   - action: utter_did_that_help
   - intent: deny
   - action: utter_goodbye
+
 
 - story: sad path 1
   steps:

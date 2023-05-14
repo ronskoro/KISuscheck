@@ -1,6 +1,11 @@
 version: "3.1"
 
 nlu:
+
+- regex: product_barcode
+  examples: |
+    - \d{9,13}
+
 - intent: greet
   examples: |
     - hey
@@ -16,18 +21,9 @@ nlu:
     - goodmorning
     - goodevening
     - good afternoon
-    - hello I am [John] (user_name)
-    - hi I am [Mary] (user_name)
-
-- intent: scan_barcode
-  examples: |
-    - scan barcode [1234567890123] (barcode)
-    - scan barcode [1234567890123] (barcode) please
-    - scan barco [1234567890123] (barcode)
-    - scan barcod [1234567890123] (barcode)
-    - scan this barcode [1234567890123] (barcode)
+    - hello I am [John](user_name)
+    - hi I am [Mary](user_name)
     
-
 - intent: goodbye
   examples: |
     - cu
@@ -100,6 +96,36 @@ nlu:
     - are you a human?
     - am I talking to a bot?
     - am I talking to a human?
+
+- intent: get_top_product_info_by_name
+  examples: |
+    - I want to know info about [milk](product_name)
+    - I need to know details about [yogurt](product_name)
+    - I want to know info about [chocolate](product_name) please
+    - I need to know details about [rice](product_name) please
+    - I want to know info about [butter](product_name) please
+    - What are the ingredients of the [bread](product_name)?
+    - Can you provide the nutritional information for [eggs](product_name)?
+    - Tell me about the allergens in [chicken](product_name)
+    - Is [cereal](product_name) suitable for vegetarians?
+    - Does [pasta](product_name) contain gluten?
+    - Any information on the fat content in [fish](product_name)?
+    - Can you give me the product description of [honey](product_name)?
+    - Tell me more about [orange](product_name).
+
+# - lookup: product_name
+#   files: |
+#    - product_name.yml
+# - lookup: product_name
+#     data/lookups/product_name.txt
+
+- intent: scan_barcode
+  examples: |
+    - scan barcode [1234567890123](product_barcode)
+    - scan barcode [1234567890123](product_barcode) please
+    - scan barco [1234567890123](product_barcode)
+    - scan barcod [1234567890123](product_barcode)
+    - scan this barcode [1234567890123](product_barcode)
 
 - intent: compare_products
   examples: |

@@ -33,20 +33,20 @@ from rasa_sdk.events import SlotSet
 import requests
 
 # set slot sample action
-class SetSlotFromUserInput(Action):
-    def name(self) -> Text:
-        return "action_set_slot_from_user_input"
+# class SetSlotFromUserInput(Action):
+#     def name(self) -> Text:
+#         return "action_set_slot_from_user_input"
 
-    async def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+#     async def run(self, dispatcher: CollectingDispatcher,
+#             tracker: Tracker,
+#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
-        # Extract the value from the user input
-        user_input = list(tracker.latest_message.get('text').split())[-1]
-        # slot_value = user_input # Replace this with your own logic to extract the slot value
+#         # Extract the value from the user input
+#         user_input = list(tracker.latest_message.get('text').split())[-1]
+#         # slot_value = user_input # Replace this with your own logic to extract the slot value
         
-        # Set the slot value
-        return [SlotSet("user_name", user_input)]
+#         # Set the slot value
+#         return [SlotSet("user_name", user_input)]
 
 class getProductInfoByBarcode(Action):
     def name(self) -> Text:
@@ -57,14 +57,83 @@ class getProductInfoByBarcode(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         
         # Extract the value from the user input
-        barcode = list(tracker.latest_message.get('text').split())[-1]
+        # barcode = list(tracker.latest_message.get('text').split())[-1]
+        barcode = None
+        entities = tracker.latest_message["entities"]
+        print(entities)
+        for entity in entities:
+            if entity["entity"] == "product_barcode":
+                barcode = entity["value"]
+                break
 
         # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
-        response = requests.get('https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
-        dispatcher.utter_message(image=response.json()['product']['image_url'])
-        dispatcher.utter_message(text="Product Name is " + response.json()['product']['generic_name'])
-        dispatcher.utter_message(text= "Product Labels: " + response.json()['product']['labels'])
-        dispatcher.utter_message(text="Nutrition score = " + response.json()['product']['nutriscore_data']['score'].__str__())
-        dispatcher.utter_message(text="Nutrition grade = " + response.json()['product']['nutriscore_grade'])
+        if(barcode is not None):
+            response = requests.get('https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
+            if(response.status_code == 200 and response.json().get('product') is not None):
+                if(response.json()['product'].get("image_url") is not None):
+                    dispatcher.utter_message(image=response.json()['product']['image_url'])
+                if(response.json()['product'].get("generic_name") is not None):
+                    dispatcher.utter_message(text="Product Name is " + response.json()['product']['generic_name'])
+                if(response.json()['product'].get("labels") is not None):
+                    dispatcher.utter_message(text= "Product Labels: " + response.json()['product']['labels'])
+                if(response.json()['product'].get("nutriscore_data") is not None):
+                    dispatcher.utter_message(text="Nutrition score = " + response.json()['product']['nutriscore_data']['score'].__str__())
+                if(response.json()['product'].get("nutriscore_grade") is not None):
+                    dispatcher.utter_message(text="Nutrition grade = " + response.json()['product']['nutriscore_grade'])
+                return []
+            
+            dispatcher.utter_message(text="Sorry, I can't find the product.")
+        return []
+    
+
+class getProductInfoByName(Action):
+    def name(self) -> Text:
+        return "action_get_top_product_info_by_name"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+
+        productName = None
+        entities = tracker.latest_message["entities"]
+        print(entities)
+        for entity in entities:
+            if entity["entity"] == "product_name":
+                productName = entity["value"]
+                break
+
+
+        # API endpoint
+        url = "https://world.openfoodfacts.org/api/v2/search?brands_tags="+productName
+
+        # Send GET request
+        response = requests.get(url)
+                                # , params=payload)
+
+        # Check if the request was successful
+        if response.status_code == 200:
+            
+            data = response.json()
+
+            products = data["products"]
+
+            for i, product in enumerate(products):
+                if i == 3:
+                    break
+                if(product.get("code") is not None):
+                    dispatcher.utter_message(text=str(i+1) +"- Barcode is " + product['code'])
+                if(product.get("image_url") is not None):
+                    dispatcher.utter_message(image=product['image_url'])
+                if(product.get("product_name") is not None):
+                    dispatcher.utter_message(text="Product Name is " + product['product_name'])
+                if(product.get("labels") is not None):
+                    dispatcher.utter_message(text= "Product Labels: " + product['labels'])
+                if(product.get("nutriscore_data") is not None):
+                    dispatcher.utter_message(text="Nutrition score = " + product['nutriscore_data']['score'].__str__())
+                if(product.get("nutriscore_grade") is not None):
+                    dispatcher.utter_message(text="Nutrition grade = " + product['nutriscore_grade'])
+        else:
+            print("An error occurred with status code:", response.status_code)
         return []
 
