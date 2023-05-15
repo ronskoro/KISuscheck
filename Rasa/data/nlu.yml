@@ -1,36 +1,41 @@
 version: "3.1"
 
 nlu:
-  - intent: greet
-    examples: |
-      - hey
-      - hello
-      - hi
-      - hello there
-      - good morning
-      - good evening
-      - moin
-      - hey there
-      - let's go
-      - hey dude
-      - goodmorning
-      - goodevening
-      - good afternoon
-      - hello I am [John] (user_name)
-      - hi I am [Mary] (user_name)
 
-  - intent: goodbye
-    examples: |
-      - cu
-      - good by
-      - cee you later
-      - good night
-      - bye
-      - goodbye
-      - have a nice day
-      - see you around
-      - bye bye
-      - see you later
+- regex: barcode
+  examples: |
+    - \d{9,13}
+
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+    - hello I am [John](user_name)
+    - hi I am [Mary](user_name)
+    
+- intent: goodbye
+  examples: |
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
 
   - intent: affirm
     examples: |
@@ -101,7 +106,256 @@ nlu:
       - scan this barcode [1234567890123] (barcode)
       - [1234567890123] (barcode)
 
-  - intent: compare_products
+  - intent: get_top_product_info_by_name
+  examples: |
+    - I want to know info about [milk](food)
+    - I need to know details about [yogurt](food)
+    - I want to know info about [chocolate](food) please
+    - I need to know details about [rice](food) please
+    - I want to know info about [butter](food) please
+    - Can you provide the nutritional information for [eggs](food)?
+    - Tell me more about [orange](food).
+    - [pasta](food) details please
+    - [oranges](food) info please
+    - [nutella](food) information
+    - what do you know about [milk](food)
+    - what info do you know about [yogurt](food)
+    - what details do you know about [chocolate](food)
+
+- lookup: food
+  examples: |
+    - apple
+    -convenience_food
+    -pilot_bread
+    -muscat
+    -shin
+    -saltine
+    -Vienna_roll
+    -pawpaw
+    -pilot_biscuit
+    -Yellow_Delicious
+    -Swiss_roll
+    -cream_puff
+    -bluefin
+    -spring_onion
+    -cod
+    -calamari
+    -bay_scallop
+    -Boston_lettuce
+    -danish
+    -sailfish
+    -jellyroll
+    -cohoe
+    -jackfruit
+    -sweet_cup
+    -coho_salmon
+    -broad_bean
+    -Swedish_rye_bread
+    -bream
+    -timbale
+    -sticky_bun
+    -ugli_fruit
+    -flatbrod
+    -sowbelly
+    -turbot
+    -beefsteak
+    -pigs'_feet
+    -gray_sole
+    -calves'_feet
+    -apple_pie
+    -black_pudding
+    -cinnamon_snail
+    -blue_crab
+    -rock_cake
+    -chopsteak
+    -leek
+    -pea_bean
+    -surinam_cherry
+    -fryer
+    -veggie
+    -bologna
+    -wedge_bone
+    -jalapeno
+    -pulse
+    -onion_bagel
+    -bass
+    -black_cherry
+    -spiny_lobster
+    -loaf
+    -prosciutto
+    -pumpkin_pie
+    -waffle
+    -Jerusalem_artichoke
+    -naan
+    -chiffon_cake
+    -chinook_salmon
+    -cherimolla
+    -pieplant
+    -sugar_apple
+    -akee
+    -Bermuda_onion
+    -Liederkranz
+    -plumcot
+    -cereal
+    -upside-down_cake
+    -roast_lamb
+    -Norwegian_lobster
+    -Yorkshire_pudding
+    -dark_bread
+    -aguacate
+    -pumpkin
+    -copra
+    -bannock
+    -parsnip
+    -Golden_Delicious
+    -cruller
+    -spice_cake
+    -baked_goods
+    -petit_four
+    -ladyfinger
+    -white_potato
+    -coffee_cake
+    -satsuma
+    -bittersweet_chocolate
+    -round_steak
+    -brownie_mix
+    -common_bean
+    -rock_lobster
+    -cold_cuts
+    -pigs'_knuckles
+    -mammee
+    -mombin
+    -pollock
+    -nut_bread
+    -vermicelli
+    -flitch
+    -veg
+    -flannel_cake
+    -Japanese_crab
+    -baking_chocolate
+    -bell_pepper
+    -angel_food_cake
+    -anchovy_pear
+    -water_biscuit
+    -grissino
+    -kiwi
+    -matzah_ball
+    -crape
+    -oreo
+    -brisket
+    -white_chocolate
+    -cherry_tomato
+    -Boston_brown_bread
+    -broccoli_raab
+    -bouchee
+    -shepherd's_pie
+    -sour_bread
+    -mouton
+    -split-pea
+    -chitlings
+    -marang
+    -Catawba
+    -bluepoint
+    -jaboticaba
+    -slop
+    -stick
+    -dry_cereal
+    -weakfish
+    -loin
+    -salad_green
+    -red_currant
+    -gigot
+    -pufferfish
+    -Edam
+    -citrange
+    -patty
+    -pork_pie
+    -doughboy
+    -tuna_fish
+    -vegetable_marrow
+    -white_bread
+    -flageolet
+    -eggplant
+    -cross_bun
+    -edible_fruit
+    -crawdad
+    -hog_plum
+    -tomalley
+    -lambchop
+    -lemon
+    -roast_pork
+    -date_bread
+    -McIntosh
+    -bun
+    -smoked_mackerel
+    -slipskin_grape
+    -fresh_foods
+    -cherry
+    -endive
+    -porc
+
+- intent: scan_barcode
+  examples: |
+    - scan barcode [1234567890123](barcode)
+    - scan barcode [1234567890123](barcode) please
+    - scan barco [1234567890123](barcode)
+    - scan barcod [1234567890123](barcode)
+    - scan this barcode [1234567890123](barcode)
+    - what do you know about this product [1234567890123](barcode)
+    - I want to know info about [1234567890123](barcode)
+    - I need to know details about [1234567890123](barcode)
+    - I want to know info about [1234567890123](barcode) please
+    - I need to know details about [1234567890123](barcode) please
+    - Can you provide the nutritional information for [1234567890123](barcode)?
+    - I want to know info about [1234567890123](barcode) please
+    - Tell me more about [1234567890123](barcode).
+    - [1234567890123](barcode) details please
+    - [1234567890123](barcode) info please
+    - [1234567890123](barcode) information
+
+- intent: ask_about_product_property_by_name
+  examples: |
+    - Is [cereal](food) suitable for [vegetarians](food_property)?
+    - Does [pasta](food) contain [gluten](food_property)?
+    - Any information on the [fat](food_property) content in [fish](food)?
+    - does [honey](food) contain [palm oil](food_property)?
+    - does [bread](food) contain [nuts](food_property)?
+    - does [chips](food) contain [soy](food_property)?
+    - Is [nuts](food) suitable for [vegan](food_property)?
+    - Is [banana](food) high in [salt](food_property)?
+    - Is [nuts](food) low in [salt](food_property)?
+    - Is [cake](food) high in [sugar](food_property)?
+    - Is [cereal](food) low in [sugar](food_property)?
+    - does [pasta](food) contain [milk](food_property)?
+    - does [lasagna](food) has [additives](food_property)?
+    - what is [nutella](food) [eco score](food_property)?
+    - what is [chocolate](food) [nutri score](food_property)?
+    - what is [meat](food) [nutrition score](food_property)?
+    - what is [chicken](food) [nova score](food_property)?
+    - is [cheese](food) [organic](food_property)?
+
+- intent: ask_about_product_property_by_barcode
+  examples: |
+    - Is [1234567890123](barcode) suitable for [vegetarians](food_property)?
+    - Does [1234567890123](barcode) contain [gluten](food_property)?
+    - Any information on the [fat](food_property) content in [1234567890123](barcode)?
+    - does [1234567890123](barcode) contain [palm oil](food_property)?
+    - does [1234567890123](barcode) contain [nuts](food_property)?
+    - does [1234567890123](barcode) contain [soy](food_property)?
+    - Is [1234567890123](barcode) suitable for [vegan](food_property)?
+    - Is [1234567890123](barcode) high in [salt](food_property)?
+    - Is [1234567890123](barcode) low in [salt](food_property)?
+    - Is [1234567890123](barcode) high in [sugar](food_property)?
+    - Is [1234567890123](barcode) low in [sugar](food_property)?
+    - does [1234567890123](barcode) contain [milk](food_property)?
+    - does [1234567890123](barcode) has [additives](food_property)?
+    - what is [1234567890123](barcode) [eco score](food_property)?
+    - what is [1234567890123](barcode) [nutri score](food_property)?
+    - what is [1234567890123](barcode) [nutrition score](food_property)?
+    - what is [1234567890123](barcode) [nova score](food_property)?
+    - is [1234567890123](barcode) [organic](food_property)?
+
+- intent: compare_products
     examples: |
       - Can you please compare two products?
       - Can you compare two products?

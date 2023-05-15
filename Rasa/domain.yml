@@ -10,24 +10,48 @@ intents:
   - bot_challenge
   - scan_barcode
   - compare_products
+  - get_top_product_info_by_name
+  - ask_about_product_property_by_barcode
 
 entities:
   - user_name
   - barcode
-  - product_name
+  - food
+  - food_property
 
 slots:
-  user_name:
+  # user_name:
+  #   type: text
+  #   mappings:
+  #     - type: from_entity
+  #       entity: user_name
+  #       initial_value: ""
+  # influence_conversation: false
+  food:
     type: text
     mappings:
       - type: from_entity
-        entity: user_name
-        initial_value: ""
-    influence_conversation: false
+        entity: food
+    influence_conversation: true
+  barcode:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: barcode
+    influence_conversation: true
+  food_property:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: food_property
+    influence_conversation: true
+
 
 actions:
-  - action_set_slot_from_user_input
+  # - action_set_slot_from_user_input
   - action_get_product_info_by_barcode
+  - action_get_top_product_info_by_name
+  - action_answer_about_product_property_by_barcode
 
 responses:
   # utter_greet:

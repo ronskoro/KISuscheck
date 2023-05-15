@@ -9,22 +9,10 @@ stories:
       - intent: mood_great
       - action: utter_happy
 
-  - story: sad path 1
+  - story: search product by name
     steps:
-      # - intent: greet
-      # - action: utter_greet
-      - intent: mood_unhappy
-      - action: utter_cheer_up
-      - action: utter_did_that_help
-      - intent: affirm
-      - action: utter_happy
-
-  - story: sad path 2
-    steps:
-      # - intent: greet
-      # - action: utter_greet
-      - intent: mood_unhappy
-      - action: utter_cheer_up
+      - intent: get_top_product_info_by_name
+      - action: action_get_top_product_info_by_name
       - action: utter_did_that_help
       - intent: deny
       - action: utter_goodbye
@@ -39,8 +27,46 @@ stories:
       - intent: deny
       - action: utter_goodbye
 
-  - story: compare multiple products
+  - story: search product by barcode and ask about property
     steps:
-      - intent: compare_products
-      - action: utter_ask_for_product_id
-      - checkpoint: detect_product_id_type
+      - intent: ask_about_product_property_by_barcode
+      - action: action_answer_about_product_property_by_barcode
+      - action: utter_did_that_help
+      - intent: deny
+      - action: utter_goodbye
+
+  - story: sad path 1
+    steps:
+      # - intent: greet
+      # - action: utter_greet
+      - intent: mood_unhappy
+      - action: utter_cheer_up
+      - action: utter_did_that_help
+      - intent: affirm
+      - action: utter_happy
+
+      - story: sad path 2
+        steps:
+          # - intent: greet
+          # - action: utter_greet
+          - intent: mood_unhappy
+          - action: utter_cheer_up
+          - action: utter_did_that_help
+          - intent: deny
+          - action: utter_goodbye
+
+      - story: search product by barcode
+        steps:
+          # - intent: greet
+          # - action: utter_greet
+          - intent: scan_barcode
+          - action: action_get_product_info_by_barcode
+          - action: utter_did_that_help
+          - intent: deny
+          - action: utter_goodbye
+
+      - story: compare multiple products
+        steps:
+          - intent: compare_products
+          - action: utter_ask_for_product_id
+          - checkpoint: detect_product_id_type
