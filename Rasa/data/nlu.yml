@@ -92,6 +92,47 @@ nlu:
     - sulphur dioxide and sulphites
 
 # TODO: Create the rest of the intents for the other preferences
+- intent: set_nutr_value_preference
+  examples: |
+    - Please give me choices that are [low in salt](nutr_val_preference).
+    - Set my food preferences to include [low sugar](nutr_val_preference).
+    - I want food low in [fat](nutr_val_preference).
+    - I want [low sugar](nutr_val_preference) choices.
+    - I want [low saturated fat](nutr_val_preference) choices.
+    - Please provide me with choices that are [low in sodium](nutr_val_preference).
+    - Include options that are [low sugar](nutr_val_preference) in my food preferences.
+    - I prefer food that is [low in fat](nutr_val_preference).
+    - Find me choices with [low sugar](nutr_val_preference) content.
+    - I want choices that are [low in saturated fat](nutr_val_preference).
+    - Set my food preferences to include options that are [low in sodium](nutr_val_preference).
+    - Give me choices that are [low in salt](nutr_val_preference).
+    - I want food options that are [low sugar](nutr_val_preference).
+    - Provide me with choices that are [low in fat](nutr_val_preference).
+    - I prefer choices that are [low in sodium](nutr_val_preference).
+    - Include options with [low sugar](nutr_val_preference) content in my preferences.
+    - Set my preferences to prioritize choices that are [low in saturated fat](nutr_val_preference).
+    - Please give me choices that are [low in salt](nutr_val_preference).
+    - I want choices that are [low in sugar](nutr_val_preference).
+    - Find me food options that are [low in fat](nutr_val_preference).
+    - Set my preferences to include choices that are [low in sugar](nutr_val_preference).
+    - I prefer choices that are [low in saturated fat](nutr_val_preference).
+    - Please provide me with options that are [low in sodium](nutr_val_preference).
+    - Include choices that are [low sugar](nutr_val_preference) in my food preferences.
+    - I want food that is [low in fat](nutr_val_preference).
+
+- lookup: nutr_val_preference
+  examples: |
+    - low in salt
+    - low in sodium
+    - low sugar
+    - Low sugar
+    - Low Fat
+    - Low fat
+    - low saturated fat
+    - Low saturated fat
+
+
+
 
 - intent: goodbye
   examples: |
