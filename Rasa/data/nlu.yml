@@ -131,7 +131,45 @@ nlu:
     - low saturated fat
     - Low saturated fat
 
+- intent: set_food_processing_preference
+  examples: |
+    - I want my food to have no [food processing](food_processing_preference). 
+    - Give me choicees with no [processing](food_processing_preference).
+    - I want my food to have no or [little food processing](food_processing_preference).
+    - Give me choices with [no processing](food_processing_preference).
+    - Include options that are [free from additives](food_processing_preference).
+    - Set my preferences to prioritize choices with [no or few additives](food_processing_preference).
+    - Find me choices that are [low in food processing](food_processing_preference).
+    - I prefer food with [minimal processing](food_processing_preference).
+    - Please give me options that are free from [additives](food_processing_preference).
+    - Include choices that have [limited food processing](food_processing_preference).
+    - Set my preferences to prioritize options with few [additives](food_processing_preference).
+    - I want choices with not a lot of [additives](food_processing_preference).
+    - Please provide me with choices that have [limited food processing](food_processing_preference).
+    - Include options that are [minimally processed](food_processing_preference) in my preferences.
+    - Set my preferences to prioritize choices with [few additives](food_processing_preference).
+    - I want choices that have [limited food processing](food_processing_preference).
+    - Please give me options with [minimal processing](food_processing_preference).
+    - Include choices that are free from [additives](food_processing_preference).
+    - Set my preferences to prioritize options with [no or few additives](food_processing_preference).
+    - I want choices with [minimal food processing](food_processing_preference).
+    - Please provide me with options that have [limited additives](food_processing_preference).
+    - Include choices that are [minimally processed](food_processing_preference) in my preferences.
 
+- lookup: food_processing_preference
+  examples: |
+    - no or little food processing
+    - no or few additives
+    - additives
+    - processing
+    - Processing
+    - Additives
+    - Little food processing
+    - Few additives
+    - few additives
+    - not a lot of additives
+    - food processing
+    - Food processing
 
 
 - intent: goodbye
