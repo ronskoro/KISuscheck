@@ -204,6 +204,49 @@ lookup: label_preference
     - Fair Trade
     - fair trade
 
+- intent: set_env_preference
+  examples: |
+    - I want food that has a [low carbon footprint](env_preference).
+    - Give me choices that are [eco-friendly](env_preference).
+      I want food choices that have [low environmental impact](env_preference).
+    - Please provide me with choices that are [eco-friendly](env_preference).
+    - Set my preferences to prioritize options with [low forest footprint](env_preference).
+    - I prefer choices that have a [high eco-score](env_preference).
+    - Include choices that are [eco-friendly](env_preference) in my preferences.
+    - Please give me choices that have [low environmental impact](env_preference).
+    - Set my preferences to include options with [low forest footprint](env_preference).
+    - I want food choices that are [eco-friendly](env_preference).
+    - Please provide me with choices that have a [low carbon footprint](env_preference).
+    - Set my preferences to prioritize options with [low environmental impact](env_preference).
+    - I prefer choices that have [low forest footprint](env_preference).
+    - Include choices that have a high [eco-score](env_preference) in my preferences.
+    - Please give me choices that are [eco-friendly](env_preference).
+    - Set my preferences to include options with [low forest footprint](env_preference).
+    - I want food choices that have [low environmental impact](env_preference).
+    - Please provide me with choices that are [eco-friendly](env_preference).
+    - Set my preferences to prioritize options with [low carbon footprint](env_preference).
+    - I prefer choices that have [low environmental impact](env_preference).
+    - Include choices that have a [high eco-score](env_preference) in my preferences.
+    - Please give me choices that are [eco-friendly](env_preference).
+
+lookup: env_preference
+  examples: |
+    - low environmental impact
+    - eco-friendly
+    - low forest footprint
+    - high eco-score
+    - Eco-friendly
+    - Eco friendly
+    - eco friendly
+    - Low environmental impact
+    - Low forest footprint
+    - Low carbon footprint
+    - low carbon footprint
+    - high eco score
+    - High eco-score
+  
+
+
 - intent: goodbye
   examples: |
     - cu
