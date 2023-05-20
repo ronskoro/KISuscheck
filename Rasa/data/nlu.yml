@@ -171,6 +171,38 @@ nlu:
     - food processing
     - Food processing
 
+- intent: set_label_preference
+  examples: |
+    - I want [organic](label_preference) choices.
+    - I want choices that come from [organic](label_preference) farming.
+    - Please provide me with [organic](label_preference) options.
+    - Set my preferences to prioritize choices that are [organic](label_preference).
+    - I prefer choices that are [fair trade](label_preference).
+    - Include options that come from [fair trade](label_preference) sources in my preferences.
+    - Please give me choices that are [organically produced](label_preference).
+    - Set my preferences to include choices that are [fairly traded](label_preference).
+    - I want choices that are produced using [organic farming](label_preference).
+    - Please provide me with options that are [fairly sourced](label_preference).
+    - Set my preferences to prioritize choices that are [organically](label_preference) grown.
+    - I want choices that are certified [organic](label_preference).
+    - Include options that are [fair trade](label_preference) certified in my preferences.
+    - Please give me choices that are [organically cultivated](label_preference).
+    - Set my preferences to include choices that are [fairly traded](label_preference).
+    - I want choices that are [grown organically](label_preference).
+    - Please provide me with options that are [ethically sourced](label_preference).
+    - Set my preferences to prioritize choices that are [organically farmed](label_preference).
+    - I want choices that are [produced sustainably](label_preference).
+    - Include options that are [fair trade](label_preference) verified in my preferences.
+    - Please give me choices that are [organically harvested](label_preference).
+
+lookup: label_preference
+  examples: |
+    - organic farming
+    - Organic farming
+    - organic
+    - Fair trade
+    - Fair Trade
+    - fair trade
 
 - intent: goodbye
   examples: |
