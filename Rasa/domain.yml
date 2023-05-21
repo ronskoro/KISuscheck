@@ -107,9 +107,6 @@ slots:
         entity: env_preference
         intent: set_env_preference
     influence_conversation: true
-        entity: food
-    influence_conversation: true
-
 
 actions:
   # - action_set_slot_from_user_input
