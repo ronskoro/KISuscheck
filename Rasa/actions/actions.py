@@ -68,13 +68,9 @@ class getProductInfoByBarcode(Action):
         dispatcher.utter_message(text="Nutrition grade = " + response.json()['product']['nutriscore_grade'])
         return []
 
-# Method to set preferences from the following categories:
-# nutritional value, food processing value, allergens, ingredients, labels, environment
-# More info can be found here: "https://docs.google.com/document/d/100quDLq2fWTMjHoeyUZulthfNG3Fq8NsalNo_DacQHk/edit?usp=sharing"
-# Returns: sets the slot type to the list of preferences set by the user. 
-class ActionSetPreference(Action):
+class ActionConfirmPreference(Action):
     def name(self) -> Text:
-        return "action_set_preference"
+        return "action_confirm_preference"
 
     async def run(self, dispatcher: CollectingDispatcher,
                   tracker: Tracker,
@@ -90,31 +86,89 @@ class ActionSetPreference(Action):
             "env_preference": "environmental preferences",
         }
 
-        preference_type = tracker.get_slot("preference_type")
-        new_preferences = list(tracker.get_latest_entity_values(preference_type))
+        intent = tracker.get_intent_of_latest_message()
 
-        # check if the preference type has been set
-        if not preference_type:
-            msg = "I am sorry. I didn't get the type of preference you want to set. Could you specify it again?"
-            dispatcher.utter_message(text=msg)
-            return []
+        preference_type = None
 
-        # check if there are preferences
-        if not new_preferences:
-            msg = "I am sorry. I didn't get that. Could you specify your preferences again?"
+        # set the preference type
+        if intent == "set_ingredient_preference":
+            preference_type = "ingredient_preference"
+        elif intent == "set_nutr_value_preference":
+            preference_type = "nutr_value_preference"
+        elif intent == "set_food_processing_preference":
+            preference_type = "food_processing_preference"
+        elif intent == "set_allergen_preference":
+            preference_type = "allergen_preference"
+        elif intent == "set_label_preference":
+            preference_type = "label_preference"
+        elif intent == "set_env_preference":
+            preference_type = "env_preference"
+        else:
+            msg = "I'm sorry. I didn't get that. Could you specify your preference again?"
             dispatcher.utter_message(text=msg)
             return []
         
-        # get the current value of the slot
-        preferences = tracker.slots.get(preference_type, [])
+        previous_value = None
+        
+        
+        skipped = False
+        for event in reversed(tracker.events):
+            # Since the slot event is triggered before the action, the latest slot event has the
+            # newest value, not the previous value. Therefore, we skip it.
+            if event.get("event") == "slot" and event.get("name") == preference_type:
+                # set the value if the current slot event has already been skipped
+                if skipped:
+                    print(f'The value to add is: vegan, actual value: {event.get("value")}')
+                    previous_value = event.get("value")
+                    break
+                
+                skipped = True
 
-        # TODO: test if the action is working and if the new preferences are getting appended.
+        current_values = tracker.get_slot(preference_type) or []
 
-        # append the new preferences
-        preferences.append(new_preferences)
+        # extend the previous values with the current values without duplicates. 
+        [current_values.append(x) for x in previous_value if x not in current_values]
 
-        msg = f"Ok, got it! I've updated your {preferences[preference_type]}."
+        msg = f"Ok, got it! I've updated your {preferences[preference_type]} to: {', '.join(current_values)}. Is this correct?"
         dispatcher.utter_message(text=msg)
 
-        return [SlotSet(preference_type, preferences)]
+        return [SlotSet(preference_type, current_values)] 
+
+class ActionPrintPreferences(Action):
+    def name(self) -> Text:
+        return "action_print_preferences"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+                  tracker: Tracker,
+                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        # Get the values of the preferences from the slots
+        ingredient_preference = tracker.get_slot("ingredient_preference")
+        nutr_value_preference = tracker.get_slot("nutr_value_preference")
+        food_processing_preference = tracker.get_slot("food_processing_preference")
+        allergen_preference = tracker.get_slot("allergen_preference")
+        label_preference = tracker.get_slot("label_preference")
+        env_preference = tracker.get_slot("env_preference")
+
+        msg = "\n"
+
+        if ingredient_preference is not None:
+            msg += ', '.join(ingredient_preference)
+        if nutr_value_preference is not None:
+            msg += ", \n" + ', '.join(nutr_value_preference)    
+        if food_processing_preference is not None:
+            msg += ", \n" + ', '.join(food_processing_preference)
+        if allergen_preference is not None:
+            msg += ", \n" + ', '.join(allergen_preference)
+        if label_preference is not None:
+            msg += ", \n" + ', '.join(label_preference)
+        if env_preference is not None:
+            msg += ", \n" + ', '.join(env_preference)
+        
+        if msg == "\n":
+            dispatcher.utter_message(text="You haven't specified any preferences yet.")
+        else: 
+            dispatcher.utter_message(text="Your preferences are: " + msg)
+        
+        return []
 

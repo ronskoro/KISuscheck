@@ -91,7 +91,6 @@ nlu:
     - sulphites
     - sulphur dioxide and sulphites
 
-# TODO: Create the rest of the intents for the other preferences
 - intent: set_nutr_value_preference
   examples: |
     - Please give me choices that are [low in salt](nutr_val_preference).
@@ -195,7 +194,7 @@ nlu:
     - Include options that are [fair trade](label_preference) verified in my preferences.
     - Please give me choices that are [organically harvested](label_preference).
 
-lookup: label_preference
+- lookup: label_preference
   examples: |
     - organic farming
     - Organic farming
@@ -208,7 +207,7 @@ lookup: label_preference
   examples: |
     - I want food that has a [low carbon footprint](env_preference).
     - Give me choices that are [eco-friendly](env_preference).
-      I want food choices that have [low environmental impact](env_preference).
+    - I want food choices that have [low environmental impact](env_preference).
     - Please provide me with choices that are [eco-friendly](env_preference).
     - Set my preferences to prioritize options with [low forest footprint](env_preference).
     - I prefer choices that have a [high eco-score](env_preference).
@@ -229,7 +228,7 @@ lookup: label_preference
     - Include choices that have a [high eco-score](env_preference) in my preferences.
     - Please give me choices that are [eco-friendly](env_preference).
 
-lookup: env_preference
+- lookup: env_preference
   examples: |
     - low environmental impact
     - eco-friendly
@@ -244,8 +243,16 @@ lookup: env_preference
     - low carbon footprint
     - high eco score
     - High eco-score
-  
 
+- intent: ask_preferences
+  examples : |
+    - What are my preferences?
+    - List my preferences.
+    - Show me preferences.
+    - Show preferences.
+    - List preferences. 
+    - Say preferences.
+    - Preferences. 
 
 - intent: goodbye
   examples: |

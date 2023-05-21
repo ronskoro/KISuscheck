@@ -14,6 +14,8 @@ rules:
   - intent: goodbye
   - action: utter_goodbye
 
+
+
 - rule: Say 'I am a bot' anytime the user challenges
   steps:
   - intent: bot_challenge

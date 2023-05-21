@@ -16,6 +16,7 @@ intents:
   - set_allergen_preference
   - set_label_preference
   - set_env_preference
+  - ask_preferences
 
 entities:
   - user_name
@@ -26,7 +27,6 @@ entities:
   - allergen_preference 
   - nutr_value_preference
   - food_processing_preference
-  - set_allergen_preference
   - label_preference
   - env_preference
 
@@ -55,13 +55,14 @@ slots:
     mappings: 
       - type: from_entity
         entity: nutr_value_preference
+        intent: set_nutr_value_preference
     influence_conversation: true
-  # todo: fill in the intents that trigger the rest of the slots
   food_processing_preference:
     type: list
     mappings: 
       - type: from_entity
         entity: food_processing_preference
+        intent: set_food_processing_preference
     influence_conversation: true
   allergen_preference:
     type: list
@@ -75,19 +76,22 @@ slots:
     mappings: 
       - type: from_entity
         entity: label_preference
-    influence_conversation: true
+        intent: set_label_preference
+    influence_conversation: true   
   env_preference:
     type: list
     mappings: 
       - type: from_entity
         entity: env_preference
+        intent: set_env_preference
     influence_conversation: true
 
 actions:
   - action_set_slot_from_user_input
   - action_get_product_info_by_barcode
   - action_greet
-  - action_set_preference
+  - action_confirm_preference
+  - action_print_preferences
 
 responses:
   # utter_greet: 
