@@ -21,8 +21,6 @@ nlu:
     - goodmorning
     - goodevening
     - good afternoon
-    - hello I am [John] (user_name)
-    - hi I am [Mary] (user_name)
 
 - intent: get_top_product_info_by_name
   examples: |
@@ -39,6 +37,8 @@ nlu:
     - what do you know about [milk](food)
     - what info do you know about [yogurt](food)
     - what details do you know about [chocolate](food)
+    - [nutella](food)
+    - [chocolate](food)
 
 - lookup: food
   examples: |
@@ -252,8 +252,6 @@ nlu:
     - what is [meat](food) [nutrition score](food_property)?
     - what is [chicken](food) [nova score](food_property)?
     - is [cheese](food) [organic](food_property)?
-    - [nutella](food)
-    - [chocolate](food)
 
 - intent: ask_about_product_property_by_barcode
   examples: |
