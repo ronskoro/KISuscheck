@@ -19,11 +19,13 @@ intents:
   - ask_preferences
   - get_top_product_info_by_name
   - ask_about_product_property_by_barcode
+  - ask_about_product_property_by_name
 
 entities:
   - user_name
   - barcode
-  - product_name
+  - food
+  - food_property
   - preference_type
   - ingredient_preference
   - allergen_preference 
@@ -31,8 +33,6 @@ entities:
   - food_processing_preference
   - label_preference
   - env_preference
-  - food
-  - food_property
 
 slots:
   user_name:
