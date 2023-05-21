@@ -14,24 +14,50 @@ intents:
   - mood_unhappy
   - scan_barcode
 
+  - compare_products
+  - set_ingredient_preference
+  - set_nutr_value_preference
+  - set_food_processing_preference
+  - set_allergen_preference
+  - set_label_preference
+  - set_env_preference
+  - ask_preferences
+  - get_top_product_info_by_name
+  - ask_about_product_property_by_barcode
+  - ask_about_product_property_by_name
+
 entities:
   - barcode
   - user_name
   - food
   - food_property
+  - preference_type
+  - ingredient_preference
+  - allergen_preference 
+  - nutr_value_preference
+  - food_processing_preference
+  - label_preference
+  - env_preference
 
 slots:
-  food:
+  user_name:
     type: text
     mappings:
       - type: from_entity
-        entity: food
-    influence_conversation: true
+        entity: user_name
+        initial_value: ""
+    influence_conversation: false
   barcode:
     type: text
     mappings:
       - type: from_entity
         entity: barcode
+    influence_conversation: true
+  food:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: food
     influence_conversation: true
   food_property:
     type: text
@@ -39,18 +65,73 @@ slots:
       - type: from_entity
         entity: food_property
     influence_conversation: true
+  preference_type:
+    type: text
+    mappings: 
+      - type: from_entity
+        entity: preference_type
+  ingredient_preference:
+    type: list
+    mappings: 
+      - type: from_entity
+        entity: ingredient_preference
+        intent: set_ingredient_preference
+    influence_conversation: true
+  nutr_value_preference:
+    type: list
+    mappings: 
+      - type: from_entity
+        entity: nutr_value_preference
+        intent: set_nutr_value_preference
+    influence_conversation: true
+  food_processing_preference:
+    type: list
+    mappings: 
+      - type: from_entity
+        entity: food_processing_preference
+        intent: set_food_processing_preference
+    influence_conversation: true
+  allergen_preference:
+    type: list
+    mappings: 
+      - type: from_entity
+        entity: allergen_preference
+        intent: set_allergen_preference
+    influence_conversation: true
+  label_preference:
+    type: list
+    mappings: 
+      - type: from_entity
+        entity: label_preference
+        intent: set_label_preference
+    influence_conversation: true   
+  env_preference:
+    type: list
+    mappings: 
+      - type: from_entity
+        entity: env_preference
+        intent: set_env_preference
+    influence_conversation: true
 
 actions:
+  - action_greet
   - utter_like_to_know_more
   - action_get_product_animal_friendliness_info
   - utter_specify_question
   - action_get_product_info_by_barcode
   - action_get_top_product_info_by_name
   - action_answer_about_product_property_by_barcode
+  - action_confirm_preference
+  - action_print_preferences
 
 responses:
+  # utter_greet: 
+  # - text: "Hey {user_name}! How are you?"
+  # - text: "Hey {user_name}! What's up?"
+  # - text: "Hey! How are you?"
+  # - text: "Hey! What's up?"
   utter_greet:
-    - text: Hi, I'm Eco! 👋 I'm a sustainable nutritional bot. 🌿 Can I assist you by providing information about a product or giving you recommendations for food? 👀
+  - text: "Hi, I'm Eco! 👋 I'm a sustainable nutritional bot. 🌿 Can I assist you by providing information about a product or giving you recommendations for food? 👀"
   utter_cheer_up:
     - text: "Here is something to cheer you up:"
       image: https://i.imgur.com/nGF1K8f.jpg
