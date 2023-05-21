@@ -4,7 +4,7 @@ nlu:
 
 - regex: barcode
   examples: |
-    - \d{9,13}
+    - \d{5,13}
 
 - intent: greet
   examples: |
@@ -21,81 +21,6 @@ nlu:
     - goodmorning
     - goodevening
     - good afternoon
-    - hello I am [John](user_name)
-    - hi I am [Mary](user_name)
-    
-- intent: goodbye
-  examples: |
-    - cu
-    - good by
-    - cee you later
-    - good night
-    - bye
-    - goodbye
-    - have a nice day
-    - see you around
-    - bye bye
-    - see you later
-
-- intent: affirm
-  examples: |
-    - yes
-    - y
-    - indeed
-    - of course
-    - that sounds good
-    - correct
-
-- intent: deny
-  examples: |
-    - no
-    - n
-    - never
-    - I don't think so
-    - don't like that
-    - no way
-    - not really
-
-- intent: mood_great
-  examples: |
-    - perfect
-    - great
-    - amazing
-    - feeling like a king
-    - wonderful
-    - I am feeling very good
-    - I am great
-    - I am amazing
-    - I am going to save the world
-    - super stoked
-    - extremely good
-    - so so perfect
-    - so good
-    - so perfect
-
-- intent: mood_unhappy
-  examples: |
-    - my day was horrible
-    - I am sad
-    - I don't feel very well
-    - I am disappointed
-    - super sad
-    - I'm so sad
-    - sad
-    - very sad
-    - unhappy
-    - not good
-    - not very good
-    - extremly sad
-    - so saad
-    - so sad
-
-- intent: bot_challenge
-  examples: |
-    - are you a bot?
-    - are you a human?
-    - am I talking to a bot?
-    - am I talking to a human?
 
 - intent: get_top_product_info_by_name
   examples: |
@@ -112,10 +37,12 @@ nlu:
     - what do you know about [milk](food)
     - what info do you know about [yogurt](food)
     - what details do you know about [chocolate](food)
+    - [nutella](food)
+    - [chocolate](food)
 
 - lookup: food
   examples: |
-    - apple
+    -apple
     -convenience_food
     -pilot_bread
     -muscat
@@ -303,6 +230,7 @@ nlu:
     - [1234567890123](barcode) details please
     - [1234567890123](barcode) info please
     - [1234567890123](barcode) information
+    - [1234567890123](barcode)
 
 - intent: ask_about_product_property_by_name
   examples: |
@@ -345,10 +273,311 @@ nlu:
     - what is [1234567890123](barcode) [nutrition score](food_property)?
     - what is [1234567890123](barcode) [nova score](food_property)?
     - is [1234567890123](barcode) [organic](food_property)?
+  
+- intent: set_ingredient_preference
+  examples: |
+    - I am [vegan](ingredient_preference).
+    - I am [vegetarian](ingredient_preference).
+    - I would like [Palm-oil free](ingredient_preference) choices.
+    - I would like [Palm-oil free](ingredient_preference) choices.
+    - Give choices that have no [palm oil](ingredient_preference).
+    - Give choices that are [palm oil free](ingredient_preference).
+    - Give choices that are [vegan](ingredient_preference).
+
+- lookup: ingredient_preference
+  examples: |
+    - vegan
+    - Vegan
+    - Vegetarian
+    - vegetarian 
+    - palm oil
+    - palm-oil free
+    - palm oil free
+
+- intent: set_allergen_preference
+  examples: |
+    - I am allergic to [milk](allergen_preference).
+    - I am can't eat [eggs](allergen_preference).
+    - Give me choices that are [gluten-free](allergen_preference).
+    - Give me food that is [gluten-free](allergen_preference).
+    - I have an allergy to [peanuts](allergen_preference). 
+
+- lookup: allergen_preference
+  examples: |
+    - Gluten
+    - gluten-free
+    - gluten
+    - Milk
+    - milk
+    - Eggs
+    - eggs
+    - Nuts
+    - nuts
+    - Peanuts
+    - peanuts
+    - Sesame Seeds
+    - sesame seeds
+    - sesame
+    - Soybeans
+    - soy
+    - soybeans
+    - Celery
+    - celery
+    - Mustard
+    - mustard
+    - Lupin
+    - lupin
+    - Fish
+    - fish
+    - Crustaceans
+    - crustaceans
+    - Molluscs
+    - molluscs
+    - Sulphur dioxide and sulphites
+    - sulphur dioxide
+    - sulphites
+    - sulphur dioxide and sulphites
+
+- intent: set_nutr_value_preference
+  examples: |
+    - Please give me choices that are [low in salt](nutr_val_preference).
+    - Set my food preferences to include [low sugar](nutr_val_preference).
+    - I want food low in [fat](nutr_val_preference).
+    - I want [low sugar](nutr_val_preference) choices.
+    - I want [low saturated fat](nutr_val_preference) choices.
+    - Please provide me with choices that are [low in sodium](nutr_val_preference).
+    - Include options that are [low sugar](nutr_val_preference) in my food preferences.
+    - I prefer food that is [low in fat](nutr_val_preference).
+    - Find me choices with [low sugar](nutr_val_preference) content.
+    - I want choices that are [low in saturated fat](nutr_val_preference).
+    - Set my food preferences to include options that are [low in sodium](nutr_val_preference).
+    - Give me choices that are [low in salt](nutr_val_preference).
+    - I want food options that are [low sugar](nutr_val_preference).
+    - Provide me with choices that are [low in fat](nutr_val_preference).
+    - I prefer choices that are [low in sodium](nutr_val_preference).
+    - Include options with [low sugar](nutr_val_preference) content in my preferences.
+    - Set my preferences to prioritize choices that are [low in saturated fat](nutr_val_preference).
+    - Please give me choices that are [low in salt](nutr_val_preference).
+    - I want choices that are [low in sugar](nutr_val_preference).
+    - Find me food options that are [low in fat](nutr_val_preference).
+    - Set my preferences to include choices that are [low in sugar](nutr_val_preference).
+    - I prefer choices that are [low in saturated fat](nutr_val_preference).
+    - Please provide me with options that are [low in sodium](nutr_val_preference).
+    - Include choices that are [low sugar](nutr_val_preference) in my food preferences.
+    - I want food that is [low in fat](nutr_val_preference).
+
+- lookup: nutr_val_preference
+  examples: |
+    - low in salt
+    - low in sodium
+    - low sugar
+    - Low sugar
+    - Low Fat
+    - Low fat
+    - low saturated fat
+    - Low saturated fat
+
+- intent: set_food_processing_preference
+  examples: |
+    - I want my food to have no [food processing](food_processing_preference). 
+    - Give me choicees with no [processing](food_processing_preference).
+    - I want my food to have no or [little food processing](food_processing_preference).
+    - Give me choices with [no processing](food_processing_preference).
+    - Include options that are [free from additives](food_processing_preference).
+    - Set my preferences to prioritize choices with [no or few additives](food_processing_preference).
+    - Find me choices that are [low in food processing](food_processing_preference).
+    - I prefer food with [minimal processing](food_processing_preference).
+    - Please give me options that are free from [additives](food_processing_preference).
+    - Include choices that have [limited food processing](food_processing_preference).
+    - Set my preferences to prioritize options with few [additives](food_processing_preference).
+    - I want choices with not a lot of [additives](food_processing_preference).
+    - Please provide me with choices that have [limited food processing](food_processing_preference).
+    - Include options that are [minimally processed](food_processing_preference) in my preferences.
+    - Set my preferences to prioritize choices with [few additives](food_processing_preference).
+    - I want choices that have [limited food processing](food_processing_preference).
+    - Please give me options with [minimal processing](food_processing_preference).
+    - Include choices that are free from [additives](food_processing_preference).
+    - Set my preferences to prioritize options with [no or few additives](food_processing_preference).
+    - I want choices with [minimal food processing](food_processing_preference).
+    - Please provide me with options that have [limited additives](food_processing_preference).
+    - Include choices that are [minimally processed](food_processing_preference) in my preferences.
+
+- lookup: food_processing_preference
+  examples: |
+    - no or little food processing
+    - no or few additives
+    - additives
+    - processing
+    - Processing
+    - Additives
+    - Little food processing
+    - Few additives
+    - few additives
+    - not a lot of additives
+    - food processing
+    - Food processing
+
+- intent: set_label_preference
+  examples: |
+    - I want [organic](label_preference) choices.
+    - I want choices that come from [organic](label_preference) farming.
+    - Please provide me with [organic](label_preference) options.
+    - Set my preferences to prioritize choices that are [organic](label_preference).
+    - I prefer choices that are [fair trade](label_preference).
+    - Include options that come from [fair trade](label_preference) sources in my preferences.
+    - Please give me choices that are [organically produced](label_preference).
+    - Set my preferences to include choices that are [fairly traded](label_preference).
+    - I want choices that are produced using [organic farming](label_preference).
+    - Please provide me with options that are [fairly sourced](label_preference).
+    - Set my preferences to prioritize choices that are [organically](label_preference) grown.
+    - I want choices that are certified [organic](label_preference).
+    - Include options that are [fair trade](label_preference) certified in my preferences.
+    - Please give me choices that are [organically cultivated](label_preference).
+    - Set my preferences to include choices that are [fairly traded](label_preference).
+    - I want choices that are [grown organically](label_preference).
+    - Please provide me with options that are [ethically sourced](label_preference).
+    - Set my preferences to prioritize choices that are [organically farmed](label_preference).
+    - I want choices that are [produced sustainably](label_preference).
+    - Include options that are [fair trade](label_preference) verified in my preferences.
+    - Please give me choices that are [organically harvested](label_preference).
+
+- lookup: label_preference
+  examples: |
+    - organic farming
+    - Organic farming
+    - organic
+    - Fair trade
+    - Fair Trade
+    - fair trade
+
+- intent: set_env_preference
+  examples: |
+    - I want food that has a [low carbon footprint](env_preference).
+    - Give me choices that are [eco-friendly](env_preference).
+    - I want food choices that have [low environmental impact](env_preference).
+    - Please provide me with choices that are [eco-friendly](env_preference).
+    - Set my preferences to prioritize options with [low forest footprint](env_preference).
+    - I prefer choices that have a [high eco-score](env_preference).
+    - Include choices that are [eco-friendly](env_preference) in my preferences.
+    - Please give me choices that have [low environmental impact](env_preference).
+    - Set my preferences to include options with [low forest footprint](env_preference).
+    - I want food choices that are [eco-friendly](env_preference).
+    - Please provide me with choices that have a [low carbon footprint](env_preference).
+    - Set my preferences to prioritize options with [low environmental impact](env_preference).
+    - I prefer choices that have [low forest footprint](env_preference).
+    - Include choices that have a high [eco-score](env_preference) in my preferences.
+    - Please give me choices that are [eco-friendly](env_preference).
+    - Set my preferences to include options with [low forest footprint](env_preference).
+    - I want food choices that have [low environmental impact](env_preference).
+    - Please provide me with choices that are [eco-friendly](env_preference).
+    - Set my preferences to prioritize options with [low carbon footprint](env_preference).
+    - I prefer choices that have [low environmental impact](env_preference).
+    - Include choices that have a [high eco-score](env_preference) in my preferences.
+    - Please give me choices that are [eco-friendly](env_preference).
+
+- lookup: env_preference
+  examples: |
+    - low environmental impact
+    - eco-friendly
+    - low forest footprint
+    - high eco-score
+    - Eco-friendly
+    - Eco friendly
+    - eco friendly
+    - Low environmental impact
+    - Low forest footprint
+    - Low carbon footprint
+    - low carbon footprint
+    - high eco score
+    - High eco-score
+
+- intent: ask_preferences
+  examples : |
+    - What are my preferences?
+    - List my preferences.
+    - Show me preferences.
+    - Show preferences.
+    - List preferences. 
+    - Say preferences.
+    - Preferences. 
+
+- intent: goodbye
+  examples: |
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+
+- intent: mood_great
+  examples: |
+    - perfect
+    - great
+    - amazing
+    - feeling like a king
+    - wonderful
+    - I am feeling very good
+    - I am great
+    - I am amazing
+    - I am going to save the world
+    - super stoked
+    - extremely good
+    - so so perfect
+    - so good
+    - so perfect
+
+- intent: mood_unhappy
+  examples: |
+    - my day was horrible
+    - I am sad
+    - I don't feel very well
+    - I am disappointed
+    - super sad
+    - I'm so sad
+    - sad
+    - very sad
+    - unhappy
+    - not good
+    - not very good
+    - extremly sad
+    - so saad
+    - so sad
+
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
 
 - intent: compare_products
   examples: |
     - Can you please compare two products?
     - Can you compare two products?
     - Can you compare some products?
-    - 
+    - Please compare these products:
+    - Please compare the products: 
