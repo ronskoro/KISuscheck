@@ -26,6 +26,7 @@
 #
 #         return []
 
+from functools import reduce
 from typing import Text, Dict, Any, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
@@ -85,6 +86,82 @@ class getProductInfoByBarcode(Action):
         dispatcher.utter_message(text="Oh I could not find that product! Please recheck that you entered it correctly.")
         return []
     
+class getProductAnimalFriendlinessInfo(Action):
+    def name(self) -> Text:
+        return "action_get_product_animal_friendliness_info"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        
+        # Extract the barcode from the user input
+        barcode = None
+        barcode_slot = tracker.get_slot("barcode")
+        barcode = barcode_slot
+
+        vegan=0.5
+        vegetarian=0.5
+        palm_oil=0.5
+
+        # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
+        if(barcode is not None):
+            response = requests.get('https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
+            if(response.status_code == 200 and response.json().get('product') is not None):
+                if(response.json()['product'].get("ingredients_analysis_tags") is not None):
+                    for ing in response.json()['product'].get('ingredients_analysis_tags'):
+                        if("vegan" in ing.lower()):
+                            if(ing == "en:vegan"):
+                                vegan = 1
+                            elif(ing == "en:non-vegan"):
+                                vegan = 0
+                        if("vegetarian" in ing.lower()):
+                            if(ing == "en:vegetarian"):
+                                vegetarian = 1
+                            elif(ing == "en:non-vegetarian"):
+                                vegetarian = 0
+                        if("palm" in ing.lower()):
+                            if(ing == "en:palm-oil-free"):
+                                palm_oil = 0
+                            elif(ing == "en:palm-oil"):
+                                palm_oil = 1
+                    msg = "The product "
+                    if(vegan == 1):
+                        msg += "is vegan."
+                    elif(vegetarian == 1):
+                        msg += "is vegetarian."
+                    elif(vegetarian == 0):
+                        msg += "is non-vegetarian."
+                    else:
+                        msg += "may be vegan/vegetarian."
+                    if(vegan != 0 or vegetarian != 0):
+                        if(palm_oil != 0):
+                            msg += " However, "
+                        else:
+                            msg += " And, "
+                    else:
+                        if(palm_oil != 0):
+                            msg += " And, "
+                        else:
+                            msg += " But, "
+                    if(palm_oil != 0):
+                        if(palm_oil == 0):
+                            msg += "it contains "
+                        else:
+                            msg += "it may contain "
+                        msg += "palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                    else:
+                        msg += "it is palm oil free!"
+                    dispatcher.utter_message(text=msg)
+                    return []
+                dispatcher.utter_message(text="I don't have information about this product's ingredients, sorry :/")
+                return []
+            dispatcher.utter_message(text="Sorry, I can't find the product.")
+            return []
+        dispatcher.utter_message(text="Oh I could not find that product! Please recheck that you entered it correctly.")
+        return []
+
+
 
 class getProductInfoByName(Action):
     def name(self) -> Text:

@@ -1,32 +1,26 @@
 version: "3.1"
 
 intents:
-  - greet
-  - goodbye
   - affirm
+  - ask_about_animal_friendliness_of_product
+  - ask_about_product_property_by_barcode
+  - bot_challenge
+  - compare_products
   - deny
+  - get_top_product_info_by_name
+  - goodbye
+  - greet
   - mood_great
   - mood_unhappy
-  - bot_challenge
   - scan_barcode
-  - compare_products
-  - get_top_product_info_by_name
-  - ask_about_product_property_by_barcode
 
 entities:
-  - user_name
   - barcode
+  - user_name
   - food
   - food_property
 
 slots:
-  # user_name:
-  #   type: text
-  #   mappings:
-  #     - type: from_entity
-  #       entity: user_name
-  #       initial_value: ""
-  # influence_conversation: false
   food:
     type: text
     mappings:
@@ -46,39 +40,32 @@ slots:
         entity: food_property
     influence_conversation: true
 
-
 actions:
-  # - action_set_slot_from_user_input
+  - utter_like_to_know_more
+  - action_get_product_animal_friendliness_info
+  - utter_specify_question
   - action_get_product_info_by_barcode
   - action_get_top_product_info_by_name
   - action_answer_about_product_property_by_barcode
 
 responses:
-  # utter_greet:
-  # - text: "Hey {user_name}! How are you?"
-  # - text: "Hey {user_name}! What's up?"
-  # - text: "Hey! How are you?"
-  # - text: "Hey! What's up?"
-
   utter_greet:
-  - text: "Hi, I'm Eco! 👋 I'm a sustainable nutritional bot. 🌿 
-  Can I assist you by providing information about a product or giving you recommendations for food? 👀"
-
+    - text: Hi, I'm Eco! 👋 I'm a sustainable nutritional bot. 🌿 Can I assist you by providing information about a product or giving you recommendations for food? 👀
   utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
-
+    - text: "Here is something to cheer you up:"
+      image: https://i.imgur.com/nGF1K8f.jpg
   utter_did_that_help:
-  - text: "Did that help you?"
-
+    - text: Did that help you?
   utter_happy:
-  - text: "Great, carry on!"
-
+    - text: Great, carry on!
   utter_goodbye:
-  - text: "Bye"
-
+    - text: Bye
   utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
+    - text: I am a bot, powered by Rasa.
+  utter_like_to_know_more:
+    - text: Would you like to know more?
+  utter_specify_question:
+    - text: Sure. What would you like to know?
 
 session_config:
   session_expiration_time: 60

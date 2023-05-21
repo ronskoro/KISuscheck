@@ -1,59 +1,85 @@
 version: "3.1"
 
 stories:
+  - story: happy path
+    steps:
+      # - intent: greet
+      # - action: action_set_slot_from_user_input
+      # - action: utter_greet
+      - intent: mood_great
+      - action: utter_happy
 
-- story: happy path
-  steps:
-  # - intent: greet
-  # - action: action_set_slot_from_user_input
-  # - action: utter_greet
-  - intent: mood_great
-  - action: utter_happy
-  
-- story: search product by name
-  steps:
-  - intent: get_top_product_info_by_name
-  - action: action_get_top_product_info_by_name
-  - action: utter_did_that_help
-  - intent: deny
-  - action: utter_goodbye
+  - story: search product by name
+    steps:
+      - intent: get_top_product_info_by_name
+      - action: action_get_top_product_info_by_name
+      - action: utter_did_that_help
+      - intent: deny
+      - action: utter_goodbye
 
-- story: search product by barcode
-  steps:
-  # - intent: greet
-  # - action: utter_greet
-  - intent: scan_barcode
-  - action: action_get_product_info_by_barcode
-  - action: utter_did_that_help
-  - intent: deny
-  - action: utter_goodbye
+  - story: search product by barcode
+    steps:
+      # - intent: greet
+      # - action: utter_greet
+      - intent: scan_barcode
+      - action: action_get_product_info_by_barcode
+      - checkpoint: ask_know_more
 
-- story: search product by barcode and ask about property
-  steps:
-  - intent: ask_about_product_property_by_barcode
-  - action: action_answer_about_product_property_by_barcode
-  - action: utter_did_that_help
-  - intent: deny
-  - action: utter_goodbye
+  - story: ask about animal friendliness
+    steps:
+      - checkpoint: ask_know_more
+      - slot_was_set:
+          - barcode
+      - action: utter_like_to_know_more
+      - intent: affirm
+      - action: utter_specify_question
+      - intent: ask_about_animal_friendliness_of_product
+      - action: action_get_product_animal_friendliness_info
+      - action: utter_did_that_help
+      - intent: deny
+      - action: utter_goodbye
 
+  - story: search product by barcode and ask about property
+    steps:
+      - checkpoint: ask_know_more
+      - action: utter_like_to_know_more
+      - intent: ask_about_product_property_by_barcode
+      - action: action_answer_about_product_property_by_barcode
+      - action: utter_did_that_help
+      - intent: deny
+      - action: utter_goodbye
 
+  - story: sad path 1
+    steps:
+      # - intent: greet
+      # - action: utter_greet
+      - intent: mood_unhappy
+      - action: utter_cheer_up
+      - action: utter_did_that_help
+      - intent: affirm
+      - action: utter_happy
 
-- story: sad path 1
-  steps:
-  # - intent: greet
-  # - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: affirm
-  - action: utter_happy
+  - story: sad path 2
+    steps:
+      # - intent: greet
+      # - action: utter_greet
+      - intent: mood_unhappy
+      - action: utter_cheer_up
+      - action: utter_did_that_help
+      - intent: deny
+      - action: utter_goodbye
 
-- story: sad path 2
-  steps:
-  # - intent: greet
-  # - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: deny
-  - action: utter_goodbye
+  - story: interactive_story_1
+    steps:
+      - intent: scan_barcode
+        entities:
+          - barcode: "3017620422003"
+          - barcode: "3017620422003"
+      - slot_was_set:
+          - barcode: "3017620422003"
+      - action: action_get_product_info_by_barcode
+      - action: utter_like_to_know_more
+      - intent: affirm
+      - action: utter_specify_question
+      - intent: ask_about_animal_friendliness_of_product
+      - action: action_get_product_animal_friendliness_info
