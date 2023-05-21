@@ -69,7 +69,10 @@ const Chat = () => {
           setChat((chat) => [...chat, ...chatTemp]);
           setbotTyping(false);
         }
-      });
+      }).catch((error) => {
+        console.log(error);
+      }
+      );
   };
 
   return (

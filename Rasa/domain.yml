@@ -17,6 +17,8 @@ intents:
   - set_label_preference
   - set_env_preference
   - ask_preferences
+  - get_top_product_info_by_name
+  - ask_about_product_property_by_barcode
 
 entities:
   - user_name
@@ -29,6 +31,8 @@ entities:
   - food_processing_preference
   - label_preference
   - env_preference
+  - food
+  - food_property
 
 slots:
   user_name:
@@ -38,6 +42,24 @@ slots:
         entity: user_name
         initial_value: ""
     influence_conversation: false
+  barcode:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: barcode
+    influence_conversation: true
+  food:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: food
+    influence_conversation: true
+  food_property:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: food_property
+    influence_conversation: true
   preference_type:
     type: text
     mappings: 
@@ -85,11 +107,16 @@ slots:
         entity: env_preference
         intent: set_env_preference
     influence_conversation: true
+        entity: food
+    influence_conversation: true
+
 
 actions:
-  - action_set_slot_from_user_input
-  - action_get_product_info_by_barcode
+  # - action_set_slot_from_user_input
   - action_greet
+  - action_get_product_info_by_barcode
+  - action_get_top_product_info_by_name
+  - action_answer_about_product_property_by_barcode
   - action_confirm_preference
   - action_print_preferences
 
