@@ -69,43 +69,16 @@ class getProductInfoByName(Action):
 
             # Send GET request
             response = requests.get(url)
+            gotProducts = False
 
             # Check if the request was successful
             if response.status_code == 200:
-                
+                print("Success")
                 data = response.json()
 
                 products = data["products"]
-                for i, product in enumerate(products):
-                    if i == 3:
-                        break
-                    if(product.get("code") is not None):
-                        dispatcher.utter_message(text=str(i+1) +"- Barcode is " + product['code'])
-                    if(product.get("image_url") is not None):
-                        dispatcher.utter_message(image=product['image_url'])
-                    if(product.get("product_name") is not None):
-                        dispatcher.utter_message(text="Product Name is " + product['product_name'])
-                    if(product.get("labels") is not None):
-                        dispatcher.utter_message(text= "Product Labels: " + product['labels'])
-                    if(product.get("nutriscore_data") is not None and product['nutriscore_data'].get("score") is not None):
-                        dispatcher.utter_message(text="Nutrition score = " + product['nutriscore_data']['score'].__str__())
-                    if(product.get("nutriscore_grade") is not None):
-                        dispatcher.utter_message(text="Nutrition grade = " + product['nutriscore_grade'])
-                return []
-            
-            else:
-                url = "https://world.openfoodfacts.org/api/v2/search?brand_tags="+productName+"&sort_by=popularity_key"
 
-                # Send GET request
-                response = requests.get(url)
-
-                # Check if the request was successful
-                if response.status_code == 200:
-                    
-                    data = response.json()
-
-                    products = data["products"]
-                    
+                if(len(products) > 0):                   
                     for i, product in enumerate(products):
                         if i == 3:
                             break
@@ -117,16 +90,46 @@ class getProductInfoByName(Action):
                             dispatcher.utter_message(text="Product Name is " + product['product_name'])
                         if(product.get("labels") is not None):
                             dispatcher.utter_message(text= "Product Labels: " + product['labels'])
-                        if(product.get("nutriscore_data") is not None):
+                        if(product.get("nutriscore_data") is not None and product['nutriscore_data'].get("score") is not None):
                             dispatcher.utter_message(text="Nutrition score = " + product['nutriscore_data']['score'].__str__())
                         if(product.get("nutriscore_grade") is not None):
                             dispatcher.utter_message(text="Nutrition grade = " + product['nutriscore_grade'])
+                    gotProducts = True
                     return []
-        dispatcher.utter_message(text="Sorry, I did not get that!")   
-        return []
+            
+            if(gotProducts == False):
+                url = "https://world.openfoodfacts.org/api/v2/search?brand_tags="+productName+"&sort_by=popularity_key"
+
+                # Send GET request
+                response = requests.get(url)
+
+                # Check if the request was successful
+                if response.status_code == 200:
+                    
+                    data = response.json()
+
+                    products = data["products"]
+
+                    if(len(products) > 0):       
+                        for i, product in enumerate(products):
+                            if i == 3:
+                                break
+                            if(product.get("code") is not None):
+                                dispatcher.utter_message(text=str(i+1) +"- Barcode is " + product['code'])
+                            if(product.get("image_url") is not None):
+                                dispatcher.utter_message(image=product['image_url'])
+                            if(product.get("product_name") is not None):
+                                dispatcher.utter_message(text="Product Name is " + product['product_name'])
+                            if(product.get("labels") is not None):
+                                dispatcher.utter_message(text= "Product Labels: " + product['labels'])
+                            if(product.get("nutriscore_data") is not None and product['nutriscore_data'].get("score") is not None):
+                                dispatcher.utter_message(text="Nutrition score = " + product['nutriscore_data']['score'].__str__())
+                            if(product.get("nutriscore_grade") is not None):
+                                dispatcher.utter_message(text="Nutrition grade = " + product['nutriscore_grade'])
+                        return []
     
-
-
+        dispatcher.utter_message(text="Sorry, I could not find that product!")   
+        return []
 class answerAboutProductPropertyByBarcode(Action):
     def name(self) -> Text:
         return "action_answer_about_product_property_by_barcode"
@@ -193,7 +196,6 @@ class answerAboutProductPropertyByBarcode(Action):
         
         dispatcher.utter_message(text="Sorry, I did not get that property!")   
         return []
-    
 class ActionConfirmPreference(Action):
     def name(self) -> Text:
         return "action_confirm_preference"
@@ -260,7 +262,6 @@ class ActionConfirmPreference(Action):
         dispatcher.utter_message(text=msg)
 
         return [SlotSet(preference_type, current_values)] 
-
 class ActionPrintPreferences(Action):
     def name(self) -> Text:
         return "action_print_preferences"
