@@ -56,6 +56,7 @@ class getProductInfoByName(Action):
         
 
         productName = None
+        gotProducts = False
         entities = tracker.latest_message["entities"]
         print(entities)
         for entity in entities:
@@ -69,7 +70,6 @@ class getProductInfoByName(Action):
 
             # Send GET request
             response = requests.get(url)
-            gotProducts = False
 
             # Check if the request was successful
             if response.status_code == 200:
@@ -98,7 +98,7 @@ class getProductInfoByName(Action):
                     return []
             
             if(gotProducts == False):
-                url = "https://world.openfoodfacts.org/api/v2/search?brand_tags="+productName+"&sort_by=popularity_key"
+                url = "https://world.openfoodfacts.org/api/v2/search?brands_tags="+productName+"&sort_by=popularity_key"
 
                 # Send GET request
                 response = requests.get(url)
