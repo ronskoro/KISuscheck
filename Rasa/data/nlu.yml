@@ -39,17 +39,9 @@ nlu:
     - what details do you know about [chocolate](food)
     - [nutella](food)
     - [chocolate](food)
-    - [milk](food)
-    - [peanuts](food)
-    - [eggs](food)
-    - [nuts](food)
-    - [mustard](food)
-    - [fish](food)
-    - [oil](food)
 
 - lookup: food
   examples: |
-    -oil
     -apple
     -convenience_food
     -pilot_bread
