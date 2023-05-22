@@ -30,17 +30,18 @@ class getProductInfoByBarcode(Action):
         # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
         if(barcode is not None):
             response = requests.get('https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
+            resProduct = response.json()['product']
             if(response.status_code == 200 and response.json().get('product') is not None):
-                if(response.json()['product'].get("image_url") is not None):
-                    dispatcher.utter_message(image=response.json()['product']['image_url'])
-                if(response.json()['product'].get("generic_name") is not None):
-                    dispatcher.utter_message(text="Product Name is " + response.json()['product']['generic_name'])
-                if(response.json()['product'].get("labels") is not None):
-                    dispatcher.utter_message(text= "Product Labels: " + response.json()['product']['labels'])
-                if(response.json()['product'].get("nutriscore_data") is not None and response.json()['product']['nutriscore_data'].get("score") is not None):
-                    dispatcher.utter_message(text="Nutrition score = " + response.json()['product']['nutriscore_data']['score'].__str__())
-                if(response.json()['product'].get("nutriscore_grade") is not None):
-                    dispatcher.utter_message(text="Nutrition grade = " + response.json()['product']['nutriscore_grade'])
+                if(resProduct.get("image_url") is not None):
+                    dispatcher.utter_message(image=resProduct['image_url'])
+                if(resProduct.get("product_name_en") is not None):
+                    dispatcher.utter_message(text="Product Name is " + resProduct['product_name_en'])
+                if(resProduct.get("labels") is not None):
+                    dispatcher.utter_message(text= "Product Labels: " + resProduct['labels'])
+                if(resProduct.get("nutriscore_data") is not None and resProduct['nutriscore_data'].get("score") is not None):
+                    dispatcher.utter_message(text="Nutrition score = " + resProduct['nutriscore_data']['score'].__str__())
+                if(resProduct.get("nutriscore_grade") is not None):
+                    dispatcher.utter_message(text="Nutrition grade = " + resProduct['nutriscore_grade'])
                 return []
             
             dispatcher.utter_message(text="Sorry, I can't find the product.")
