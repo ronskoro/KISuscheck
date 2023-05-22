@@ -20,6 +20,7 @@ intents:
   - get_top_product_info_by_name
   - ask_about_product_property_by_barcode
   - ask_about_product_property_by_name
+  - ask_about_animal_friendliness_of_product
 
 entities:
   - user_name
@@ -116,6 +117,9 @@ actions:
   - action_answer_about_product_property_by_barcode
   - action_confirm_preference
   - action_print_preferences
+  - utter_like_to_know_more
+  - action_get_product_animal_friendliness_info
+  - utter_specify_question
 
 responses:
   # utter_greet: 
@@ -141,6 +145,12 @@ responses:
 
   utter_iamabot:
   - text: "I am a bot, powered by Rasa."
+  
+  utter_like_to_know_more:
+  - text: Would you like to know more?
+
+  utter_specify_question:
+  - text: Sure. What would you like to know?
 
 session_config:
   session_expiration_time: 60
