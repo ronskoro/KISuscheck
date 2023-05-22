@@ -273,6 +273,33 @@ nlu:
     - what is [1234567890123](barcode) [nutrition score](food_property)?
     - what is [1234567890123](barcode) [nova score](food_property)?
     - is [1234567890123](barcode) [organic](food_property)?
+
+  - intent: ask_about_animal_friendliness_of_product
+    examples: |
+      - Is this product tested on animals?
+      - Is this product animal friendly?
+      - Could you provide information about the animal friendliness of it?
+      - Could you provide information about the animal friendliness of this product?
+      - Are the ingredients used in this product derived from animals?
+      - Does this product contain any animal by-products?
+      - Can you provide information on the ethical sourcing of animal-derived ingredients in this product?
+      - Has this product been certified as cruelty-free by any recognized organizations?
+      - Are any animal testing methods employed during the manufacturing process of this product?
+      - Can you confirm if this product is vegan-friendly?
+      - Is it vegan?
+      - What steps has the company taken to ensure the animal-friendliness of this product?
+      - Are the animal-derived ingredients in this product obtained through sustainable and humane practices?
+      - Has this product been tested on animals at any stage of its development?
+      - Can you provide details about the company's animal testing policies?
+      - Are there any alternative testing methods used for this product instead of animal testing?
+      - Has the company conducted any studies or research to validate the animal-friendliness of this product?
+      - Can you provide information on the environmental impact of this product in relation to animal habitats?
+      - Does the company support any animal welfare organizations or initiatives?
+      - Is the packaging of this product environmentally friendly and designed with animal welfare in mind?
+      - Has this product undergone any animal-free safety assessments or trials?
+      - Can you provide evidence of the company's commitment to animal welfare throughout its supply chain?
+      - Are there any plans in place to further improve the animal-friendliness of this product?
+      - Has this product received any awards or certifications related to its animal-friendliness?
   
 - intent: set_ingredient_preference
   examples: |
