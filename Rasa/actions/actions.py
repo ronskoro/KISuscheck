@@ -4,11 +4,50 @@
 # See this guide on how to implement these action:
 # https://rasa.com/docs/rasa/custom-actions
 
+
+# This is a simple example for a custom action which utters "Hello World!"
+
+# from typing import Any, Text, Dict, List
+#
+# from rasa_sdk import Action, Tracker
+# from rasa_sdk.executor import CollectingDispatcher
+#
+#
+# class ActionHelloWorld(Action):
+#
+#     def name(self) -> Text:
+#         return "action_hello_world"
+#
+#     def run(self, dispatcher: CollectingDispatcher,
+#             tracker: Tracker,
+#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+#
+#         dispatcher.utter_message(text="Hello World!")
+#
+#         return []
+
+from functools import reduce
 from typing import Text, Dict, Any, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 import requests
+
+# set slot sample action
+# class SetSlotFromUserInput(Action):
+#     def name(self) -> Text:
+#         return "action_set_slot_from_user_input"
+
+#     async def run(self, dispatcher: CollectingDispatcher,
+#             tracker: Tracker,
+#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+#         # Extract the value from the user input
+#         user_input = list(tracker.latest_message.get('text').split())[-1]
+#         # slot_value = user_input # Replace this with your own logic to extract the slot value
+        
+#         # Set the slot value
+#         return [SlotSet("user_name", user_input)]
 
 class getProductInfoByBarcode(Action):
     def name(self) -> Text:
@@ -46,6 +85,84 @@ class getProductInfoByBarcode(Action):
             dispatcher.utter_message(text="Sorry, I can't find the product.")
         dispatcher.utter_message(text="Oh I could not find that product! Please recheck that you entered it correctly.")
         return []
+    
+class getProductAnimalFriendlinessInfo(Action):
+    def name(self) -> Text:
+        return "action_get_product_animal_friendliness_info"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        
+        # Extract the barcode from the user input
+        barcode = None
+        barcode_slot = tracker.get_slot("barcode")
+        barcode = barcode_slot
+
+        vegan=0.5
+        vegetarian=0.5
+        palm_oil=0.5
+
+        # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
+        if(barcode is not None):
+            response = requests.get('https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
+            if(response.status_code == 200 and response.json().get('product') is not None):
+                if(response.json()['product'].get("ingredients_analysis_tags") is not None):
+                    for ing in response.json()['product'].get('ingredients_analysis_tags'):
+                        if("vegan" in ing.lower()):
+                            if(ing == "en:vegan"):
+                                vegan = 1
+                            elif(ing == "en:non-vegan"):
+                                vegan = 0
+                        if("vegetarian" in ing.lower()):
+                            if(ing == "en:vegetarian"):
+                                vegetarian = 1
+                            elif(ing == "en:non-vegetarian"):
+                                vegetarian = 0
+                        if("palm" in ing.lower()):
+                            if(ing == "en:palm-oil-free"):
+                                palm_oil = 0
+                            elif(ing == "en:palm-oil"):
+                                palm_oil = 1
+                    msg = "The product "
+                    if(vegan == 1):
+                        msg += "is vegan."
+                    elif(vegetarian == 1):
+                        msg += "is vegetarian."
+                    elif(vegetarian == 0):
+                        msg += "is non-vegetarian."
+                    else:
+                        msg += "may be vegan/vegetarian."
+                    if(vegan != 0 or vegetarian != 0):
+                        if(palm_oil != 0):
+                            msg += " However, "
+                        else:
+                            msg += " And, "
+                    else:
+                        if(palm_oil != 0):
+                            msg += " And, "
+                        else:
+                            msg += " But, "
+                    if(palm_oil != 0):
+                        if(palm_oil == 0):
+                            msg += "it contains "
+                        else:
+                            msg += "it may contain "
+                        msg += "palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                    else:
+                        msg += "it is palm oil free!"
+                    dispatcher.utter_message(text=msg)
+                    return []
+                dispatcher.utter_message(text="I don't have information about this product's ingredients, sorry :/")
+                return []
+            dispatcher.utter_message(text="Sorry, I can't find the product.")
+            return []
+        dispatcher.utter_message(text="Oh I could not find that product! Please recheck that you entered it correctly.")
+        return []
+
+
+
 class getProductInfoByName(Action):
     def name(self) -> Text:
         return "action_get_top_product_info_by_name"
@@ -69,35 +186,31 @@ class getProductInfoByName(Action):
 
             # Send GET request
             response = requests.get(url)
-            gotProducts = False
 
             # Check if the request was successful
             if response.status_code == 200:
-                print("Success")
+                
                 data = response.json()
 
                 products = data["products"]
-
-                if(len(products) > 0):                   
-                    for i, product in enumerate(products):
-                        if i == 3:
-                            break
-                        if(product.get("code") is not None):
-                            dispatcher.utter_message(text=str(i+1) +"- Barcode is " + product['code'])
-                        if(product.get("image_url") is not None):
-                            dispatcher.utter_message(image=product['image_url'])
-                        if(product.get("product_name") is not None):
-                            dispatcher.utter_message(text="Product Name is " + product['product_name'])
-                        if(product.get("labels") is not None):
-                            dispatcher.utter_message(text= "Product Labels: " + product['labels'])
-                        if(product.get("nutriscore_data") is not None and product['nutriscore_data'].get("score") is not None):
-                            dispatcher.utter_message(text="Nutrition score = " + product['nutriscore_data']['score'].__str__())
-                        if(product.get("nutriscore_grade") is not None):
-                            dispatcher.utter_message(text="Nutrition grade = " + product['nutriscore_grade'])
-                    gotProducts = True
-                    return []
+                for i, product in enumerate(products):
+                    if i == 3:
+                        break
+                    if(product.get("code") is not None):
+                        dispatcher.utter_message(text=str(i+1) +"- Barcode is " + product['code'])
+                    if(product.get("image_url") is not None):
+                        dispatcher.utter_message(image=product['image_url'])
+                    if(product.get("product_name") is not None):
+                        dispatcher.utter_message(text="Product Name is " + product['product_name'])
+                    if(product.get("labels") is not None):
+                        dispatcher.utter_message(text= "Product Labels: " + product['labels'])
+                    if(product.get("nutriscore_data") is not None and product['nutriscore_data'].get("score") is not None):
+                        dispatcher.utter_message(text="Nutrition score = " + product['nutriscore_data']['score'].__str__())
+                    if(product.get("nutriscore_grade") is not None):
+                        dispatcher.utter_message(text="Nutrition grade = " + product['nutriscore_grade'])
+                return []
             
-            if(gotProducts == False):
+            else:
                 url = "https://world.openfoodfacts.org/api/v2/search?brand_tags="+productName+"&sort_by=popularity_key"
 
                 # Send GET request
@@ -109,27 +222,28 @@ class getProductInfoByName(Action):
                     data = response.json()
 
                     products = data["products"]
-
-                    if(len(products) > 0):       
-                        for i, product in enumerate(products):
-                            if i == 3:
-                                break
-                            if(product.get("code") is not None):
-                                dispatcher.utter_message(text=str(i+1) +"- Barcode is " + product['code'])
-                            if(product.get("image_url") is not None):
-                                dispatcher.utter_message(image=product['image_url'])
-                            if(product.get("product_name") is not None):
-                                dispatcher.utter_message(text="Product Name is " + product['product_name'])
-                            if(product.get("labels") is not None):
-                                dispatcher.utter_message(text= "Product Labels: " + product['labels'])
-                            if(product.get("nutriscore_data") is not None and product['nutriscore_data'].get("score") is not None):
-                                dispatcher.utter_message(text="Nutrition score = " + product['nutriscore_data']['score'].__str__())
-                            if(product.get("nutriscore_grade") is not None):
-                                dispatcher.utter_message(text="Nutrition grade = " + product['nutriscore_grade'])
-                        return []
-    
-        dispatcher.utter_message(text="Sorry, I could not find that product!")   
+                    
+                    for i, product in enumerate(products):
+                        if i == 3:
+                            break
+                        if(product.get("code") is not None):
+                            dispatcher.utter_message(text=str(i+1) +"- Barcode is " + product['code'])
+                        if(product.get("image_url") is not None):
+                            dispatcher.utter_message(image=product['image_url'])
+                        if(product.get("product_name") is not None):
+                            dispatcher.utter_message(text="Product Name is " + product['product_name'])
+                        if(product.get("labels") is not None):
+                            dispatcher.utter_message(text= "Product Labels: " + product['labels'])
+                        if(product.get("nutriscore_data") is not None):
+                            dispatcher.utter_message(text="Nutrition score = " + product['nutriscore_data']['score'].__str__())
+                        if(product.get("nutriscore_grade") is not None):
+                            dispatcher.utter_message(text="Nutrition grade = " + product['nutriscore_grade'])
+                    return []
+        dispatcher.utter_message(text="Sorry, I did not get that!")   
         return []
+    
+
+
 class answerAboutProductPropertyByBarcode(Action):
     def name(self) -> Text:
         return "action_answer_about_product_property_by_barcode"
@@ -162,7 +276,15 @@ class answerAboutProductPropertyByBarcode(Action):
             if response.status_code == 200:
                 
                 product = response.json()['product']
-                generic_name = ""            
+                generic_name = ""
+                
+
+                # data = response.json()
+
+                # products = data["products"]
+                # for product in products:
+
+                    # print("xxxxxxxxxxx",product["code"])
 
                 if(product.get("_id") is not None and product["_id"] == barcode):
                     if(product.get("generic_name") is not None):
@@ -193,110 +315,20 @@ class answerAboutProductPropertyByBarcode(Action):
                                         
                                         dispatcher.utter_message(text= generic_name + " ( barcode: " + barcode + " )" +  " has no " + property + " ingredients")
                         return []
+                    # print("yyyyyyyyyy",product)
+                #     dispatcher.utter_message(text=str(i+1) +"- Barcode is " + product['code'])
+                # if(product.get("image_url") is not None):
+                #     dispatcher.utter_message(image=product['image_url'])
+                # if(product.get("product_name") is not None):
+                #     dispatcher.utter_message(text="Product Name is " + product['product_name'])
+                # if(product.get("labels") is not None):
+                #     dispatcher.utter_message(text= "Product Labels: " + product['labels'])
+                # if(product.get("nutriscore_data") is not None):
+                #     dispatcher.utter_message(text="Nutrition score = " + product['nutriscore_data']['score'].__str__())
+                # if(product.get("nutriscore_grade") is not None):
+                #     dispatcher.utter_message(text="Nutrition grade = " + product['nutriscore_grade'])
+            # dispatcher.utter_message(text="No, the product of barcode: " + barcode +  " is not " + property)
+            # return []
         
         dispatcher.utter_message(text="Sorry, I did not get that property!")   
         return []
-class ActionConfirmPreference(Action):
-    def name(self) -> Text:
-        return "action_confirm_preference"
-
-    async def run(self, dispatcher: CollectingDispatcher,
-                  tracker: Tracker,
-                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        
-        # preference categories
-        preferences = {
-            "ingredient_preference": "ingredient preferences",
-            "nutr_value_preference": "nutritional value preferences",
-            "food_processing_preference": "food processing preferences",
-            "allergen_preference": "allergen preferences",
-            "label_preference": "label preferences",
-            "env_preference": "environmental preferences",
-        }
-
-        intent = tracker.get_intent_of_latest_message()
-
-        preference_type = None
-
-        # set the preference type
-        if intent == "set_ingredient_preference":
-            preference_type = "ingredient_preference"
-        elif intent == "set_nutr_value_preference":
-            preference_type = "nutr_value_preference"
-        elif intent == "set_food_processing_preference":
-            preference_type = "food_processing_preference"
-        elif intent == "set_allergen_preference":
-            preference_type = "allergen_preference"
-        elif intent == "set_label_preference":
-            preference_type = "label_preference"
-        elif intent == "set_env_preference":
-            preference_type = "env_preference"
-        else:
-            msg = "I'm sorry. I didn't get that. Could you specify your preference again?"
-            dispatcher.utter_message(text=msg)
-            return []
-        
-        previous_value = None
-        
-        
-        skipped = False
-        for event in reversed(tracker.events):
-            # Since the slot event is triggered before the action, the latest slot event has the
-            # newest value, not the previous value. Therefore, we skip it.
-            if event.get("event") == "slot" and event.get("name") == preference_type:
-                # set the value if the current slot event has already been skipped
-                if skipped:
-                    print(f'The value to add is: vegan, actual value: {event.get("value")}')
-                    previous_value = event.get("value")
-                    break
-                
-                skipped = True
-
-        current_values = tracker.get_slot(preference_type) or []
-
-        # extend the previous values with the current values without duplicates. 
-        if(previous_value is not None):
-            [current_values.append(x) for x in previous_value if x not in current_values]
-
-        msg = f"Ok, got it! I've updated your {preferences[preference_type]} to: {', '.join(current_values)}. Is this correct?"
-        dispatcher.utter_message(text=msg)
-
-        return [SlotSet(preference_type, current_values)] 
-class ActionPrintPreferences(Action):
-    def name(self) -> Text:
-        return "action_print_preferences"
-
-    async def run(self, dispatcher: CollectingDispatcher,
-                  tracker: Tracker,
-                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        
-        # Get the values of the preferences from the slots
-        ingredient_preference = tracker.get_slot("ingredient_preference")
-        nutr_value_preference = tracker.get_slot("nutr_value_preference")
-        food_processing_preference = tracker.get_slot("food_processing_preference")
-        allergen_preference = tracker.get_slot("allergen_preference")
-        label_preference = tracker.get_slot("label_preference")
-        env_preference = tracker.get_slot("env_preference")
-
-        msg = "\n"
-
-        if ingredient_preference is not None:
-            msg += ', '.join(ingredient_preference)
-        if nutr_value_preference is not None:
-            msg += ", \n" + ', '.join(nutr_value_preference)    
-        if food_processing_preference is not None:
-            msg += ", \n" + ', '.join(food_processing_preference)
-        if allergen_preference is not None:
-            msg += ", \n" + ', '.join(allergen_preference)
-        if label_preference is not None:
-            msg += ", \n" + ', '.join(label_preference)
-        if env_preference is not None:
-            msg += ", \n" + ', '.join(env_preference)
-        
-        if msg == "\n":
-            dispatcher.utter_message(text="You haven't specified any preferences yet.")
-        else: 
-            dispatcher.utter_message(text="Your preferences are: " + msg)
-        
-        return []
-

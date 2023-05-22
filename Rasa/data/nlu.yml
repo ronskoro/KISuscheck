@@ -1,583 +1,375 @@
 version: "3.1"
-
 nlu:
-
-- regex: barcode
-  examples: |
-    - \d{5,13}
-
-- intent: greet
-  examples: |
-    - hey
-    - hello
-    - hi
-    - hello there
-    - good morning
-    - good evening
-    - moin
-    - hey there
-    - let's go
-    - hey dude
-    - goodmorning
-    - goodevening
-    - good afternoon
-
-- intent: get_top_product_info_by_name
-  examples: |
-    - I want to know info about [milk](food)
-    - I need to know details about [yogurt](food)
-    - I want to know info about [chocolate](food) please
-    - I need to know details about [rice](food) please
-    - I want to know info about [butter](food) please
-    - Can you provide the nutritional information for [eggs](food)?
-    - Tell me more about [orange](food).
-    - [pasta](food) details please
-    - [oranges](food) info please
-    - [nutella](food) information
-    - what do you know about [milk](food)
-    - what info do you know about [yogurt](food)
-    - what details do you know about [chocolate](food)
-    - [nutella](food)
-    - [chocolate](food)
-
-- lookup: food
-  examples: |
-    -apple
-    -convenience_food
-    -pilot_bread
-    -muscat
-    -shin
-    -saltine
-    -Vienna_roll
-    -pawpaw
-    -pilot_biscuit
-    -Yellow_Delicious
-    -Swiss_roll
-    -cream_puff
-    -bluefin
-    -spring_onion
-    -cod
-    -calamari
-    -bay_scallop
-    -Boston_lettuce
-    -danish
-    -sailfish
-    -jellyroll
-    -cohoe
-    -jackfruit
-    -sweet_cup
-    -coho_salmon
-    -broad_bean
-    -Swedish_rye_bread
-    -bream
-    -timbale
-    -sticky_bun
-    -ugli_fruit
-    -flatbrod
-    -sowbelly
-    -turbot
-    -beefsteak
-    -pigs'_feet
-    -gray_sole
-    -calves'_feet
-    -apple_pie
-    -black_pudding
-    -cinnamon_snail
-    -blue_crab
-    -rock_cake
-    -chopsteak
-    -leek
-    -pea_bean
-    -surinam_cherry
-    -fryer
-    -veggie
-    -bologna
-    -wedge_bone
-    -jalapeno
-    -pulse
-    -onion_bagel
-    -bass
-    -black_cherry
-    -spiny_lobster
-    -loaf
-    -prosciutto
-    -pumpkin_pie
-    -waffle
-    -Jerusalem_artichoke
-    -naan
-    -chiffon_cake
-    -chinook_salmon
-    -cherimolla
-    -pieplant
-    -sugar_apple
-    -akee
-    -Bermuda_onion
-    -Liederkranz
-    -plumcot
-    -cereal
-    -upside-down_cake
-    -roast_lamb
-    -Norwegian_lobster
-    -Yorkshire_pudding
-    -dark_bread
-    -aguacate
-    -pumpkin
-    -copra
-    -bannock
-    -parsnip
-    -Golden_Delicious
-    -cruller
-    -spice_cake
-    -baked_goods
-    -petit_four
-    -ladyfinger
-    -white_potato
-    -coffee_cake
-    -satsuma
-    -bittersweet_chocolate
-    -round_steak
-    -brownie_mix
-    -common_bean
-    -rock_lobster
-    -cold_cuts
-    -pigs'_knuckles
-    -mammee
-    -mombin
-    -pollock
-    -nut_bread
-    -vermicelli
-    -flitch
-    -veg
-    -flannel_cake
-    -Japanese_crab
-    -baking_chocolate
-    -bell_pepper
-    -angel_food_cake
-    -anchovy_pear
-    -water_biscuit
-    -grissino
-    -kiwi
-    -matzah_ball
-    -crape
-    -oreo
-    -brisket
-    -white_chocolate
-    -cherry_tomato
-    -Boston_brown_bread
-    -broccoli_raab
-    -bouchee
-    -shepherd's_pie
-    -sour_bread
-    -mouton
-    -split-pea
-    -chitlings
-    -marang
-    -Catawba
-    -bluepoint
-    -jaboticaba
-    -slop
-    -stick
-    -dry_cereal
-    -weakfish
-    -loin
-    -salad_green
-    -red_currant
-    -gigot
-    -pufferfish
-    -Edam
-    -citrange
-    -patty
-    -pork_pie
-    -doughboy
-    -tuna_fish
-    -vegetable_marrow
-    -white_bread
-    -flageolet
-    -eggplant
-    -cross_bun
-    -edible_fruit
-    -crawdad
-    -hog_plum
-    -tomalley
-    -lambchop
-    -lemon
-    -roast_pork
-    -date_bread
-    -McIntosh
-    -bun
-    -smoked_mackerel
-    -slipskin_grape
-    -fresh_foods
-    -cherry
-    -endive
-    -porc
-
-- intent: scan_barcode
-  examples: |
-    - scan barcode [1234567890123](barcode)
-    - scan barcode [1234567890123](barcode) please
-    - scan barco [1234567890123](barcode)
-    - scan barcod [1234567890123](barcode)
-    - scan this barcode [1234567890123](barcode)
-    - what do you know about this product [1234567890123](barcode)
-    - I want to know info about [1234567890123](barcode)
-    - I need to know details about [1234567890123](barcode)
-    - I want to know info about [1234567890123](barcode) please
-    - I need to know details about [1234567890123](barcode) please
-    - Can you provide the nutritional information for [1234567890123](barcode)?
-    - I want to know info about [1234567890123](barcode) please
-    - Tell me more about [1234567890123](barcode).
-    - [1234567890123](barcode) details please
-    - [1234567890123](barcode) info please
-    - [1234567890123](barcode) information
-    - [1234567890123](barcode)
-
-- intent: ask_about_product_property_by_name
-  examples: |
-    - Is [cereal](food) suitable for [vegetarians](food_property)?
-    - Does [pasta](food) contain [gluten](food_property)?
-    - Any information on the [fat](food_property) content in [fish](food)?
-    - does [honey](food) contain [palm oil](food_property)?
-    - does [bread](food) contain [nuts](food_property)?
-    - does [chips](food) contain [soy](food_property)?
-    - Is [nuts](food) suitable for [vegan](food_property)?
-    - Is [banana](food) high in [salt](food_property)?
-    - Is [nuts](food) low in [salt](food_property)?
-    - Is [cake](food) high in [sugar](food_property)?
-    - Is [cereal](food) low in [sugar](food_property)?
-    - does [pasta](food) contain [milk](food_property)?
-    - does [lasagna](food) has [additives](food_property)?
-    - what is [nutella](food) [eco score](food_property)?
-    - what is [chocolate](food) [nutri score](food_property)?
-    - what is [meat](food) [nutrition score](food_property)?
-    - what is [chicken](food) [nova score](food_property)?
-    - is [cheese](food) [organic](food_property)?
-
-- intent: ask_about_product_property_by_barcode
-  examples: |
-    - Is [1234567890123](barcode) suitable for [vegetarians](food_property)?
-    - Does [1234567890123](barcode) contain [gluten](food_property)?
-    - Any information on the [fat](food_property) content in [1234567890123](barcode)?
-    - does [1234567890123](barcode) contain [palm oil](food_property)?
-    - does [1234567890123](barcode) contain [nuts](food_property)?
-    - does [1234567890123](barcode) contain [soy](food_property)?
-    - Is [1234567890123](barcode) suitable for [vegan](food_property)?
-    - Is [1234567890123](barcode) high in [salt](food_property)?
-    - Is [1234567890123](barcode) low in [salt](food_property)?
-    - Is [1234567890123](barcode) high in [sugar](food_property)?
-    - Is [1234567890123](barcode) low in [sugar](food_property)?
-    - does [1234567890123](barcode) contain [milk](food_property)?
-    - does [1234567890123](barcode) has [additives](food_property)?
-    - what is [1234567890123](barcode) [eco score](food_property)?
-    - what is [1234567890123](barcode) [nutri score](food_property)?
-    - what is [1234567890123](barcode) [nutrition score](food_property)?
-    - what is [1234567890123](barcode) [nova score](food_property)?
-    - is [1234567890123](barcode) [organic](food_property)?
-  
-- intent: set_ingredient_preference
-  examples: |
-    - I am [vegan](ingredient_preference).
-    - I am [vegetarian](ingredient_preference).
-    - I would like [Palm-oil free](ingredient_preference) choices.
-    - I would like [Palm-oil free](ingredient_preference) choices.
-    - Give choices that have no [palm oil](ingredient_preference).
-    - Give choices that are [palm oil free](ingredient_preference).
-    - Give choices that are [vegan](ingredient_preference).
-
-- lookup: ingredient_preference
-  examples: |
-    - vegan
-    - Vegan
-    - Vegetarian
-    - vegetarian 
-    - palm oil
-    - palm-oil free
-    - palm oil free
-
-- intent: set_allergen_preference
-  examples: |
-    - I am allergic to [milk](allergen_preference).
-    - I am can't eat [eggs](allergen_preference).
-    - Give me choices that are [gluten-free](allergen_preference).
-    - Give me food that is [gluten-free](allergen_preference).
-    - I have an allergy to [peanuts](allergen_preference). 
-
-- lookup: allergen_preference
-  examples: |
-    - Gluten
-    - gluten-free
-    - gluten
-    - Milk
-    - milk
-    - Eggs
-    - eggs
-    - Nuts
-    - nuts
-    - Peanuts
-    - peanuts
-    - Sesame Seeds
-    - sesame seeds
-    - sesame
-    - Soybeans
-    - soy
-    - soybeans
-    - Celery
-    - celery
-    - Mustard
-    - mustard
-    - Lupin
-    - lupin
-    - Fish
-    - fish
-    - Crustaceans
-    - crustaceans
-    - Molluscs
-    - molluscs
-    - Sulphur dioxide and sulphites
-    - sulphur dioxide
-    - sulphites
-    - sulphur dioxide and sulphites
-
-- intent: set_nutr_value_preference
-  examples: |
-    - Please give me choices that are [low in salt](nutr_val_preference).
-    - Set my food preferences to include [low sugar](nutr_val_preference).
-    - I want food low in [fat](nutr_val_preference).
-    - I want [low sugar](nutr_val_preference) choices.
-    - I want [low saturated fat](nutr_val_preference) choices.
-    - Please provide me with choices that are [low in sodium](nutr_val_preference).
-    - Include options that are [low sugar](nutr_val_preference) in my food preferences.
-    - I prefer food that is [low in fat](nutr_val_preference).
-    - Find me choices with [low sugar](nutr_val_preference) content.
-    - I want choices that are [low in saturated fat](nutr_val_preference).
-    - Set my food preferences to include options that are [low in sodium](nutr_val_preference).
-    - Give me choices that are [low in salt](nutr_val_preference).
-    - I want food options that are [low sugar](nutr_val_preference).
-    - Provide me with choices that are [low in fat](nutr_val_preference).
-    - I prefer choices that are [low in sodium](nutr_val_preference).
-    - Include options with [low sugar](nutr_val_preference) content in my preferences.
-    - Set my preferences to prioritize choices that are [low in saturated fat](nutr_val_preference).
-    - Please give me choices that are [low in salt](nutr_val_preference).
-    - I want choices that are [low in sugar](nutr_val_preference).
-    - Find me food options that are [low in fat](nutr_val_preference).
-    - Set my preferences to include choices that are [low in sugar](nutr_val_preference).
-    - I prefer choices that are [low in saturated fat](nutr_val_preference).
-    - Please provide me with options that are [low in sodium](nutr_val_preference).
-    - Include choices that are [low sugar](nutr_val_preference) in my food preferences.
-    - I want food that is [low in fat](nutr_val_preference).
-
-- lookup: nutr_val_preference
-  examples: |
-    - low in salt
-    - low in sodium
-    - low sugar
-    - Low sugar
-    - Low Fat
-    - Low fat
-    - low saturated fat
-    - Low saturated fat
-
-- intent: set_food_processing_preference
-  examples: |
-    - I want my food to have no [food processing](food_processing_preference). 
-    - Give me choicees with no [processing](food_processing_preference).
-    - I want my food to have no or [little food processing](food_processing_preference).
-    - Give me choices with [no processing](food_processing_preference).
-    - Include options that are [free from additives](food_processing_preference).
-    - Set my preferences to prioritize choices with [no or few additives](food_processing_preference).
-    - Find me choices that are [low in food processing](food_processing_preference).
-    - I prefer food with [minimal processing](food_processing_preference).
-    - Please give me options that are free from [additives](food_processing_preference).
-    - Include choices that have [limited food processing](food_processing_preference).
-    - Set my preferences to prioritize options with few [additives](food_processing_preference).
-    - I want choices with not a lot of [additives](food_processing_preference).
-    - Please provide me with choices that have [limited food processing](food_processing_preference).
-    - Include options that are [minimally processed](food_processing_preference) in my preferences.
-    - Set my preferences to prioritize choices with [few additives](food_processing_preference).
-    - I want choices that have [limited food processing](food_processing_preference).
-    - Please give me options with [minimal processing](food_processing_preference).
-    - Include choices that are free from [additives](food_processing_preference).
-    - Set my preferences to prioritize options with [no or few additives](food_processing_preference).
-    - I want choices with [minimal food processing](food_processing_preference).
-    - Please provide me with options that have [limited additives](food_processing_preference).
-    - Include choices that are [minimally processed](food_processing_preference) in my preferences.
-
-- lookup: food_processing_preference
-  examples: |
-    - no or little food processing
-    - no or few additives
-    - additives
-    - processing
-    - Processing
-    - Additives
-    - Little food processing
-    - Few additives
-    - few additives
-    - not a lot of additives
-    - food processing
-    - Food processing
-
-- intent: set_label_preference
-  examples: |
-    - I want [organic](label_preference) choices.
-    - I want choices that come from [organic](label_preference) farming.
-    - Please provide me with [organic](label_preference) options.
-    - Set my preferences to prioritize choices that are [organic](label_preference).
-    - I prefer choices that are [fair trade](label_preference).
-    - Include options that come from [fair trade](label_preference) sources in my preferences.
-    - Please give me choices that are [organically produced](label_preference).
-    - Set my preferences to include choices that are [fairly traded](label_preference).
-    - I want choices that are produced using [organic farming](label_preference).
-    - Please provide me with options that are [fairly sourced](label_preference).
-    - Set my preferences to prioritize choices that are [organically](label_preference) grown.
-    - I want choices that are certified [organic](label_preference).
-    - Include options that are [fair trade](label_preference) certified in my preferences.
-    - Please give me choices that are [organically cultivated](label_preference).
-    - Set my preferences to include choices that are [fairly traded](label_preference).
-    - I want choices that are [grown organically](label_preference).
-    - Please provide me with options that are [ethically sourced](label_preference).
-    - Set my preferences to prioritize choices that are [organically farmed](label_preference).
-    - I want choices that are [produced sustainably](label_preference).
-    - Include options that are [fair trade](label_preference) verified in my preferences.
-    - Please give me choices that are [organically harvested](label_preference).
-
-- lookup: label_preference
-  examples: |
-    - organic farming
-    - Organic farming
-    - organic
-    - Fair trade
-    - Fair Trade
-    - fair trade
-
-- intent: set_env_preference
-  examples: |
-    - I want food that has a [low carbon footprint](env_preference).
-    - Give me choices that are [eco-friendly](env_preference).
-    - I want food choices that have [low environmental impact](env_preference).
-    - Please provide me with choices that are [eco-friendly](env_preference).
-    - Set my preferences to prioritize options with [low forest footprint](env_preference).
-    - I prefer choices that have a [high eco-score](env_preference).
-    - Include choices that are [eco-friendly](env_preference) in my preferences.
-    - Please give me choices that have [low environmental impact](env_preference).
-    - Set my preferences to include options with [low forest footprint](env_preference).
-    - I want food choices that are [eco-friendly](env_preference).
-    - Please provide me with choices that have a [low carbon footprint](env_preference).
-    - Set my preferences to prioritize options with [low environmental impact](env_preference).
-    - I prefer choices that have [low forest footprint](env_preference).
-    - Include choices that have a high [eco-score](env_preference) in my preferences.
-    - Please give me choices that are [eco-friendly](env_preference).
-    - Set my preferences to include options with [low forest footprint](env_preference).
-    - I want food choices that have [low environmental impact](env_preference).
-    - Please provide me with choices that are [eco-friendly](env_preference).
-    - Set my preferences to prioritize options with [low carbon footprint](env_preference).
-    - I prefer choices that have [low environmental impact](env_preference).
-    - Include choices that have a [high eco-score](env_preference) in my preferences.
-    - Please give me choices that are [eco-friendly](env_preference).
-
-- lookup: env_preference
-  examples: |
-    - low environmental impact
-    - eco-friendly
-    - low forest footprint
-    - high eco-score
-    - Eco-friendly
-    - Eco friendly
-    - eco friendly
-    - Low environmental impact
-    - Low forest footprint
-    - Low carbon footprint
-    - low carbon footprint
-    - high eco score
-    - High eco-score
-
-- intent: ask_preferences
-  examples : |
-    - What are my preferences?
-    - List my preferences.
-    - Show me preferences.
-    - Show preferences.
-    - List preferences. 
-    - Say preferences.
-    - Preferences. 
-
-- intent: goodbye
-  examples: |
-    - cu
-    - good by
-    - cee you later
-    - good night
-    - bye
-    - goodbye
-    - have a nice day
-    - see you around
-    - bye bye
-    - see you later
-
-- intent: affirm
-  examples: |
-    - yes
-    - y
-    - indeed
-    - of course
-    - that sounds good
-    - correct
-
-- intent: deny
-  examples: |
-    - no
-    - n
-    - never
-    - I don't think so
-    - don't like that
-    - no way
-    - not really
-
-- intent: mood_great
-  examples: |
-    - perfect
-    - great
-    - amazing
-    - feeling like a king
-    - wonderful
-    - I am feeling very good
-    - I am great
-    - I am amazing
-    - I am going to save the world
-    - super stoked
-    - extremely good
-    - so so perfect
-    - so good
-    - so perfect
-
-- intent: mood_unhappy
-  examples: |
-    - my day was horrible
-    - I am sad
-    - I don't feel very well
-    - I am disappointed
-    - super sad
-    - I'm so sad
-    - sad
-    - very sad
-    - unhappy
-    - not good
-    - not very good
-    - extremly sad
-    - so saad
-    - so sad
-
-- intent: bot_challenge
-  examples: |
-    - are you a bot?
-    - are you a human?
-    - am I talking to a bot?
-    - am I talking to a human?
-
-- intent: compare_products
-  examples: |
-    - Can you please compare two products?
-    - Can you compare two products?
-    - Can you compare some products?
-    - Please compare these products:
-    - Please compare the products: 
+  - intent: greet
+    examples: |
+      - hey
+      - hello
+      - hi
+      - hello there
+      - good morning
+      - good evening
+      - moin
+      - hey there
+      - let's go
+      - hey dude
+      - goodmorning
+      - goodevening
+      - good afternoon
+      - hello I am [John](user_name)
+      - hi I am [Mary](user_name)
+  - intent: goodbye
+    examples: |
+      - cu
+      - good by
+      - cee you later
+      - good night
+      - bye
+      - goodbye
+      - have a nice day
+      - see you around
+      - bye bye
+      - see you later
+  - intent: affirm
+    examples: |
+      - yes
+      - y
+      - indeed
+      - of course
+      - that sounds good
+      - correct
+  - intent: deny
+    examples: |
+      - no
+      - n
+      - never
+      - I don't think so
+      - don't like that
+      - no way
+      - not really
+  - intent: mood_great
+    examples: |
+      - perfect
+      - great
+      - amazing
+      - feeling like a king
+      - wonderful
+      - I am feeling very good
+      - I am great
+      - I am amazing
+      - I am going to save the world
+      - super stoked
+      - extremely good
+      - so so perfect
+      - so good
+      - so perfect
+  - intent: mood_unhappy
+    examples: |
+      - my day was horrible
+      - I am sad
+      - I don't feel very well
+      - I am disappointed
+      - super sad
+      - I'm so sad
+      - sad
+      - very sad
+      - unhappy
+      - not good
+      - not very good
+      - extremly sad
+      - so saad
+      - so sad
+  - intent: bot_challenge
+    examples: |
+      - are you a bot?
+      - are you a human?
+      - am I talking to a bot?
+      - am I talking to a human?
+  - intent: get_top_product_info_by_name
+    examples: |
+      - I want to know info about [milk](food)
+      - I need to know details about [yogurt](food)
+      - I want to know info about [chocolate](food) please
+      - I need to know details about [rice](food) please
+      - I want to know info about [butter](food) please
+      - Can you provide the nutritional information for [eggs](food)?
+      - Tell me more about [orange](food).
+      - [pasta](food) details please
+      - [oranges](food) info please
+      - [nutella](food) information
+      - what do you know about [milk](food)
+      - what info do you know about [yogurt](food)
+      - what details do you know about [chocolate](food)
+  - intent: scan_barcode
+    examples: |
+      - scan barcode [1234567890123](barcode)
+      - [3274080005003](barcode)
+      - [3017620422003](barcode)
+      - [7622210449283](barcode)
+      - [5449000214911](barcode)
+      - [3017620425035](barcode)
+      - [3175680011480](barcode)
+      - [8000500310427](barcode)
+      - [3168930010265](barcode)
+      - [7613034626844](barcode)
+      - [3760020507350](barcode)
+      - scan barcode [1234567890123](barcode) please
+      - scan barco [1234567890123](barcode)
+      - scan barcod [1234567890123](barcode)
+      - scan this barcode [1234567890123](barcode)
+      - what do you know about this product [1234567890123](barcode)
+      - I want to know info about [1234567890123](barcode)
+      - I need to know details about [1234567890123](barcode)
+      - I want to know info about [1234567890123](barcode) please
+      - I need to know details about [1234567890123](barcode) please
+      - Can you provide the nutritional information for [1234567890123](barcode)?
+      - Tell me more about [1234567890123](barcode).
+      - [1234567890123](barcode) details please
+      - [1234567890123](barcode) info please
+      - [1234567890123](barcode) information
+      - [3017620422003][{"entity": "barcode"}, {"entity": "barcode"}]
+  - intent: ask_about_product_property_by_name
+    examples: |
+      - Is [cereal](food) suitable for [vegetarians](food_property)?
+      - Does [pasta](food) contain [gluten](food_property)?
+      - Any information on the [fat](food_property) content in [fish](food)?
+      - does [honey](food) contain [palm oil](food_property)?
+      - does [bread](food) contain [nuts](food_property)?
+      - does [chips](food) contain [soy](food_property)?
+      - Is [nuts](food) suitable for [vegan](food_property)?
+      - Is [banana](food) high in [salt](food_property)?
+      - Is [nuts](food) low in [salt](food_property)?
+      - Is [cake](food) high in [sugar](food_property)?
+      - Is [cereal](food) low in [sugar](food_property)?
+      - does [pasta](food) contain [milk](food_property)?
+      - does [lasagna](food) has [additives](food_property)?
+      - what is [nutella](food) [eco score](food_property)?
+      - what is [chocolate](food) [nutri score](food_property)?
+      - what is [meat](food) [nutrition score](food_property)?
+      - what is [chicken](food) [nova score](food_property)?
+      - is [cheese](food) [organic](food_property)?
+  - intent: ask_about_product_property_by_barcode
+    examples: |
+      - Is [1234567890123](barcode) suitable for [vegetarians](food_property)?
+      - Does [1234567890123](barcode) contain [gluten](food_property)?
+      - Any information on the [fat](food_property) content in [1234567890123](barcode)?
+      - does [1234567890123](barcode) contain [palm oil](food_property)?
+      - does [1234567890123](barcode) contain [nuts](food_property)?
+      - does [1234567890123](barcode) contain [soy](food_property)?
+      - Is [1234567890123](barcode) suitable for [vegan](food_property)?
+      - Is [1234567890123](barcode) high in [salt](food_property)?
+      - Is [1234567890123](barcode) low in [salt](food_property)?
+      - Is [1234567890123](barcode) high in [sugar](food_property)?
+      - Is [1234567890123](barcode) low in [sugar](food_property)?
+      - does [1234567890123](barcode) contain [milk](food_property)?
+      - does [1234567890123](barcode) has [additives](food_property)?
+      - what is [1234567890123](barcode) [eco score](food_property)?
+      - what is [1234567890123](barcode) [nutri score](food_property)?
+      - what is [1234567890123](barcode) [nutrition score](food_property)?
+      - what is [1234567890123](barcode) [nova score](food_property)?
+      - is [1234567890123](barcode) [organic](food_property)?
+  - intent: compare_products
+    examples: |
+      - Can you please compare two products?
+      - Can you compare two products?
+      - Can you compare some products?
+      -
+  - intent: ask_about_animal_friendliness_of_product
+    examples: |
+      - Is this product tested on animals?
+      - Is this product animal friendly?
+      - Could you provide information about the animal friendliness of it?
+      - Could you provide information about the animal friendliness of this product?
+      - Are the ingredients used in this product derived from animals?
+      - Does this product contain any animal by-products?
+      - Can you provide information on the ethical sourcing of animal-derived ingredients in this product?
+      - Has this product been certified as cruelty-free by any recognized organizations?
+      - Are any animal testing methods employed during the manufacturing process of this product?
+      - Can you confirm if this product is vegan-friendly?
+      - Is it vegan?
+      - What steps has the company taken to ensure the animal-friendliness of this product?
+      - Are the animal-derived ingredients in this product obtained through sustainable and humane practices?
+      - Has this product been tested on animals at any stage of its development?
+      - Can you provide details about the company's animal testing policies?
+      - Are there any alternative testing methods used for this product instead of animal testing?
+      - Has the company conducted any studies or research to validate the animal-friendliness of this product?
+      - Can you provide information on the environmental impact of this product in relation to animal habitats?
+      - Does the company support any animal welfare organizations or initiatives?
+      - Is the packaging of this product environmentally friendly and designed with animal welfare in mind?
+      - Has this product undergone any animal-free safety assessments or trials?
+      - Can you provide evidence of the company's commitment to animal welfare throughout its supply chain?
+      - Are there any plans in place to further improve the animal-friendliness of this product?
+      - Has this product received any awards or certifications related to its animal-friendliness?
+  - regex: barcode
+    examples: |
+      - ^\d{9,13}$
+  - lookup: food
+    examples: |
+      - apple
+      - convenience_food
+      - pilot_bread
+      - muscat
+      - shin
+      - saltine
+      - Vienna_roll
+      - pawpaw
+      - pilot_biscuit
+      - Yellow_Delicious
+      - Swiss_roll
+      - cream_puff
+      - bluefin
+      - spring_onion
+      - cod
+      - calamari
+      - bay_scallop
+      - Boston_lettuce
+      - danish
+      - sailfish
+      - jellyroll
+      - cohoe
+      - jackfruit
+      - sweet_cup
+      - coho_salmon
+      - broad_bean
+      - Swedish_rye_bread
+      - bream
+      - timbale
+      - sticky_bun
+      - ugli_fruit
+      - flatbrod
+      - sowbelly
+      - turbot
+      - beefsteak
+      - pigs'_feet
+      - gray_sole
+      - calves'_feet
+      - apple_pie
+      - black_pudding
+      - cinnamon_snail
+      - blue_crab
+      - rock_cake
+      - chopsteak
+      - leek
+      - pea_bean
+      - surinam_cherry
+      - fryer
+      - veggie
+      - bologna
+      - wedge_bone
+      - jalapeno
+      - pulse
+      - onion_bagel
+      - bass
+      - black_cherry
+      - spiny_lobster
+      - loaf
+      - prosciutto
+      - pumpkin_pie
+      - waffle
+      - Jerusalem_artichoke
+      - naan
+      - chiffon_cake
+      - chinook_salmon
+      - cherimolla
+      - pieplant
+      - sugar_apple
+      - akee
+      - Bermuda_onion
+      - Liederkranz
+      - plumcot
+      - cereal
+      - upside-down_cake
+      - roast_lamb
+      - Norwegian_lobster
+      - Yorkshire_pudding
+      - dark_bread
+      - aguacate
+      - pumpkin
+      - copra
+      - bannock
+      - parsnip
+      - Golden_Delicious
+      - cruller
+      - spice_cake
+      - baked_goods
+      - petit_four
+      - ladyfinger
+      - white_potato
+      - coffee_cake
+      - satsuma
+      - bittersweet_chocolate
+      - round_steak
+      - brownie_mix
+      - common_bean
+      - rock_lobster
+      - cold_cuts
+      - pigs'_knuckles
+      - mammee
+      - mombin
+      - pollock
+      - nut_bread
+      - vermicelli
+      - flitch
+      - veg
+      - flannel_cake
+      - Japanese_crab
+      - baking_chocolate
+      - bell_pepper
+      - angel_food_cake
+      - anchovy_pear
+      - water_biscuit
+      - grissino
+      - kiwi
+      - matzah_ball
+      - crape
+      - oreo
+      - brisket
+      - white_chocolate
+      - cherry_tomato
+      - Boston_brown_bread
+      - broccoli_raab
+      - bouchee
+      - shepherd's_pie
+      - sour_bread
+      - mouton
+      - split-pea
+      - chitlings
+      - marang
+      - Catawba
+      - bluepoint
+      - jaboticaba
+      - slop
+      - stick
+      - dry_cereal
+      - weakfish
+      - loin
+      - salad_green
+      - red_currant
+      - gigot
+      - pufferfish
+      - Edam
+      - citrange
+      - patty
+      - pork_pie
+      - doughboy
+      - tuna_fish
+      - vegetable_marrow
+      - white_bread
+      - flageolet
+      - eggplant
+      - cross_bun
+      - edible_fruit
+      - crawdad
+      - hog_plum
+      - tomalley
+      - lambchop
+      - lemon
+      - roast_pork
+      - date_bread
+      - McIntosh
+      - bun
+      - smoked_mackerel
+      - slipskin_grape
+      - fresh_foods
+      - cherry
+      - endive
+      - porc
