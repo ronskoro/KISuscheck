@@ -210,6 +210,18 @@ class answerAboutProductPropertyByBarcode(Action):
                             elif(property.lower() in label and 'no' in label):
                                 dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" +  " has no " + property + " ingredients")
                                 return []
+                            
+                    if(product.get("traces_hierarchy") is not None):
+                        labels = product['traces_hierarchy']
+                        stripped_labels = [word.strip().lower() for word in labels]
+
+                        for label in stripped_labels:
+                            if(property.lower() in label and 'no' not in label):
+                                dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients") 
+                                return []                                            
+                            elif(property.lower() in label and 'no' in label):
+                                dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" +  " has no " + property + " ingredients")
+                                return []
                                             
                         dispatcher.utter_message(text= "Sorry, I don't know if " + product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
                         return []
