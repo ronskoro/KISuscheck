@@ -48,66 +48,67 @@ slots:
     mappings:
       - type: from_entity
         entity: barcode
-    influence_conversation: true
+    influence_conversation: false
   food:
     type: text
     mappings:
       - type: from_entity
         entity: food
-    influence_conversation: true
+    influence_conversation: false
   food_property:
     type: text
     mappings:
       - type: from_entity
         entity: food_property
-    influence_conversation: true
+    influence_conversation: false
   preference_type:
     type: text
     mappings: 
       - type: from_entity
         entity: preference_type
+    influence_conversation: false
   ingredient_preference:
     type: list
     mappings: 
       - type: from_entity
         entity: ingredient_preference
         intent: set_ingredient_preference
-    influence_conversation: true
+    influence_conversation: false
   nutr_value_preference:
     type: list
     mappings: 
       - type: from_entity
         entity: nutr_value_preference
         intent: set_nutr_value_preference
-    influence_conversation: true
+    influence_conversation: false
   food_processing_preference:
     type: list
     mappings: 
       - type: from_entity
         entity: food_processing_preference
         intent: set_food_processing_preference
-    influence_conversation: true
+    influence_conversation: false
   allergen_preference:
     type: list
     mappings: 
       - type: from_entity
         entity: allergen_preference
         intent: set_allergen_preference
-    influence_conversation: true
+    influence_conversation: false
   label_preference:
     type: list
     mappings: 
       - type: from_entity
         entity: label_preference
         intent: set_label_preference
-    influence_conversation: true   
+    influence_conversation: false   
   env_preference:
     type: list
     mappings: 
       - type: from_entity
         entity: env_preference
         intent: set_env_preference
-    influence_conversation: true
+    influence_conversation: false
 
 actions:
   # - action_set_slot_from_user_input

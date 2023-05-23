@@ -22,6 +22,7 @@ class getProductInfoByBarcode(Action):
         barcode = None
         entities = tracker.latest_message["entities"]
         print(entities)
+
         for entity in entities:
             if entity["entity"] == "barcode":
                 barcode = entity["value"]
@@ -61,6 +62,7 @@ class getProductInfoByName(Action):
         gotProducts = False
         entities = tracker.latest_message["entities"]
         print(entities)
+
         for entity in entities:
             if entity["entity"] == "food":
                 productName = entity["value"]
@@ -164,36 +166,52 @@ class answerAboutProductPropertyByBarcode(Action):
             if response.status_code == 200:
                 
                 product = response.json()['product']
-                generic_name = ""            
+                product_name = ""            
 
                 if(product.get("_id") is not None and product["_id"] == barcode):
-                    if(product.get("generic_name") is not None):
-                        generic_name = product['generic_name']
+                    if(product.get("product_name") is not None):
+                        product_name = product['product_name']
 
                     if(product.get("labels") is not None):
                         labels = product['labels'].split(',')
                         stripped_labels = [word.strip().lower() for word in labels]
 
                         if(property.lower() in stripped_labels):
-                            dispatcher.utter_message(text= generic_name + " ( barcode: " + barcode + " )" +  " has " + property + " ingredients")
-                        else:
-                            if(product.get("labels_old") is not None):
-                                labels = product['labels_old'].split(',')
-                                stripped_labels = [word.strip().lower() for word in labels]
+                            dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" +  " has " + property + " ingredients")
+                            return []
+                        
+                    if(product.get("labels_old") is not None):
+                        labels = product['labels_old'].split(',')
+                        stripped_labels = [word.strip().lower() for word in labels]
 
-                                if(property.lower() in stripped_labels):
-                                    dispatcher.utter_message(text= generic_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
-                                else:
-                                    if(product.get("ingredients_analysis_tags") is not None):
-                                        labels = product['ingredients_analysis_tags']
-                                        stripped_labels = [word.strip().lower() for word in labels]
+                        if(property.lower() in stripped_labels):
+                            dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
+                            return []
 
-                                        for label in stripped_labels:
-                                            if(property.lower() in label and 'no' not in label):
-                                                dispatcher.utter_message(text= generic_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients") 
-                                                return []                                            
-                                        
-                                        dispatcher.utter_message(text= generic_name + " ( barcode: " + barcode + " )" +  " has no " + property + " ingredients")
+                    if(product.get("ingredients_analysis_tags") is not None):
+                        labels = product['ingredients_analysis_tags']
+                        stripped_labels = [word.strip().lower() for word in labels]
+
+                        for label in stripped_labels:
+                            if(property.lower() in label and 'no' not in label):
+                                dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients") 
+                                return []                                            
+                            elif(property.lower() in label and 'no' in label):
+                                dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" +  " has no " + property + " ingredients")
+                                return []
+                    if(product.get("ingredients_tags") is not None):
+                        labels = product['ingredients_tags']
+                        stripped_labels = [word.strip().lower() for word in labels]
+
+                        for label in stripped_labels:
+                            if(property.lower() in label and 'no' not in label):
+                                dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients") 
+                                return []                                            
+                            elif(property.lower() in label and 'no' in label):
+                                dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" +  " has no " + property + " ingredients")
+                                return []
+                                            
+                        dispatcher.utter_message(text= "Sorry, I don't know if " + product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
                         return []
         
         dispatcher.utter_message(text="Sorry, I did not get that property!")   

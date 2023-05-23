@@ -10,7 +10,7 @@ stories:
   - intent: mood_great
   - action: utter_happy
   
-- story: search product by name
+- story: search product by name 1
   steps:
   - intent: get_top_product_info_by_name
   - action: action_get_top_product_info_by_name
@@ -18,23 +18,73 @@ stories:
   - intent: deny
   - action: utter_goodbye
 
-- story: search product by barcode
+- story: search product by name 2
+  steps:
+  - action: utter_like_to_know_more
+  - intent: get_top_product_info_by_name
+  - action: action_get_top_product_info_by_name
+  - action: utter_did_that_help
+  - intent: deny
+  - action: utter_goodbye
+
+- story: search product by name 3
+  steps:
+  - action: utter_like_to_know_more
+  - intent: get_top_product_info_by_name
+  - action: action_get_top_product_info_by_name
+  - action: utter_like_to_know_more
+
+- story: search product by barcode 1
   steps:
     # - intent: greet
     # - action: utter_greet
   - intent: scan_barcode
   - action: action_get_product_info_by_barcode
-  - action: utter_did_that_help
-  - checkpoint: ask_know_more
+
+- story: search product by barcode 2
+  steps:
+    # - intent: greet
+    # - action: utter_greet
+  - intent: scan_barcode
+  - action: action_get_product_info_by_barcode
+  - action: utter_like_to_know_more
+
+- story: search product by barcode 3
+  steps:
+  - action: utter_like_to_know_more
+  - intent: scan_barcode
+  - action: action_get_product_info_by_barcode
+
+- story: search product by barcode and ask about property 1
+  steps:
+  - action: utter_like_to_know_more
+  - intent: affirm
+  - action: utter_specify_question
+  - intent: ask_about_product_property_by_barcode
+  - action: action_answer_about_product_property_by_barcode
+
+
+- story: search product by barcode and ask about property 2
+  steps:
+  - intent: ask_about_product_property_by_barcode
+  - action: action_answer_about_product_property_by_barcode
+  - action: utter_like_to_know_more
+
+
+- story: search product by barcode and ask about property 3
+  steps:
+  - action: utter_like_to_know_more
+  - intent: ask_about_product_property_by_barcode
+  - action: action_answer_about_product_property_by_barcode
 
 - story: ask about animal friendliness
   steps:
-  - intent: scan_barcode
-  - action: action_get_product_info_by_barcode
-  - checkpoint: ask_know_more
+  # - intent: scan_barcode
+  # - action: action_get_product_info_by_barcode
+  # - checkpoint: ask_know_more
+  - action: utter_like_to_know_more
   - slot_was_set:
       - barcode
-  - action: utter_like_to_know_more
   - intent: affirm
   - action: utter_specify_question
   - intent: ask_about_animal_friendliness_of_product
@@ -43,12 +93,16 @@ stories:
   - intent: deny
   - action: utter_goodbye
 
-- story: search product by barcode and ask about property
+- story: ask about animal friendliness 2
   steps:
-  - checkpoint: ask_know_more
+  # - intent: scan_barcode
+  # - action: action_get_product_info_by_barcode
+  # - checkpoint: ask_know_more
   - action: utter_like_to_know_more
-  - intent: ask_about_product_property_by_barcode
-  - action: action_answer_about_product_property_by_barcode
+  - slot_was_set:
+      - barcode
+  - intent: ask_about_animal_friendliness_of_product
+  - action: action_get_product_animal_friendliness_info
   - action: utter_did_that_help
   - intent: deny
   - action: utter_goodbye
@@ -73,20 +127,20 @@ stories:
   - intent: deny
   - action: utter_goodbye
 
-- story: interactive_story_1
-  steps:
-  - intent: scan_barcode
-    entities:
-      - barcode: "3017620422003"
-      - barcode: "3017620422003"
-  - slot_was_set:
-      - barcode: "3017620422003"
-  - action: action_get_product_info_by_barcode
-  - action: utter_like_to_know_more
-  - intent: affirm
-  - action: utter_specify_question
-  - intent: ask_about_animal_friendliness_of_product
-  - action: action_get_product_animal_friendliness_info
+# - story: interactive_story_1
+#   steps:
+#   - intent: scan_barcode
+#     entities:
+#       - barcode: "3017620422003"
+#       - barcode: "3017620422003"
+#   - slot_was_set:
+#       - barcode: "3017620422003"
+#   - action: action_get_product_info_by_barcode
+#   - action: utter_like_to_know_more
+#   - intent: affirm
+#   - action: utter_specify_question
+#   - intent: ask_about_animal_friendliness_of_product
+#   - action: action_get_product_animal_friendliness_info
 
 # Stories surrounding setting the category of the user preferences from the following:
 # nutritional value, food processing value, allergens, ingredients, labels, environment
