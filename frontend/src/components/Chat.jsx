@@ -111,7 +111,7 @@ const Chat = () => {
                   <h5 className="bg-green-100 rounded-lg py-2 px-3">
                     {user.msg && /\bhttps?:\/\/\S+/i.test(user.msg) ? (
                       /\.(gif|jpe?g|tiff?|png|webp|bmp)$/i.test(user.msg) ? (
-                        <img src={user.msg} alt="img" className="w-40 h-40" />
+                        <img src={user.msg} alt="img" className="w-40" />
                       ) : (
                         <a
                           href={user.msg}

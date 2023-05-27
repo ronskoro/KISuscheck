@@ -55,6 +55,73 @@ stories:
       - intent: deny
       - action: utter_goodbye
 
+# Stories surrounding setting the category of the user preferences from the following:
+# nutritional value, food processing value, allergens, ingredients, labels, environment
+- story: set ingredient preference
+  steps: 
+  - intent: set_ingredient_preference
+  - action: action_confirm_preference
+   
+
+- story: set nutritional value preference
+  steps: 
+  - intent: set_nutr_value_preference 
+  - action: action_confirm_preference
+
+- story: set food processing preference
+  steps: 
+  - intent: set_food_processing_preference
+  - action: action_confirm_preference
+
+
+- story: set allergen preference
+  steps: 
+  - intent: set_allergen_preference
+  - action: action_confirm_preference
+
+
+- story: set label preference path 1
+  steps: 
+  - intent: set_label_preference
+  - action: action_confirm_preference
+
+  
+  
+- story: set label preference path 2
+  steps: 
+  - intent: scan_barcode
+  - action: action_get_product_info_by_barcode
+  - action: utter_did_that_help
+  - intent: affirm
+  - action: utter_happy
+  - intent: set_label_preference
+  - action: action_confirm_preference
+
+
+
+- story: set label preference path 3
+  steps: 
+  - intent: set_label_preference
+  - action: action_confirm_preference
+  - intent: scan_barcode
+  - action: action_get_product_info_by_barcode
+  - action: utter_did_that_help
+  - intent: affirm
+  - action: utter_happy
+
+- story: set environment preference 
+  steps: 
+  - intent: set_env_preference
+  - action: action_confirm_preference
+
+- story: ask for preferences
+  steps: 
+  - intent: ask_preferences
+  - action: action_print_preferences
+
+
+
+
   - story: search product by barcode
     steps:
       # - intent: greet

@@ -1,7 +1,7 @@
 version: "3.1"
 
 rules:
-  - rule: greet the user by saying the bot's name and mentioning what it can do.
+  - rule: greet the user by saying the bot's name and mentioning what it can do
     conversation_start: true
     steps:
       - intent: greet
