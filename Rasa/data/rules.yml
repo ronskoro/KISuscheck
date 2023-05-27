@@ -1,20 +1,18 @@
 version: "3.1"
 
 rules:
+  - rule: greet the user by saying the bot's name and mentioning what it can do.
+    conversation_start: true
+    steps:
+      - intent: greet
+      - action: utter_greet
 
-- rule: greet the user by saying the bot's name and mentioning what it can do. 
-  conversation_start: true
-  steps: 
-  - intent: greet
-  - action: utter_greet
+  - rule: Say goodbye anytime the user says goodbye
+    steps:
+      - intent: goodbye
+      - action: utter_goodbye
 
-- rule: Say goodbye anytime the user says goodbye
-  steps:
-  - intent: goodbye
-  - action: utter_goodbye
-
-- rule: Say 'I am a bot' anytime the user challenges
-  steps:
-  - intent: bot_challenge
-  - action: utter_iamabot
-  
+  - rule: Say 'I am a bot' anytime the user challenges
+    steps:
+      - intent: bot_challenge
+      - action: utter_iamabot

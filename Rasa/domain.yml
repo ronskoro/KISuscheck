@@ -12,6 +12,8 @@ intents:
   - compare_products
   - get_top_product_info_by_name
   - ask_about_product_property_by_barcode
+  - out_of_scope_intents
+  - start_product_comparison
 
 entities:
   - user_name
@@ -27,18 +29,21 @@ slots:
   #       entity: user_name
   #       initial_value: ""
   # influence_conversation: false
+
   food:
     type: text
     mappings:
       - type: from_entity
         entity: food
     influence_conversation: true
+
   barcode:
     type: text
     mappings:
       - type: from_entity
         entity: barcode
     influence_conversation: true
+
   food_property:
     type: text
     mappings:
@@ -46,12 +51,52 @@ slots:
         entity: food_property
     influence_conversation: true
 
+  first_product_for_comparison:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: barcode
+        #intent: compare_products
+        conditions:
+        - active_loop: product_comparison_form
+          requested_slot: first_product_for_comparison
+    influence_conversation: true
+  
+  second_product_for_comparison:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: barcode
+        #intent: compare_products
+        conditions:
+        #- slot_was_set:
+          #- first_product_for_comparison
+        - active_loop: product_comparison_form
+          requested_slot: second_product_for_comparison
+    influence_conversation: true
+
+  product_comparison_list:
+    type: list
+    mappings:
+      - type: from_entity
+        entity: barcode
+        intent: compare_products
+        conditions:
+        - active_loop: product_comparison_form
+    influence_conversation: false
+
+forms:
+  product_comparison_form:
+    required_slots:
+    - first_product_for_comparison
+    - second_product_for_comparison
 
 actions:
   # - action_set_slot_from_user_input
   - action_get_product_info_by_barcode
   - action_get_top_product_info_by_name
   - action_answer_about_product_property_by_barcode
+  - action_get_product_by_barcode
 
 responses:
   # utter_greet:
@@ -62,7 +107,7 @@ responses:
 
   utter_greet:
   - text: "Hi, I'm Eco! 👋 I'm a sustainable nutritional bot. 🌿 
-  Can I assist you by providing information about a product or giving you recommendations for food? 👀"
+    Can I assist you by providing information about a product or giving you recommendations for food? 👀"
 
   utter_cheer_up:
   - text: "Here is something to cheer you up:"
@@ -80,9 +125,30 @@ responses:
   utter_did_that_help:
   - text: "Did that help you?"
 
-  # ask user to provide product barcode/name in plain text
-  utter_ask_for_product_id:
-  - text: "Could you please provide me the barcode/name of the product(s)?"
+  utter_sure_ask_for_product_barcode:
+  - text: "Sure! Could you please provide me the barcode of the products?"
+
+  utter_ask_for_second_product:
+  - text: "1 product is currently in the comparison list. I need at least one more product barcode to start comparison."
+    buttons:
+    - title: "Show comarison list"
+      payload: "/"
+
+  # ask user if he/she wants to provide more products, or start comparison
+  utter_more_products_or_compare:
+  - text: "N products are currently in the comparison list. You can add more products by giving barcode."
+    buttons:
+    - title: "Compare"
+      payload: "/start_product_comparison"
+    - title: "Show comarison list"
+      payload: "/"
+
+
+  utter_ask_for_product_barcode:
+  - text: "Could you please provide me the barcode of the products?"
+
+  utter_show_current_product_comparison_list:
+  - text: ""
 
 session_config:
   session_expiration_time: 60

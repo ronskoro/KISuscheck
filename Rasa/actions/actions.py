@@ -255,3 +255,41 @@ class answerAboutProductPropertyByBarcode(Action):
         
         dispatcher.utter_message(text="Sorry, I did not get that property!")   
         return []
+
+
+class getProductByBarcode(Action):
+    def name(self) -> Text:
+        return "action_get_product_by_barcode"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        # Extract the barcode from the user input
+        barcode = None
+        entities = tracker.latest_message["entities"]
+        print(entities)
+        for entity in entities:
+            if entity["entity"] == "barcode":
+                barcode = entity["value"]
+                break
+
+        # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
+        if(barcode is not None):
+            response = requests.get('https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
+            if(response.status_code == 200 and response.json().get('product') is not None):
+                if(response.json()['product'].get("image_url") is not None):
+                    dispatcher.utter_message(image=response.json()['product']['image_url'])
+                if(response.json()['product'].get("generic_name") is not None):
+                    dispatcher.utter_message(text="Product Name is " + response.json()['product']['generic_name'])
+                if(response.json()['product'].get("labels") is not None):
+                    dispatcher.utter_message(text= "Product Labels: " + response.json()['product']['labels'])
+                if(response.json()['product'].get("nutriscore_data") is not None and response.json()['product']['nutriscore_data'].get("score") is not None):
+                    dispatcher.utter_message(text="Nutrition score = " + response.json()['product']['nutriscore_data']['score'].__str__())
+                if(response.json()['product'].get("nutriscore_grade") is not None):
+                    dispatcher.utter_message(text="Nutrition grade = " + response.json()['product']['nutriscore_grade'])
+                return []
+            
+            dispatcher.utter_message(text="Sorry, I can't find the product.")
+        dispatcher.utter_message(text="Oh I could not find that product! Please recheck that you entered it correctly.")
+        return []

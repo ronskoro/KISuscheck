@@ -45,28 +45,41 @@ stories:
       - intent: affirm
       - action: utter_happy
 
-      - story: sad path 2
-        steps:
-          # - intent: greet
-          # - action: utter_greet
-          - intent: mood_unhappy
-          - action: utter_cheer_up
-          - action: utter_did_that_help
-          - intent: deny
-          - action: utter_goodbye
+  - story: sad path 2
+    steps:
+      # - intent: greet
+      # - action: utter_greet
+      - intent: mood_unhappy
+      - action: utter_cheer_up
+      - action: utter_did_that_help
+      - intent: deny
+      - action: utter_goodbye
 
-      - story: search product by barcode
-        steps:
-          # - intent: greet
-          # - action: utter_greet
-          - intent: scan_barcode
-          - action: action_get_product_info_by_barcode
-          - action: utter_did_that_help
-          - intent: deny
-          - action: utter_goodbye
+  - story: search product by barcode
+    steps:
+      # - intent: greet
+      # - action: utter_greet
+      - intent: scan_barcode
+      - action: action_get_product_info_by_barcode
+      - action: utter_did_that_help
+      - intent: deny
+      - action: utter_goodbye
 
-      - story: compare multiple products
-        steps:
-          - intent: compare_products
-          - action: utter_ask_for_product_id
-          - checkpoint: detect_product_id_type
+  - story: compare multiple products by barcode
+    steps:
+      - intent: compare_products
+      - action: product_comparison_form
+      - active_loop: product_comparison_form
+      - action: utter_sure_ask_for_product_barcode
+      - intent: scan_barcode
+      - slot_was_set:
+          - first_product_for_comparison
+      - action: utter_ask_for_second_product
+      - intent: scan_barcode
+      - slot_was_set:
+          - first_product_for_comparison
+          - second_product_for_comparison
+      - action: utter_more_products_or_compare
+
+      - action: action_get_product_by_barcode
+      - action: utter_more_products_or_compare

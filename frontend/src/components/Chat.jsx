@@ -17,7 +17,7 @@ const Chat = () => {
     };
 
     setChat([...chat, request_temp]);
-  }, []);
+  }, [chat]);
 
   useEffect(() => {
     const objDiv = document.getElementById("messageArea");
@@ -69,10 +69,10 @@ const Chat = () => {
           setChat((chat) => [...chat, ...chatTemp]);
           setbotTyping(false);
         }
-      }).catch((error) => {
+      })
+      .catch((error) => {
         console.log(error);
-      }
-      );
+      });
   };
 
   return (
@@ -95,9 +95,10 @@ const Chat = () => {
             >
               {user.sender === "bot" ? (
                 <div
-                  className={ 
-                    key === 0 ? "flex items-center gap-x-2 bg-slate-300 px-3 pt-3 rounded-t-lg pb-3 rounded-b-lg":
-                    chat[key + 1]?.sender !== "bot"
+                  className={
+                    key === 0
+                      ? "flex items-center gap-x-2 bg-slate-300 px-3 pt-3 rounded-t-lg pb-3 rounded-b-lg"
+                      : chat[key + 1]?.sender !== "bot"
                       ? "flex items-center gap-x-2 bg-slate-300 px-3 pb-3 rounded-b-lg"
                       : "flex items-center gap-x-2 bg-slate-300 px-3 pb-3"
                   }
