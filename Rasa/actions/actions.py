@@ -352,17 +352,19 @@ class ActionConfirmPreference(Action):
             if event.get("event") == "slot" and event.get("name") == preference_type:
                 # set the value if the current slot event has already been skipped
                 if skipped:
-                    print(f'The value to add is: vegan, actual value: {event.get("value")}')
                     previous_value = event.get("value")
                     break
                 
                 skipped = True
 
         current_values = tracker.get_slot(preference_type) or []
-
+        
         # extend the previous values with the current values without duplicates. 
         if(previous_value is not None):
             [current_values.append(x) for x in previous_value if x not in current_values]
+
+        # remove duplicate values
+        current_values = list({x for x in current_values})
 
         msg = f"Ok, got it! I've updated your {preferences[preference_type]} to: {', '.join(current_values)}. Is this correct?"
         dispatcher.utter_message(text=msg)
