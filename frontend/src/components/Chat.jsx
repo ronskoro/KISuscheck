@@ -20,8 +20,13 @@ const Chat = () => {
   }, []);
 
   useEffect(() => {
-    const objDiv = document.getElementById("messageArea");
-    objDiv.scrollTop = objDiv.scrollHeight;
+    // const objDiv = document.getElementById("messageArea");
+    // objDiv.scrollTop = objDiv.scrollHeight;
+
+    setTimeout(() => {
+      var objDiv = document.getElementById("messageArea");
+      objDiv.lastChild.scrollIntoView({ behavior: 'smooth' });
+    },50)
   }, [chat]);
 
   const handleSubmit = (evt) => {

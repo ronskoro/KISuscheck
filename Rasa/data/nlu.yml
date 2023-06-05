@@ -39,6 +39,21 @@ nlu:
     - what details do you know about [chocolate](food)
     - [nutella](food)
     - [chocolate](food)
+    - Please provide information about [bread](food).
+    - I would like to know the details about [cheese](food).
+    - Can you give me information about [apples](food), please?
+    - I'm curious to know more about [bananas](food).
+    - What can you tell me about [broccoli](food)?
+    - I need details about [salmon](food), please.
+    - Please provide nutritional information for [chicken](food).
+    - Tell me more about [tomatoes](food), please.
+    - I'm interested in learning about [potatoes](food).
+    - Can you provide information about [carrots](food)?
+    - What do you know about [spinach](food)?
+    - What information do you have about [avocado](food)?
+    - What details do you know about [grapes](food)?
+    - Tell me more about [strawberries](food).
+    - I'm curious about [watermelon](food).
 
 - lookup: food
   examples: |
@@ -273,6 +288,45 @@ nlu:
     - what is [1234567890123](barcode) [nutrition score](food_property)?
     - what is [1234567890123](barcode) [nova score](food_property)?
     - is [1234567890123](barcode) [organic](food_property)?
+    - Is [9876543210987](barcode) suitable for [gluten-free](food_property) diets?
+    - Does [9876543210987](barcode) contain [dairy products](food_property)?
+    - Does [9876543210987](barcode) contain [shellfish](food_property)?
+    - Does [9876543210987](barcode) contain [wheat](food_property)?
+    - Is [9876543210987](barcode) suitable for [pescatarian](food_property) diets?
+    - Is [9876543210987](barcode) [high in fiber](food_property)?
+    - Is [9876543210987](barcode) [low in saturated fat](food_property)?
+    - Is [9876543210987](barcode) [high in carbohydrates](food_property)?
+    - Does [9876543210987](barcode) contain [soybeans](food_property)?
+    - Does [9876543210987](barcode) have [preservatives](food_property)?
+    - Is [9876543210987](barcode) certified [organic](food_property)?
+
+- intent: ask_about_animal_friendliness_of_product
+  examples: |
+    - Is this product tested on animals?
+    - Is this product animal friendly?
+    - Could you provide information about the animal friendliness of it?
+    - Could you provide information about the animal friendliness of this product?
+    - Are the ingredients used in this product derived from animals?
+    - Does this product contain any animal by-products?
+    - Can you provide information on the ethical sourcing of animal-derived ingredients in this product?
+    - Has this product been certified as cruelty-free by any recognized organizations?
+    - Are any animal testing methods employed during the manufacturing process of this product?
+    - Can you confirm if this product is vegan-friendly?
+    - Is it vegan?
+    - is it animal friendly?
+    - What steps has the company taken to ensure the animal-friendliness of this product?
+    - Are the animal-derived ingredients in this product obtained through sustainable and humane practices?
+    - Has this product been tested on animals at any stage of its development?
+    - Can you provide details about the company's animal testing policies?
+    - Are there any alternative testing methods used for this product instead of animal testing?
+    - Has the company conducted any studies or research to validate the animal-friendliness of this product?
+    - Can you provide information on the environmental impact of this product in relation to animal habitats?
+    - Does the company support any animal welfare organizations or initiatives?
+    - Is the packaging of this product environmentally friendly and designed with animal welfare in mind?
+    - Has this product undergone any animal-free safety assessments or trials?
+    - Can you provide evidence of the company's commitment to animal welfare throughout its supply chain?
+    - Are there any plans in place to further improve the animal-friendliness of this product?
+    - Has this product received any awards or certifications related to its animal-friendliness?
   
 - intent: set_ingredient_preference
   examples: |

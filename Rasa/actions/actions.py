@@ -22,6 +22,7 @@ class getProductInfoByBarcode(Action):
         barcode = None
         entities = tracker.latest_message["entities"]
         print(entities)
+
         for entity in entities:
             if entity["entity"] == "barcode":
                 barcode = entity["value"]
@@ -29,6 +30,7 @@ class getProductInfoByBarcode(Action):
 
         # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
         if(barcode is not None):
+            SlotSet("barcode", barcode)
             response = requests.get('https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
             resProduct = response.json()['product']
             if(response.status_code == 200 and response.json().get('product') is not None):
@@ -60,6 +62,7 @@ class getProductInfoByName(Action):
         gotProducts = False
         entities = tracker.latest_message["entities"]
         print(entities)
+
         for entity in entities:
             if entity["entity"] == "food":
                 productName = entity["value"]
@@ -175,27 +178,129 @@ class answerAboutProductPropertyByBarcode(Action):
 
                         if(property.lower() in stripped_labels):
                             dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" +  " has " + property + " ingredients")
-                        else:
-                            if(product.get("labels_old") is not None):
-                                labels = product['labels_old'].split(',')
-                                stripped_labels = [word.strip().lower() for word in labels]
+                            return []
+                        
+                    if(product.get("labels_old") is not None):
+                        labels = product['labels_old'].split(',')
+                        stripped_labels = [word.strip().lower() for word in labels]
 
-                                if(property.lower() in stripped_labels):
-                                    dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
-                                else:
-                                    if(product.get("ingredients_analysis_tags") is not None):
-                                        labels = product['ingredients_analysis_tags']
-                                        stripped_labels = [word.strip().lower() for word in labels]
+                        if(property.lower() in stripped_labels):
+                            dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
+                            return []
 
-                                        for label in stripped_labels:
-                                            if(property.lower() in label and 'no' not in label):
-                                                dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients") 
-                                                return []                                            
-                                        
-                                        dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" +  " has no " + property + " ingredients")
+                    if(product.get("ingredients_analysis_tags") is not None):
+                        labels = product['ingredients_analysis_tags']
+                        stripped_labels = [word.strip().lower() for word in labels]
+
+                        for label in stripped_labels:
+                            if(property.lower() in label and 'no' not in label):
+                                dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients") 
+                                return []                                            
+                            elif(property.lower() in label and 'no' in label):
+                                dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" +  " has no " + property + " ingredients")
+                                return []
+                    if(product.get("ingredients_tags") is not None):
+                        labels = product['ingredients_tags']
+                        stripped_labels = [word.strip().lower() for word in labels]
+
+                        for label in stripped_labels:
+                            if(property.lower() in label and 'no' not in label):
+                                dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients") 
+                                return []                                            
+                            elif(property.lower() in label and 'no' in label):
+                                dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" +  " has no " + property + " ingredients")
+                                return []
+                            
+                    if(product.get("traces_hierarchy") is not None):
+                        labels = product['traces_hierarchy']
+                        stripped_labels = [word.strip().lower() for word in labels]
+
+                        for label in stripped_labels:
+                            if(property.lower() in label and 'no' not in label):
+                                dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients") 
+                                return []                                            
+                            elif(property.lower() in label and 'no' in label):
+                                dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" +  " has no " + property + " ingredients")
+                                return []
+                                            
+                        dispatcher.utter_message(text= "Sorry, I don't know if " + product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
                         return []
         
         dispatcher.utter_message(text="Sorry, I did not get that property!")   
+        return []    
+class getProductAnimalFriendlinessInfo(Action):
+    def name(self) -> Text:
+        return "action_get_product_animal_friendliness_info"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        
+        # Extract the barcode from the user input
+        barcode = None
+        barcode_slot = tracker.get_slot("barcode")
+        barcode = barcode_slot
+
+        vegan=0.5
+        vegetarian=0.5
+        palm_oil=0.5
+
+        # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
+        if(barcode is not None):
+            response = requests.get('https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
+            if(response.status_code == 200 and response.json().get('product') is not None):
+                if(response.json()['product'].get("ingredients_analysis_tags") is not None):
+                    for ing in response.json()['product'].get('ingredients_analysis_tags'):
+                        if("vegan" in ing.lower()):
+                            if(ing == "en:vegan"):
+                                vegan = 1
+                            elif(ing == "en:non-vegan"):
+                                vegan = 0
+                        if("vegetarian" in ing.lower()):
+                            if(ing == "en:vegetarian"):
+                                vegetarian = 1
+                            elif(ing == "en:non-vegetarian"):
+                                vegetarian = 0
+                        if("palm" in ing.lower()):
+                            if(ing == "en:palm-oil-free"):
+                                palm_oil = 0
+                            elif(ing == "en:palm-oil"):
+                                palm_oil = 1
+                    msg = "The product "
+                    if(vegan == 1):
+                        msg += "is vegan."
+                    elif(vegetarian == 1):
+                        msg += "is vegetarian."
+                    elif(vegetarian == 0):
+                        msg += "is non-vegetarian."
+                    else:
+                        msg += "may be vegan/vegetarian."
+                    if(vegan != 0 or vegetarian != 0):
+                        if(palm_oil != 0):
+                            msg += " However, "
+                        else:
+                            msg += " And, "
+                    else:
+                        if(palm_oil != 0):
+                            msg += " And, "
+                        else:
+                            msg += " But, "
+                    if(palm_oil != 0):
+                        if(palm_oil == 0):
+                            msg += "it contains "
+                        else:
+                            msg += "it may contain "
+                        msg += "palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                    else:
+                        msg += "it is palm oil free!"
+                    dispatcher.utter_message(text=msg)
+                    return []
+                dispatcher.utter_message(text="I don't have information about this product's ingredients, sorry :/")
+                return []
+            dispatcher.utter_message(text="Sorry, I can't find the product.")
+            return []
+        dispatcher.utter_message(text="Oh I could not find that product! Please recheck that you entered it correctly.")
         return []
 class ActionConfirmPreference(Action):
     def name(self) -> Text:
@@ -247,17 +352,19 @@ class ActionConfirmPreference(Action):
             if event.get("event") == "slot" and event.get("name") == preference_type:
                 # set the value if the current slot event has already been skipped
                 if skipped:
-                    print(f'The value to add is: vegan, actual value: {event.get("value")}')
                     previous_value = event.get("value")
                     break
                 
                 skipped = True
 
         current_values = tracker.get_slot(preference_type) or []
-
+        
         # extend the previous values with the current values without duplicates. 
         if(previous_value is not None):
             [current_values.append(x) for x in previous_value if x not in current_values]
+
+        # remove duplicate values
+        current_values = list({x for x in current_values})
 
         msg = f"Ok, got it! I've updated your {preferences[preference_type]} to: {', '.join(current_values)}. Is this correct?"
         dispatcher.utter_message(text=msg)
