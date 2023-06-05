@@ -9,30 +9,75 @@ stories:
   # - action: utter_greet
   - intent: mood_great
   - action: utter_happy
+
+# - story: search product by name 1
+#   steps:
+#   - intent: get_top_product_info_by_name
+#   - action: action_get_top_product_info_by_name
+#   - action: utter_did_that_help
+#   - intent: deny
+#   - action: utter_goodbye
+
+# - story: search product by name 2
+#   steps:
+#   - action: utter_like_to_know_more
+#   - intent: get_top_product_info_by_name
+#   - action: action_get_top_product_info_by_name
+#   - action: utter_did_that_help
+#   - intent: deny
+#   - action: utter_goodbye
+
+# - story: search product by name 3
+#   steps:
+#   - action: utter_like_to_know_more
+#   - intent: get_top_product_info_by_name
+#   - action: action_get_top_product_info_by_name
+#   - action: utter_like_to_know_more
+
+- story: show more products 1
+  steps:
+  - action: action_get_top_product_info_by_name
+  - action: utter_ask_to_show_more_products
+  - intent: affirm
+  - action: action_get_top_product_info_by_name
+  - action: utter_ask_to_show_more_products
+
+- story: show more products 1
+  steps:
+  - action: action_get_top_product_info_by_name
+  - action: utter_ask_to_show_more_products
+  - intent: deny
+  - action: utter_like_to_know_more
+
+- story: search product by name and show more products 1
+  steps:
+  - intent: get_top_product_info_by_name
+  - action: action_get_top_product_info_by_name
+  - action: utter_ask_to_show_more_products
+  - intent: affirm
+  - action: action_get_top_product_info_by_name
+  - action: utter_ask_to_show_more_products
+
+- story: search product by name and show more products 2
+  steps:
+  - action: utter_like_to_know_more
+  - intent: get_top_product_info_by_name
+  - action: action_get_top_product_info_by_name
+  - action: utter_ask_to_show_more_products
+  - intent: affirm
+  - action: action_get_top_product_info_by_name
+  - action: utter_ask_to_show_more_products
+
+- story: search product by name and show more products 3
+  steps:
+  - action: utter_like_to_know_more
+  - intent: get_top_product_info_by_name
+  - action: action_get_top_product_info_by_name
+  - action: utter_ask_to_show_more_products
+  - intent: affirm
+  - action: action_get_top_product_info_by_name
+  - action: utter_ask_to_show_more_products
   
-- story: search product by name 1
-  steps:
-  - intent: get_top_product_info_by_name
-  - action: action_get_top_product_info_by_name
-  - action: utter_did_that_help
-  - intent: deny
-  - action: utter_goodbye
-
-- story: search product by name 2
-  steps:
-  - action: utter_like_to_know_more
-  - intent: get_top_product_info_by_name
-  - action: action_get_top_product_info_by_name
-  - action: utter_did_that_help
-  - intent: deny
-  - action: utter_goodbye
-
-- story: search product by name 3
-  steps:
-  - action: utter_like_to_know_more
-  - intent: get_top_product_info_by_name
-  - action: action_get_top_product_info_by_name
-  - action: utter_like_to_know_more
 
 - story: search product by barcode 1
   steps:
