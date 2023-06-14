@@ -7,7 +7,7 @@
 from typing import Text, Dict, Any, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.executor import CollectingDispatcher
-from rasa_sdk.events import SlotSet
+from rasa_sdk.events import SlotSet, FollowupAction
 import requests
 
 class getProductInfoByBarcode(Action):
@@ -30,7 +30,7 @@ class getProductInfoByBarcode(Action):
 
         # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
         if(barcode is not None):
-            SlotSet("barcode", barcode)
+            
             response = requests.get('https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
             resProduct = response.json()['product']
             if(response.status_code == 200 and response.json().get('product') is not None):
@@ -44,9 +44,39 @@ class getProductInfoByBarcode(Action):
                     dispatcher.utter_message(text="Nutrition score = " + resProduct['nutriscore_data']['score'].__str__())
                 if(resProduct.get("nutriscore_grade") is not None):
                     dispatcher.utter_message(text="Nutrition grade = " + resProduct['nutriscore_grade'])
-                return []
+                if(resProduct.get("ingredients_analysis_tags") is not None):
+                    vegan=0.5
+                    vegetarian=0.5
+                    palm_oil=0.5
+                    for ing in resProduct.get('ingredients_analysis_tags'):
+                        if("vegan" in ing.lower()):
+                            if(ing == "en:vegan"):
+                                vegan = 1
+                            elif(ing == "en:non-vegan"):
+                                vegan = 0
+                                
+                        if("vegetarian" in ing.lower()):
+                            if(ing == "en:vegetarian"):
+                                vegetarian = 1
+                            elif(ing == "en:non-vegetarian"):
+                                vegetarian = 0
+                        if("palm" in ing.lower()):
+                            if(ing == "en:palm-oil-free"):
+                                palm_oil = 0
+                            elif(ing == "en:palm-oil"):
+                                palm_oil = 1
+                    return [
+                            SlotSet("product_vegan", str(vegan)),
+                            SlotSet("product_vegetarian", str(vegetarian)),
+                            SlotSet("product_palm_oil", str(palm_oil))]
+                return [
+                            SlotSet("product_vegan", None),
+                            SlotSet("product_vegetarian", None),
+                            SlotSet("product_palm_oil", None)]
+
             
             dispatcher.utter_message(text="Sorry, I can't find the product.")
+            return []
         dispatcher.utter_message(text="Oh I could not find that product! Please recheck that you entered it correctly.")
         return []
 class getProductInfoByName(Action):
@@ -240,68 +270,276 @@ class getProductAnimalFriendlinessInfo(Action):
         # Extract the barcode from the user input
         barcode = None
         barcode_slot = tracker.get_slot("barcode")
+
         barcode = barcode_slot
 
-        vegan=0.5
-        vegetarian=0.5
-        palm_oil=0.5
+        # vegan=0.5
+        # vegetarian=0.5
+        # palm_oil=0.5
+        vegan = float(tracker.slots["product_vegan"])
+        vegetarian = float(tracker.slots["product_vegetarian"])
+        palm_oil = float(tracker.slots["product_palm_oil"])
+
+        ingredient_preferences = tracker.slots["ingredient_preference"]
+        vegan_preference = False
+        if(ingredient_preferences is not None and "Vegetarian" in ingredient_preferences):
+            vegan_preference = True
+        
 
         # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
         if(barcode is not None):
             response = requests.get('https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
             if(response.status_code == 200 and response.json().get('product') is not None):
                 if(response.json()['product'].get("ingredients_analysis_tags") is not None):
-                    for ing in response.json()['product'].get('ingredients_analysis_tags'):
-                        if("vegan" in ing.lower()):
-                            if(ing == "en:vegan"):
-                                vegan = 1
-                            elif(ing == "en:non-vegan"):
-                                vegan = 0
-                        if("vegetarian" in ing.lower()):
-                            if(ing == "en:vegetarian"):
-                                vegetarian = 1
-                            elif(ing == "en:non-vegetarian"):
-                                vegetarian = 0
-                        if("palm" in ing.lower()):
-                            if(ing == "en:palm-oil-free"):
-                                palm_oil = 0
-                            elif(ing == "en:palm-oil"):
-                                palm_oil = 1
-                    msg = "The product "
-                    if(vegan == 1):
-                        msg += "is vegan."
-                    elif(vegetarian == 1):
-                        msg += "is vegetarian."
-                    elif(vegetarian == 0):
-                        msg += "is non-vegetarian."
-                    else:
-                        msg += "may be vegan/vegetarian."
-                    if(vegan != 0 or vegetarian != 0):
-                        if(palm_oil != 0):
-                            msg += " However, "
+                    
+                    print(vegan)
+                    print(vegetarian)
+                    print(palm_oil)
+                    
+                    if(vegan == 1 and palm_oil == 0):
+                        dispatcher.utter_message(text="The product is vegan and it is palm oil free!")
+                        dispatcher.utter_message(text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
+                        return [FollowupAction("utter_did_that_help")]
+                    if(vegan == 1 and palm_oil == 1):
+                        dispatcher.utter_message(text="The product is vegan but it contains palm oil.")
+                        dispatcher.utter_message(text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
+                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                    if(vegan == 1 and palm_oil == 0.5):
+                        dispatcher.utter_message(text="The product is vegan. However, it may contain palm oil.")
+                        dispatcher.utter_message(text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
+                        return [FollowupAction("action_check_animal_friendly_alternative")]
+
+                    if(vegetarian == 1 and palm_oil == 0):
+                        dispatcher.utter_message(text="The product is vegetarian and it is palm oil free!")
+                        dispatcher.utter_message(text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
+                        if(vegan_preference):
+                            return [FollowupAction("action_check_animal_friendly_alternative")]
                         else:
-                            msg += " And, "
-                    else:
-                        if(palm_oil != 0):
-                            msg += " And, "
-                        else:
-                            msg += " But, "
-                    if(palm_oil != 0):
-                        if(palm_oil == 0):
-                            msg += "it contains "
-                        else:
-                            msg += "it may contain "
-                        msg += "palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
-                    else:
-                        msg += "it is palm oil free!"
-                    dispatcher.utter_message(text=msg)
+                            return [FollowupAction("utter_did_that_help")]
+                    if(vegetarian == 1 and palm_oil == 1):
+                        dispatcher.utter_message(text="The product is vegetarian. However, it contains palm oil.")
+                        dispatcher.utter_message(text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
+                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                    if(vegetarian == 1 and palm_oil == 0.5):
+                        dispatcher.utter_message(text="The product is vegetarian. However, it may contain palm oil.")
+                        dispatcher.utter_message(text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
+                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                    
+                    if(vegetarian == 0 and palm_oil == 0):
+                        dispatcher.utter_message(text="The product is non-vegetarian but it is palm oil free.")
+                        dispatcher.utter_message(text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
+                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                    if(vegetarian == 0 and palm_oil == 1):
+                        dispatcher.utter_message(text="The product is non-vegetarian and it contains palm oil.")
+                        dispatcher.utter_message(text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
+                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                    if(vegetarian == 0 and palm_oil == 0.5):
+                        dispatcher.utter_message(text="The product is non-vegetarian and it may contain palm oil.")
+                        dispatcher.utter_message(text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
+                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                    
+                    if(palm_oil == 0):
+                        dispatcher.utter_message(text="The product may be vegan/vegetarian but it is palm oil free.")
+                        dispatcher.utter_message(text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
+                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                    if(palm_oil == 1):
+                        dispatcher.utter_message(text="The product may be vegan/vegetarian and it contains palm oil.")
+                        dispatcher.utter_message(text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
+                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                    if(palm_oil == 0.5):
+                        dispatcher.utter_message(text="The product may be vegan/vegetarian and it may contain palm oil.")
+                        dispatcher.utter_message(text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
+                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                    
                     return []
-                dispatcher.utter_message(text="I don't have information about this product's ingredients, sorry :/")
+                else:
+                    dispatcher.utter_message(text="I don't have information about this product's ingredients, sorry :/")
+                    return []
+            else:
+                dispatcher.utter_message(text="Sorry, I can't find the product.")
                 return []
-            dispatcher.utter_message(text="Sorry, I can't find the product.")
-            return []
+        dispatcher.utter_message(text="Oh I could not find that product! Please recheck that you entered it correctly.")
+        
+        return []
+    
+class checkAnimalFriendlyAlternative(Action):
+    def name(self) -> Text:
+        return "action_check_animal_friendly_alternative"
+    async def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        print("getting an alternative")
+        
+        # Extract the barcode from the user input
+        barcode = None
+        barcode_slot = tracker.get_slot("barcode")
+        barcode = barcode_slot
+
+        vegan = float(tracker.slots["product_vegan"])
+        vegetarian = float(tracker.slots["product_vegetarian"])
+        palm_oil = float(tracker.slots["product_palm_oil"])
+
+        ingredient_preferences = tracker.slots["ingredient_preference"]
+        vegan_preference = False
+        if(ingredient_preferences is not None and "Vegetarian" in ingredient_preferences):
+            vegan_preference = True
+
+        # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
+        if(barcode is not None):
+            response = requests.get('https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
+            if(response.status_code == 200 and response.json().get('product') is not None):
+                if(response.json()['product'].get("ingredients_analysis_tags") is not None and 
+                   response.json()['product'].get("categories_tags") is not None):
+                    
+                    if(vegan == 1 and palm_oil != 0):
+                        dispatcher.utter_message(text="Would you like an alternative that is palm oil free and is also vegan?")
+
+                    elif(vegetarian == 1 and palm_oil == 0):
+                        if(vegan_preference):
+                            dispatcher.utter_message(text="Since you prefer vegan products, would you like a vegan alternative that is also palm oil free?")
+
+                    elif(vegetarian == 1 and palm_oil != 0):
+                        if(vegan_preference):
+                            dispatcher.utter_message(text="Since you prefer vegan products, would you like a vegan alternative that is palm oil free?")
+                        else:
+                            dispatcher.utter_message(text="Would you like an alternative that is palm oil free and is also vegetarian?")
+                                        
+                    elif(palm_oil == 0):
+                        if(vegan_preference):
+                            dispatcher.utter_message(text="Would you like a vegan alternative that is also palm oil free?")
+                        else:
+                            dispatcher.utter_message(text="Would you like a vegetarian alternative that is also palm oil free?")                    
+                        
+                    elif(palm_oil != 0):
+                        if(vegan_preference):
+                            dispatcher.utter_message(text="Would you like a vegan alternative that is palm oil free?")
+                        else:
+                            dispatcher.utter_message(text="Would you like a vegetarian alternative that is palm oil free?")
+
+                    return []
+                else:
+                    return [FollowupAction("utter_did_that_help")] # don't suggest an alternative if ingredients or categories tags for the product are missing
+            else:
+                dispatcher.utter_message(text="Sorry, I can't find the product.")
+                return []
         dispatcher.utter_message(text="Oh I could not find that product! Please recheck that you entered it correctly.")
         return []
+    
+class suggestAnimalFriendlyAlternative(Action):
+        def name(self) -> Text:
+            return "suggest_animal_friendly_alternative"
+        async def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+            # Extract the barcode from the user input
+            barcode = None
+            barcode_slot = tracker.get_slot("barcode")
+            barcode = barcode_slot
+
+            vegan = float(tracker.slots["product_vegan"])
+            vegetarian = float(tracker.slots["product_vegetarian"])
+            palm_oil = float(tracker.slots["product_palm_oil"])
+
+            ingredient_preferences = tracker.slots["ingredient_preference"]
+            vegan_preference = False
+            if(ingredient_preferences is not None and "Vegetarian" in ingredient_preferences):
+                vegan_preference = True
+
+            # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
+            if(barcode is not None):
+                response = requests.get('https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
+                
+                if(response.status_code == 200 and response.json().get('product') is not None):
+                    resProduct = response.json()['product']
+
+                    if(resProduct['ingredients_analysis_tags'] is not None
+                       and resProduct['categories_tags'] is not None):
+                        categories_tags = resProduct['categories_tags']
+                        categories_tags_str = ','.join(categories_tags)
+                        ingredients_analysis_tags = resProduct['ingredients_analysis_tags']
+                        ingredients_analysis_tags_str = ','.join(ingredients_analysis_tags)
+                        
+                        dispatcher.utter_message(text="Here you go! These are the top 3 products:")
+                        
+
+                        if(vegan == 1 and palm_oil != 0):
+                            ingredients_analysis_tags_str = "en:palm-oil-free,en:vegan"
+                            url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str+"&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
+
+                        elif(vegetarian == 1 and palm_oil == 0):
+                            if(vegan_preference):
+                                #Since you prefer vegan products, would you like a vegan alternative that is also palm oil free?
+                                ingredients_analysis_tags_str = "en:palm-oil-free,en:vegan"
+                                url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str+"&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
+                            else:
+                                return []
+
+                        elif(vegetarian == 1 and palm_oil != 0):
+                            if(vegan_preference):
+                                #Since you prefer vegan products, would you like a vegan alternative that is palm oil free?
+                                ingredients_analysis_tags_str = "en:palm-oil-free,en:vegan"
+                                url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str+"&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
+                            else:
+                                #Would you like an alternative that is palm oil free and is also vegetarian?
+                                ingredients_analysis_tags_str = "en:palm-oil-free,en:vegetarian"
+                                url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str+"&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
+                                            
+                        elif(palm_oil != 0):
+                            if(vegan_preference):
+                                #Would you like a vegan alternative that is palm oil free?
+                                ingredients_analysis_tags_str = "en:palm-oil-free,en:vegan"
+                                url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str+"&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
+                                
+                            else:
+                                #Would you like a vegetarian alternative that is palm oil free?
+                                ingredients_analysis_tags_str = "en:palm-oil-free,en:vegetarian"
+                                url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str+"&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
+                            
+                        else:
+                            return []
+                        
+                        # Send GET request
+                        response = requests.get(url)
+
+                        # Check if the request was successful
+                        if response.status_code == 200:
+                            print(url)
+                            print("Success")
+                            products = response.json()["products"]
+
+
+                            if(len(products) > 0):                   
+                                for i, alternativeProduct in enumerate(products):
+                                    if i == 3:
+                                        break
+                                    msg = str(i+1) +"- "
+                                    img = None
+                                    if(alternativeProduct.get("image_url") is not None):
+                                        img = alternativeProduct['image_url']
+                                    if(alternativeProduct.get("code") is not None):
+                                        msg += "("+alternativeProduct['code']+") "
+                                    if(alternativeProduct.get("product_name") is not None):
+                                        msg += alternativeProduct['product_name']
+                                    if(img is not None):
+                                        dispatcher.utter_message(image = img, text = msg )
+                                    else:
+                                        dispatcher.utter_message(text = msg )
+                            
+                            return []
+                        else:
+                            dispatcher.utter_message(text="There were no alternative products found that match the criteria :/")
+                    else:
+                        dispatcher.utter_message(text="I don't have information about this product's ingredients, sorry :/")
+                        return []
+                else:
+                    dispatcher.utter_message(text="Sorry, I can't find the product.")
+                    return []
+            dispatcher.utter_message(text="Oh I could not find that product! Please recheck that you entered it correctly.")
+            
+            return []
+
+
 class ActionConfirmPreference(Action):
     def name(self) -> Text:
         return "action_confirm_preference"
