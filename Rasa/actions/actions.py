@@ -73,9 +73,12 @@ class getProductInfoByName(Action):
         # API endpoint
         if(productName is not None):
             ingredient_preference = ""
+            allergen_preference = ""
             if(tracker.get_slot("ingredient_preference") is not None):
                 ingredient_preference = "&labels_tags=" + ','.join(tracker.get_slot("ingredient_preference"))
-            url = "https://world.openfoodfacts.org/api/v2/search?categories_tags="+productName+ ingredient_preference +"&sort_by=popularity_key"
+            if(tracker.get_slot("allergen_preference") is not None):
+                allergen_preference = "&allergens_tags=" + ','.join(tracker.get_slot("allergen_preference"))
+            url = "https://world.openfoodfacts.org/api/v2/search?categories_tags="+productName+ ingredient_preference + allergen_preference +"&sort_by=popularity_key"
             print(url)
             # Send GET request
             response = requests.get(url)

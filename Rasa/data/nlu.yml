@@ -337,7 +337,7 @@ nlu:
     - Give choices that have no [palm oil](ingredient_preference).
     - Give choices that are [palm oil free](ingredient_preference).
     - Give choices that are [vegan](ingredient_preference).
-
+# labels
 - lookup: ingredient_preference
   examples: |
     - vegan
@@ -355,7 +355,7 @@ nlu:
     - Give me choices that are [gluten-free](allergen_preference).
     - Give me food that is [gluten-free](allergen_preference).
     - I have an allergy to [peanuts](allergen_preference). 
-
+# allergens
 - lookup: allergen_preference
   examples: |
     - Gluten
@@ -419,7 +419,7 @@ nlu:
     - Please provide me with options that are [low in sodium](nutr_val_preference).
     - Include choices that are [low sugar](nutr_val_preference) in my food preferences.
     - I want food that is [low in fat](nutr_val_preference).
-
+# labels
 - lookup: nutr_val_preference
   examples: |
     - low in salt
@@ -455,7 +455,7 @@ nlu:
     - I want choices with [minimal food processing](food_processing_preference).
     - Please provide me with options that have [limited additives](food_processing_preference).
     - Include choices that are [minimally processed](food_processing_preference) in my preferences.
-
+# ?labels
 - lookup: food_processing_preference
   examples: |
     - no or little food processing
@@ -494,7 +494,7 @@ nlu:
     - I want choices that are [produced sustainably](label_preference).
     - Include options that are [fair trade](label_preference) verified in my preferences.
     - Please give me choices that are [organically harvested](label_preference).
-
+# labels
 - lookup: label_preference
   examples: |
     - organic farming
@@ -528,7 +528,7 @@ nlu:
     - I prefer choices that have [low environmental impact](env_preference).
     - Include choices that have a [high eco-score](env_preference) in my preferences.
     - Please give me choices that are [eco-friendly](env_preference).
-
+# labels
 - lookup: env_preference
   examples: |
     - low environmental impact
