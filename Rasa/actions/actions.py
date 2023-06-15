@@ -67,25 +67,41 @@ class getProductInfoByName(Action):
             if entity["entity"] == "food":
                 productName = entity["value"]
                 break
+        if(productName is None and tracker.get_slot("last_searched_product_name") is not None):
+            productName = tracker.get_slot("last_searched_product_name")
 
         # API endpoint
         if(productName is not None):
-            url = "https://world.openfoodfacts.org/api/v2/search?categories_tags="+productName+"&sort_by=popularity_key"
-
+            ingredient_preference = ""
+            allergen_preference = ""
+            if(tracker.get_slot("ingredient_preference") is not None):
+                ingredient_preference = "&labels_tags=" + ','.join(tracker.get_slot("ingredient_preference"))
+            if(tracker.get_slot("allergen_preference") is not None):
+                allergen_preference = "&allergens_tags=" + ','.join(tracker.get_slot("allergen_preference"))
+            url = "https://world.openfoodfacts.org/api/v2/search?categories_tags="+productName+ ingredient_preference + allergen_preference +"&sort_by=popularity_key"
+            print(url)
             # Send GET request
             response = requests.get(url)
 
+            product_cat_limit = tracker.get_slot("product_cat_limit")
+            if(product_cat_limit is None):     
+                product_cat_limit = {productName: 0}
+            elif(product_cat_limit.get(productName) is None): 
+                product_cat_limit[productName] = 0    
+            curr_product_cat_limit = product_cat_limit[productName]
+
             # Check if the request was successful
             if response.status_code == 200:
-                print("Success")
+                # print("Success")
                 data = response.json()
 
                 products = data["products"]
-
-                if(len(products) > 0):                   
-                    for i, product in enumerate(products):
-                        if i == 3:
-                            break
+                
+                if(len(products) > 0 and curr_product_cat_limit < len(products)):       
+                    for i in range(curr_product_cat_limit, curr_product_cat_limit+3):
+                    # i, product in enumerate(products):
+                        if(i < len(products)):
+                            product = products[i]
                         if(product.get("code") is not None):
                             dispatcher.utter_message(text=str(i+1) +"- Barcode is " + product['code'])
                         if(product.get("image_url") is not None):
@@ -99,10 +115,14 @@ class getProductInfoByName(Action):
                         if(product.get("nutriscore_grade") is not None):
                             dispatcher.utter_message(text="Nutrition grade = " + product['nutriscore_grade'])
                     gotProducts = True
-                    return []
+
+                    curr_product_cat_limit += 3       
+                    product_cat_limit[productName] = curr_product_cat_limit     
+                                           
+                    return [SlotSet("product_cat_limit", product_cat_limit), SlotSet("last_searched_product_name", productName)]
             
             if(gotProducts == False):
-                url = "https://world.openfoodfacts.org/api/v2/search?brands_tags="+productName+"&sort_by=popularity_key"
+                url = "https://world.openfoodfacts.org/api/v2/search?brands_tags="+ productName + ingredient_preference+ "&sort_by=popularity_key"
 
                 # Send GET request
                 response = requests.get(url)
@@ -114,10 +134,11 @@ class getProductInfoByName(Action):
 
                     products = data["products"]
 
-                    if(len(products) > 0):       
-                        for i, product in enumerate(products):
-                            if i == 3:
-                                break
+                    if(len(products) > 0 and curr_product_cat_limit < len(products)):       
+                        for i in range(curr_product_cat_limit, curr_product_cat_limit+3):
+                        # i, product in enumerate(products):
+                            if(i < len(products)):
+                                product = products[i]
                             if(product.get("code") is not None):
                                 dispatcher.utter_message(text=str(i+1) +"- Barcode is " + product['code'])
                             if(product.get("image_url") is not None):
@@ -130,7 +151,10 @@ class getProductInfoByName(Action):
                                 dispatcher.utter_message(text="Nutrition score = " + product['nutriscore_data']['score'].__str__())
                             if(product.get("nutriscore_grade") is not None):
                                 dispatcher.utter_message(text="Nutrition grade = " + product['nutriscore_grade'])
-                        return []
+
+                        curr_product_cat_limit += 3       
+                        product_cat_limit[productName] = curr_product_cat_limit                            
+                        return [SlotSet("product_cat_limit", product_cat_limit), SlotSet("last_searched_product_name", productName)]
     
         dispatcher.utter_message(text="Sorry, I could not find that product!")   
         return []
@@ -369,7 +393,14 @@ class ActionConfirmPreference(Action):
         msg = f"Ok, got it! I've updated your {preferences[preference_type]} to: {', '.join(current_values)}. Is this correct?"
         dispatcher.utter_message(text=msg)
 
-        return [SlotSet(preference_type, current_values)] 
+        product_cat_limit = tracker.get_slot("product_cat_limit")        
+        if(product_cat_limit is not None):
+            for key, val in product_cat_limit.items():
+                print(key, val)
+                product_cat_limit[key] = 0
+                print(key, product_cat_limit[key])
+
+        return [SlotSet(preference_type, current_values),SlotSet("product_cat_limit", product_cat_limit)] 
 class ActionPrintPreferences(Action):
     def name(self) -> Text:
         return "action_print_preferences"
