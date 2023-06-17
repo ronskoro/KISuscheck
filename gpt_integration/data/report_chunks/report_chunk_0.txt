@@ -1,0 +1,220 @@
+
+
+
+
+
+
+
+
+
+
+
+"More sustainable shopping
+assistant"
+
+Performance one theoretical basic
+concept
+
+
+Axel wirz, Tanya Strobel bruise FiBL
+
+projects GmbH
+
+Frankfurt at the Main, the 6. December 2021
+
+answer from essential basic questions for a basic concept in the Research project “Sustainable shopping assistant for a healthierand more sustainable food consumption”
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+1. Introduction
+
+Aim of the research project “Sustainable shopping assistant for a healthier and more sustainable Food consumption" is to provide consumers with a digital decision-making aid for a sustainable gene shopping for groceries. This will develop a prototype for a digital service ckelt, which, in addition to consumer health protection, serves to inform consumers. In addition, the greatest possible transparency can be created in the food chain, the handling of food resources and their appreciation as well as improving purchasing behavior and conflicting goals and systems nergies between Health, sustainability and the complex Environment transparent make, or. con flicted represent. With to the "Sustainable shopping assistants” should a digital product develop, the AI Connects tools with blockchain-based data and natural language access to the information to via chatbot allows.
+
+For the Development this offer at the consumers should one basis for the Evaluation the products under consideration are created with regard to their environmental and health effects. For this a basic concept is required, which is used as the basis for the evaluation of the food become can.
+
+3 steps for a theoretical basic concept
+
+basis – determination on a sustainability approach
+
+Selection from tools to the Depiction the sustainability aspects in the different dimension to
+
+creation one own Scoring Model/Weighting the dimensions
+
+Included should the basic concept also a clear one have goal description , How the "sustainable shopping assistant tent" users a sound To know provide can and this included support, itself consciously for one healthier and more sustainable food choices to decide.
+
+
+
+2. basis – determination on a sustainability approach
+
+The basis for the Evaluation the sustainability from Groceries is the determination on a sustainability activity model that considers the various aspects of sustainability. These are now more than the three classic pillars of ecology, economy and social affairs. Meanwhile, in science Aspects such as health in the sense of a nutritional system (see WBAE 2020) are just as important How corporate management or the aspect animal welfare.
+
+Not only the resource efficiency , which is mostly in the form of an ecological balance (life cycle assessment – LCA or life cycle analysis) represents becomes, considered become, rather also the further Consistent- strategies such as sufficiency and consistency are taken into account. Sufficiency means the conscious limitation from finite raw materials and Materials, after to the motto "Fewer is more". As third strategy approach, consistency describes action in cycles, i.e. the use of old native technologies to create a cycle from production to use to recycling ability from product substances to guarantee. Only all three strategies together care for for one wholeness ing sustainability , both in the Pursue How also at the Product.
+
+Various sustainability models are briefly presented below, all of which are based on the agricultural and relate to the food sector.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Included is the Distinction to meet, consider I a whole Pursue or a single Product. At the Consideration one individual product is to take into account, that here the Danger one misinter pretation can take place, since an individual product received a positive sustainability rating can, what not means, that the entire Pursue as whole consistent operates.
+
+And as a second point of view, it should be taken into account that, especially when evaluating the product, very trade-offs often occur, i.e. a property of a product improves, but in time one other Characteristic worse. This he follows in particular, if only separate aspects straight in the dimension environment/ecology are considered and communicated. Here is just a note against ben, that a lower CO 2 value, the above the reference size unit of measure generated becomes, simultaneously one higher toxicity and eutrophication having as the comparison product.
+
+1) SAFA Guidelines
+
+SAFA stands for "Sustainability Assessment of Food and Agriculture Systems" or sustainability tion from agricultural and food systems. The guidelines define four dimensions the Sustainability: " Environmental Integrity ", " Economic Resilience ", " Social Wellbeing " and " Good Corporate führung ", which in turn is divided into 21 topics and a total of 58 sub-topics. For each of these sub-topics, concrete targets were formulated that make it possible to performances to evaluate. With this international acknowledged guidelines exists first time a more global Frame and one standardized Language for standardized, transparent and comparable sustainability reviews in the agricultural and Food sector (see Fig. 1.)
+
+
+Here, health and animal welfare are included in the social and environmental dimensions and the handling delve of producers in the focus placed. Not considered becomes the consumer behavior of individuals.
+
+This sustainability model is a holistic approach and is aimed at an operational / corporate men's rating. Here become the sustainability activities and her environmental impact one total ten company rated and not a single Product.
+
+
+
+
+
+
+
+
+
+
+2) sustainability flower
+
+The Sustainability Flower is a procedure to mark the sustainable development of an organization evaluate and communicate them. Each petal represents a significant part of this sustainable Development represent.
+
+The sustainability flower became 2009 from one international group from pioneers the organic movement, to the so-called "Belbis Desert club", developed. To the members to count under other the founder and Managing Director from easta, Sekem, Alnatura, tree of life, Rapunzel, FiBL, IFOAM, soil & More and the Soil Association. Their goal was to convey ecological and social values in an attention-grabbing, striking Model to unite. Result was the "Sustainability Flower" with your four ecological and three social dimensions that were defined using performance indicators from the GRI standard. This Model is working with seven dimensions (Company, economy, Climate, Water, Floor, biodivers sity and Individual). Also this Approach considered the actions of producer not however a a- zelnes Product.
+
+3) The WBAE model the sustainability
+
+A another Approach is the sustainability model of scientific Advisory Board for agricultural policy, nutritional tion and health consumer protection (WBAE) the federal government Germany.
+
+The WBAE approach consists out of four Dimensions: Environment, social, Health and animal welfare.
+
+Health: One health-promoting Nourishment, the to one higher Life expectancy, more healthy years of life and more wellbeing for all contributes.
+
+social: One Nourishment, the social minimum standards along from value chains ge guarantees.
+
+Environment: An environmentally friendly and climate-friendly diet that is part of the medium and long-term sustainability goals of Germany fits.
+
+Animal welfare: A diet that supports more animal welfare and thus the changing ethical s claims the Company just becomes.
+
+
+
+
+
+
+
+The dimensions were set up for the sustainable action of the individual/consumer and from view one healthy Nourishment. The individual rating levels are however not simply combinable, In some cases, conflicting goals can also arise between individual levels – but synergies can also arise. To the WBAE approach lacks the economic dimension and the dimension of corporate management/management delve , ie a (sustainable) Act of producers/companies becomes not taken into account.
+
+
+In the individual dimensions, the WBAE defined it itself none sustainability criteriareport describes subject areas that are considered, but Are , the measurable are.
+
+
+Example social: Existing approaches were described, but not critical rated.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Advantages and disadvantages of this approach: Dietary behavior and health issues are considered intensively, but there are weaknesses, e.g. in the environmental dimension, since production on processes not sufficiently rated become.
+
+
+SDGs
+
+At the political level, all UN members adopted the 2030 Agenda for Sustainable Development in 2015. lung. In it, 17 general sustainability goals , so-called Sustainable Development Goals, called SDGs for short. These goals are to be adopted by all developing, emerging and industrial rie states reached become, are indivisible and conditional each other.
+
+The SDGs encompass three dimensions of sustainability: social, economic and environmental. Also are the Sustainable Development goal five core messages as action-guiding principles prefixed: People, Planet, Prosperity, Peace and Partnership . Economic growth should be ecological be compatible. Ecological sustainability is meant to be natural through considerate use Resources such as promoting sustainable agriculture and consumption that protects the planet and the environment. This is how a world without hunger and poverty should come about People long term a fair, peaceful and healthy Life allows.
+
+The SDGs are overarching sustainability goals; only the degree of implementation for each can be measured here Country. However, they are not directly suitable for assessing the sustainability impact of individual products. evaluate.
+
+Recommendations for action and specific criteria can be developed from the SDGs that measurability help can. So flow eg single targets in the WBAE approach.
+
+
+
+
+
+
+
+3. Consideration the individual dimensions
+
+By determining the use of sustainability dimensions (environment, health, animal welfare, Social) according to the WBAE model, assessment approaches and assessment tools are selected and developed their advantages and disadvantages considered.
+
+Around one holistic Statement to the sustainability one product make to can, should several dimensions are considered and then the individual results are combined into a comprehensive information mation for the consumers summarized become.
+
+3.1	Environment
+
+On Product level:
+
+The basis should be a standardized procedure such as the Life Cycle Assessment (LCA) be, with at least one system boundary along the entire value chain,
+
+i.e. from the manufacture of the operating and production resources, via the production (from animal and plant products) to processing, packaging and retail. However, in a classic LCA, aspects such as biodiversity, land use as well as the animal welfare and the consumption side Not or only barely considered.
+
+On Company level:
+
+The basis should be the whole company with the entire production chain Products/services, his entire entrepreneurial activity, dealing with Delivery, employees as well as his social Responsibility.
+
+In principle, product-related
