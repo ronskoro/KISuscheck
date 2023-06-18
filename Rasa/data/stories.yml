@@ -1,6 +1,10 @@
 version: "3.1"
 
 stories:
+- story: ask a faq
+  steps:
+  - intent: faq
+  - action: action_faq_get_answer
 
 - story: happy path
   steps:
@@ -152,40 +156,26 @@ stories:
   - intent: deny
   - action: utter_goodbye
 
-- story: sad path 1
-  steps:
-  # - intent: greet
-  # - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: affirm
-  - action: utter_happy
 
-- story: sad path 2
-  steps:
-  # - intent: greet
-  # - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: deny
-  - action: utter_goodbye
-
-# - story: interactive_story_1
+# - story: sad path 1
 #   steps:
-#   - intent: scan_barcode
-#     entities:
-#       - barcode: "3017620422003"
-#       - barcode: "3017620422003"
-#   - slot_was_set:
-#       - barcode: "3017620422003"
-#   - action: action_get_product_info_by_barcode
-#   - action: utter_like_to_know_more
+#   # - intent: greet
+#   # - action: utter_greet
+#   - intent: mood_unhappy
+#   - action: utter_cheer_up
+#   - action: utter_did_that_help
 #   - intent: affirm
-#   - action: utter_specify_question
-#   - intent: ask_about_animal_friendliness_of_product
-#   - action: action_get_product_animal_friendliness_info
+#   - action: utter_happy
+
+# - story: sad path 2
+#   steps:
+#   # - intent: greet
+#   # - action: utter_greet
+#   - intent: mood_unhappy
+#   - action: utter_cheer_up
+#   - action: utter_did_that_help
+#   - intent: deny
+#   - action: utter_goodbye
 
 # Stories surrounding setting the category of the user preferences from the following:
 # nutritional value, food processing value, allergens, ingredients, labels, environment
