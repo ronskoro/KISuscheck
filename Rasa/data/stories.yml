@@ -55,98 +55,635 @@ stories:
       - intent: deny
       - action: utter_goodbye
 
-# Stories surrounding setting the category of the user preferences from the following:
-# nutritional value, food processing value, allergens, ingredients, labels, environment
-- story: set ingredient preference
-  steps: 
-  - intent: set_ingredient_preference
-  - action: action_confirm_preference
-   
+  # Stories surrounding setting the category of the user preferences from the following:
+  # nutritional value, food processing value, allergens, ingredients, labels, environment
+  - story: set ingredient preference
+    steps:
+      - intent: set_ingredient_preference
+      - action: action_confirm_preference
 
-- story: set nutritional value preference
-  steps: 
-  - intent: set_nutr_value_preference 
-  - action: action_confirm_preference
+  - story: set nutritional value preference
+    steps:
+      - intent: set_nutr_value_preference
+      - action: action_confirm_preference
 
-- story: set food processing preference
-  steps: 
-  - intent: set_food_processing_preference
-  - action: action_confirm_preference
+  - story: set food processing preference
+    steps:
+      - intent: set_food_processing_preference
+      - action: action_confirm_preference
 
+  - story: set allergen preference
+    steps:
+      - intent: set_allergen_preference
+      - action: action_confirm_preference
 
-- story: set allergen preference
-  steps: 
-  - intent: set_allergen_preference
-  - action: action_confirm_preference
+  - story: set label preference path 1
+    steps:
+      - intent: set_label_preference
+      - action: action_confirm_preference
 
+  - story: set label preference path 2
+    steps:
+      - intent: scan_barcode
+      - action: action_get_product_info_by_barcode
+      - action: utter_did_that_help
+      - intent: affirm
+      - action: utter_happy
+      - intent: set_label_preference
+      - action: action_confirm_preference
 
-- story: set label preference path 1
-  steps: 
-  - intent: set_label_preference
-  - action: action_confirm_preference
+  - story: set label preference path 3
+    steps:
+      - intent: set_label_preference
+      - action: action_confirm_preference
+      - intent: scan_barcode
+      - action: action_get_product_info_by_barcode
+      - action: utter_did_that_help
+      - intent: affirm
+      - action: utter_happy
 
-  
-  
-- story: set label preference path 2
-  steps: 
-  - intent: scan_barcode
-  - action: action_get_product_info_by_barcode
-  - action: utter_did_that_help
-  - intent: affirm
-  - action: utter_happy
-  - intent: set_label_preference
-  - action: action_confirm_preference
+  - story: set environment preference
+    steps:
+      - intent: set_env_preference
+      - action: action_confirm_preference
 
-
-
-- story: set label preference path 3
-  steps: 
-  - intent: set_label_preference
-  - action: action_confirm_preference
-  - intent: scan_barcode
-  - action: action_get_product_info_by_barcode
-  - action: utter_did_that_help
-  - intent: affirm
-  - action: utter_happy
-
-- story: set environment preference 
-  steps: 
-  - intent: set_env_preference
-  - action: action_confirm_preference
-
-- story: ask for preferences
-  steps: 
-  - intent: ask_preferences
-  - action: action_print_preferences
-
-
-
+  - story: ask for preferences
+    steps:
+      - intent: ask_preferences
+      - action: action_print_preferences
 
   - story: search product by barcode
     steps:
-      # - intent: greet
-      # - action: utter_greet
       - intent: scan_barcode
       - action: action_get_product_info_by_barcode
       - action: utter_did_that_help
       - intent: deny
       - action: utter_goodbye
 
-  - story: compare multiple products by barcode
+  - story: compare multiple products - ask for first two products' barcode
     steps:
-      - intent: compare_products
+      - or:
+          - intent: ask_for_product_comparison
+          - intent: compare_products_with_name
       - action: product_comparison_form
       - active_loop: product_comparison_form
-      - action: utter_sure_ask_for_product_barcode
+      - slot_was_set:
+          - requested_slot: first_product_for_comparison
       - intent: scan_barcode
       - slot_was_set:
           - first_product_for_comparison
-      - action: utter_ask_for_second_product
+      - action: action_fill_second_product_for_comparison
+      - action: product_comparison_form
+      - slot_was_set:
+          - requested_slot: second_product_for_comparison
       - intent: scan_barcode
       - slot_was_set:
           - first_product_for_comparison
           - second_product_for_comparison
+      #- action: action_update_comparison_list_and_length
+      - action: product_comparison_form
+      - slot_was_set:
+          - requested_slot: null
+      - active_loop: null
+      - action: utter_more_products_or_compare
+      - checkpoint: check_more_products_or_compare
+
+  - story: compare multiple products - add more products
+    steps:
+      - checkpoint: check_more_products_or_compare
+      - intent: scan_barcode
+      #- action: action_update_comparison_list_and_length
+      - action: utter_more_products_or_compare
+      - checkpoint: check_more_products_or_compare
+
+  - story: compare multiple products - start comparison
+    steps:
+      - checkpoint: check_more_products_or_compare
+      - intent: start_product_comparison
+      - action: action_compare_products_by_barcode
+
+  - story: compare multiple products - all barcodes provided at beginning
+    steps:
+      - intent: compare_products_with_barcode
+      - action: product_comparison_form
+      - active_loop: product_comparison_form
+
+  - story: interactive_story_1_compare
+    steps:
+      - intent: ask_for_product_comparison
+      - slot_was_set:
+          - product_comparison_list: []
+      - slot_was_set:
+          - product_comparison_list_length: 0
+      - action: product_comparison_form
+      - active_loop: product_comparison_form
+      - slot_was_set:
+          - product_comparison_list: []
+      - slot_was_set:
+          - product_comparison_list_length: 0
+      - slot_was_set:
+          - requested_slot: first_product_for_comparison
+      - intent: scan_barcode
+        entities:
+          - barcode: "3168930009078"
+          - barcode: "3168930009078"
+      - slot_was_set:
+          - barcode: "3168930009078"
+      - slot_was_set:
+          - first_product_for_comparison: "3168930009078"
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+      - slot_was_set:
+          - product_comparison_list_length: 1
+      - action: product_comparison_form
+      - slot_was_set:
+          - first_product_for_comparison: "3168930009078"
+      - slot_was_set:
+          - requested_slot: second_product_for_comparison
+      - intent: scan_barcode
+        entities:
+          - barcode: "3168930009078"
+          - barcode: "3168930009078"
+      - slot_was_set:
+          - barcode: "3168930009078"
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+      - slot_was_set:
+          - product_comparison_list_length: 1
+      - action: action_fill_second_product_for_comparison
+      - action: product_comparison_form
+      - slot_was_set:
+          - requested_slot: second_product_for_comparison
+      - intent: scan_barcode
+        entities:
+          - barcode: "7613035974685"
+          - barcode: "7613035974685"
+      - slot_was_set:
+          - barcode: "7613035974685"
+      - slot_was_set:
+          - second_product_for_comparison: "7613035974685"
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+              - "7613035974685"
+      - slot_was_set:
+          - product_comparison_list_length: 2
+      - slot_was_set:
+          - requested_slot: null
+      - active_loop: null
+      - action: utter_more_products_or_compare
+      - intent: scan_barcode
+        entities:
+          - barcode: "7613035974685"
+          - barcode: "7613035974685"
+      - slot_was_set:
+          - barcode: "7613035974685"
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+              - "7613035974685"
+      - slot_was_set:
+          - product_comparison_list_length: 2
+      - action: action_update_comparison_list_and_length
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+              - "7613035974685"
+      - slot_was_set:
+          - product_comparison_list_length: 2
+      - action: utter_more_products_or_compare
+      - intent: scan_barcode
+        entities:
+          - barcode: "3017620422003"
+          - barcode: "3017620422003"
+      - slot_was_set:
+          - barcode: "3017620422003"
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+              - "7613035974685"
+              - "3017620422003"
+      - slot_was_set:
+          - product_comparison_list_length: 3
+      - action: action_update_comparison_list_and_length
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+              - "7613035974685"
+              - "3017620422003"
+      - slot_was_set:
+          - product_comparison_list_length: 3
+      - action: utter_more_products_or_compare
+      - intent: scan_barcode
+        entities:
+          - barcode: "3017620422003"
+          - barcode: "3017620422003"
+      - slot_was_set:
+          - barcode: "3017620422003"
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+              - "7613035974685"
+              - "3017620422003"
+      - slot_was_set:
+          - product_comparison_list_length: 3
+      - action: action_update_comparison_list_and_length
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+              - "7613035974685"
+              - "3017620422003"
+      - slot_was_set:
+          - product_comparison_list_length: 3
       - action: utter_more_products_or_compare
 
-      - action: action_get_product_by_barcode
+  - story: interactive_story_2_compare
+    steps:
+      - intent: ask_for_product_comparison
+      - slot_was_set:
+          - product_comparison_list: []
+      - slot_was_set:
+          - product_comparison_list_length: 0
+      - action: product_comparison_form
+      - active_loop: product_comparison_form
+      - slot_was_set:
+          - product_comparison_list: []
+      - slot_was_set:
+          - product_comparison_list_length: 0
+      - slot_was_set:
+          - requested_slot: first_product_for_comparison
+      - intent: scan_barcode
+        entities:
+          - barcode: "3168930009078"
+          - barcode: "3168930009078"
+      - slot_was_set:
+          - barcode: "3168930009078"
+      - slot_was_set:
+          - first_product_for_comparison: "3168930009078"
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+      - slot_was_set:
+          - product_comparison_list_length: 1
+      - action: product_comparison_form
+      - slot_was_set:
+          - first_product_for_comparison: "3168930009078"
+      - slot_was_set:
+          - requested_slot: second_product_for_comparison
+      - intent: scan_barcode
+        entities:
+          - barcode: "7613035974685"
+          - barcode: "7613035974685"
+      - slot_was_set:
+          - barcode: "7613035974685"
+      - slot_was_set:
+          - second_product_for_comparison: "7613035974685"
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+              - "7613035974685"
+      - slot_was_set:
+          - product_comparison_list_length: 2
+      - action: product_comparison_form
+      - slot_was_set:
+          - second_product_for_comparison: "7613035974685"
+      - slot_was_set:
+          - requested_slot: null
+      - active_loop: null
+      - action: utter_more_products_or_compare
+      - intent: scan_barcode
+        entities:
+          - barcode: "3017620422003"
+          - barcode: "3017620422003"
+      - slot_was_set:
+          - barcode: "3017620422003"
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+              - "7613035974685"
+              - "3017620422003"
+      - slot_was_set:
+          - product_comparison_list_length: 3
+      - action: utter_more_products_or_compare
+      - intent: scan_barcode
+        entities:
+          - barcode: "3017620422003"
+          - barcode: "3017620422003"
+      - slot_was_set:
+          - barcode: "3017620422003"
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+              - "7613035974685"
+              - "3017620422003"
+      - slot_was_set:
+          - product_comparison_list_length: 3
+      - action: utter_more_products_or_compare
+
+  - story: interactive_story_3_compare
+    steps:
+      - intent: ask_for_product_comparison
+      - slot_was_set:
+          - product_comparison_list: []
+      - slot_was_set:
+          - product_comparison_list_length: 0
+      - action: product_comparison_form
+      - active_loop: product_comparison_form
+      - slot_was_set:
+          - product_comparison_list: []
+      - slot_was_set:
+          - product_comparison_list_length: 0
+      - slot_was_set:
+          - requested_slot: first_product_for_comparison
+      - intent: scan_barcode
+        entities:
+          - barcode: "3168930009078"
+          - barcode: "3168930009078"
+      - slot_was_set:
+          - barcode: "3168930009078"
+      - slot_was_set:
+          - first_product_for_comparison: "3168930009078"
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+      - slot_was_set:
+          - product_comparison_list_length: 1
+      - action: product_comparison_form
+      - slot_was_set:
+          - first_product_for_comparison: "3168930009078"
+      - slot_was_set:
+          - requested_slot: second_product_for_comparison
+      - intent: show_product_comparison_list
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+      - slot_was_set:
+          - product_comparison_list_length: 1
+      - action: action_show_product_comparison_list
+      - action: product_comparison_form
+      - slot_was_set:
+          - requested_slot: second_product_for_comparison
+      - intent: scan_barcode
+        entities:
+          - barcode: "7613035974685"
+          - barcode: "7613035974685"
+      - slot_was_set:
+          - barcode: "7613035974685"
+      - slot_was_set:
+          - second_product_for_comparison: "7613035974685"
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+              - "7613035974685"
+      - slot_was_set:
+          - product_comparison_list_length: 2
+      - action: product_comparison_form
+      - slot_was_set:
+          - second_product_for_comparison: "7613035974685"
+      - slot_was_set:
+          - requested_slot: null
+      - active_loop: null
+      - action: utter_more_products_or_compare
+      - intent: show_product_comparison_list
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+              - "7613035974685"
+      - slot_was_set:
+          - product_comparison_list_length: 2
+      - action: action_show_product_comparison_list
+      - action: utter_more_products_or_compare
+      - intent: scan_barcode
+        entities:
+          - barcode: "3017620422003"
+          - barcode: "3017620422003"
+      - slot_was_set:
+          - barcode: "3017620422003"
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+              - "7613035974685"
+              - "3017620422003"
+      - slot_was_set:
+          - product_comparison_list_length: 3
+      - action: utter_more_products_or_compare
+      - intent: show_product_comparison_list
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+              - "7613035974685"
+              - "3017620422003"
+      - slot_was_set:
+          - product_comparison_list_length: 3
+      - action: action_show_product_comparison_list
+      - action: utter_more_products_or_compare
+
+  - story: interactive_story_4_compare
+    steps:
+      - intent: ask_for_product_comparison
+      - slot_was_set:
+          - product_comparison_list: []
+      - slot_was_set:
+          - product_comparison_list_length: 0
+      - action: product_comparison_form
+      - active_loop: product_comparison_form
+      - slot_was_set:
+          - product_comparison_list: []
+      - slot_was_set:
+          - product_comparison_list_length: 0
+      - slot_was_set:
+          - requested_slot: first_product_for_comparison
+      - intent: scan_barcode
+        entities:
+          - barcode: "3168930009078"
+      - slot_was_set:
+          - barcode: "3168930009078"
+      - slot_was_set:
+          - first_product_for_comparison: "3168930009078"
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+      - slot_was_set:
+          - product_comparison_list_length: 1
+      - action: product_comparison_form
+      - slot_was_set:
+          - first_product_for_comparison: "3168930009078"
+      - slot_was_set:
+          - requested_slot: second_product_for_comparison
+      - intent: scan_barcode
+        entities:
+          - barcode: "7613035974685"
+      - slot_was_set:
+          - barcode: "7613035974685"
+      - slot_was_set:
+          - second_product_for_comparison: "7613035974685"
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+              - "7613035974685"
+      - slot_was_set:
+          - product_comparison_list_length: 2
+      - action: product_comparison_form
+      - slot_was_set:
+          - second_product_for_comparison: "7613035974685"
+      - slot_was_set:
+          - requested_slot: null
+      - active_loop: null
+      - action: utter_more_products_or_compare
+      - intent: scan_barcode
+        entities:
+          - barcode: "3017620422003"
+      - slot_was_set:
+          - barcode: "3017620422003"
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+              - "7613035974685"
+              - "3017620422003"
+      - slot_was_set:
+          - product_comparison_list_length: 3
+      - action: utter_more_products_or_compare
+
+  - story: interactive_story_5_compare
+    steps:
+      - intent: ask_for_product_comparison
+      - slot_was_set:
+          - product_comparison_list: []
+      - slot_was_set:
+          - product_comparison_list_length: 0
+      - action: product_comparison_form
+      - active_loop: product_comparison_form
+      - slot_was_set:
+          - product_comparison_list: []
+      - slot_was_set:
+          - product_comparison_list_length: 0
+      - slot_was_set:
+          - requested_slot: first_product_for_comparison
+      - intent: scan_barcode
+        entities:
+          - barcode: "3168930009078"
+      - slot_was_set:
+          - barcode: "3168930009078"
+      - slot_was_set:
+          - first_product_for_comparison: "3168930009078"
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+      - slot_was_set:
+          - product_comparison_list_length: 1
+      - action: product_comparison_form
+      - slot_was_set:
+          - first_product_for_comparison: "3168930009078"
+      - slot_was_set:
+          - requested_slot: second_product_for_comparison
+      - intent: scan_barcode
+        entities:
+          - barcode: "7613035974685"
+      - slot_was_set:
+          - barcode: "7613035974685"
+      - slot_was_set:
+          - second_product_for_comparison: "7613035974685"
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+              - "7613035974685"
+      - slot_was_set:
+          - product_comparison_list_length: 2
+      - action: product_comparison_form
+      - slot_was_set:
+          - second_product_for_comparison: "7613035974685"
+      - slot_was_set:
+          - requested_slot: null
+      - active_loop: null
+      - action: utter_more_products_or_compare
+      - intent: start_product_comparison
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+              - "7613035974685"
+      - slot_was_set:
+          - product_comparison_list_length: 2
+      - action: action_compare_products_by_barcode
+
+  - story: interactive_story_6_compare
+    steps:
+      - intent: ask_for_product_comparison
+      - slot_was_set:
+          - product_comparison_list: []
+      - slot_was_set:
+          - product_comparison_list_length: 0
+      - action: product_comparison_form
+      - active_loop: product_comparison_form
+      - slot_was_set:
+          - product_comparison_list: []
+      - slot_was_set:
+          - product_comparison_list_length: 0
+      - slot_was_set:
+          - requested_slot: first_product_for_comparison
+      - intent: scan_barcode
+        entities:
+          - barcode: "3168930009078"
+      - slot_was_set:
+          - barcode: "3168930009078"
+      - slot_was_set:
+          - first_product_for_comparison: "3168930009078"
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+      - slot_was_set:
+          - product_comparison_list_length: 1
+      - action: product_comparison_form
+      - slot_was_set:
+          - first_product_for_comparison: "3168930009078"
+      - slot_was_set:
+          - requested_slot: second_product_for_comparison
+      - intent: scan_barcode
+        entities:
+          - barcode: "7613035974685"
+      - slot_was_set:
+          - barcode: "7613035974685"
+      - slot_was_set:
+          - second_product_for_comparison: "7613035974685"
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+              - "7613035974685"
+      - slot_was_set:
+          - product_comparison_list_length: 2
+      - action: product_comparison_form
+      - slot_was_set:
+          - second_product_for_comparison: "7613035974685"
+      - slot_was_set:
+          - requested_slot: null
+      - active_loop: null
+      - action: utter_more_products_or_compare
+      - intent: scan_barcode
+        entities:
+          - barcode: "3017620422003"
+      - slot_was_set:
+          - barcode: "3017620422003"
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+              - "7613035974685"
+              - "3017620422003"
+      - slot_was_set:
+          - product_comparison_list_length: 3
+      - action: utter_more_products_or_compare
+      - action: utter_more_products_or_compare
+      - intent: scan_barcode
+        entities:
+          - barcode: "5449000214911"
+      - slot_was_set:
+          - barcode: "5449000214911"
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+              - "7613035974685"
+              - "3017620422003"
+              - "5449000214911"
+      - slot_was_set:
+          - product_comparison_list_length: 4
       - action: utter_more_products_or_compare

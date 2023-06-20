@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { IoMdSend } from "react-icons/io";
 import { BiBot, BiUser } from "react-icons/bi";
 import "./chat.css";
+import React from "react";
 
 const Chat = () => {
   const [chat, setChat] = useState([]);

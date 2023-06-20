@@ -1,174 +1,198 @@
-version: "3.1"
-
+version: '3.1'
 intents:
-  - greet
-  - goodbye
-  - affirm
-  - deny
-  - mood_great
-  - mood_unhappy
-  - bot_challenge
-  - scan_barcode
-  - compare_products
-  - set_ingredient_preference
-  - set_nutr_value_preference
-  - set_food_processing_preference
-  - set_allergen_preference
-  - set_label_preference
-  - set_env_preference
-  - ask_preferences
-  - get_top_product_info_by_name
-  - ask_about_product_property_by_barcode
-  - ask_about_product_property_by_name
-  - out_of_scope_intents
-  - start_product_comparison
-
+- affirm
+- ask_about_product_property_by_barcode
+- ask_about_product_property_by_name
+- ask_for_product_comparison
+- ask_preferences
+- bot_challenge
+- compare_products_with_barcode
+- compare_products_with_name
+- deny
+- get_top_product_info_by_name
+- goodbye
+- greet
+- mood_great
+- mood_unhappy
+- out_of_scope_intents
+- provide_multiple_barcodes
+- scan_barcode
+- set_allergen_preference
+- set_env_preference
+- set_food_processing_preference
+- set_ingredient_preference
+- set_label_preference
+- set_nutr_value_preference
+- show_product_comparison_list
+- start_product_comparison
 entities:
-  - user_name
-  - barcode
-  - food
-  - food_property
-  - preference_type
-  - ingredient_preference
-  - allergen_preference
-  - nutr_value_preference
-  - food_processing_preference
-  - label_preference
-  - env_preference
-
+- barcode
+- user_name
+- food
+- food_property
+- preference_type
+- ingredient_preference
+- allergen_preference
+- nutr_value_preference
+- food_processing_preference
+- label_preference
+- env_preference
 slots:
   user_name:
     type: text
     mappings:
-      - type: from_entity
-        entity: user_name
-        initial_value: ""
+    - type: from_entity
+      entity: user_name
+      initial_value: ''
     influence_conversation: false
   barcode:
     type: text
     mappings:
-      - type: from_entity
-        entity: barcode
+    - type: from_entity
+      entity: barcode
     influence_conversation: true
   food:
     type: text
     mappings:
-      - type: from_entity
-        entity: food
+    - type: from_entity
+      entity: food
     influence_conversation: true
   food_property:
     type: text
     mappings:
-      - type: from_entity
-        entity: food_property
+    - type: from_entity
+      entity: food_property
     influence_conversation: true
   preference_type:
     type: text
     mappings:
-      - type: from_entity
-        entity: preference_type
+    - type: from_entity
+      entity: preference_type
   ingredient_preference:
     type: list
     mappings:
-      - type: from_entity
-        entity: ingredient_preference
-        intent: set_ingredient_preference
+    - type: from_entity
+      entity: ingredient_preference
+      intent: set_ingredient_preference
     influence_conversation: true
   nutr_value_preference:
     type: list
     mappings:
-      - type: from_entity
-        entity: nutr_value_preference
-        intent: set_nutr_value_preference
+    - type: from_entity
+      entity: nutr_value_preference
+      intent: set_nutr_value_preference
     influence_conversation: true
   food_processing_preference:
     type: list
     mappings:
-      - type: from_entity
-        entity: food_processing_preference
-        intent: set_food_processing_preference
+    - type: from_entity
+      entity: food_processing_preference
+      intent: set_food_processing_preference
     influence_conversation: true
   allergen_preference:
     type: list
     mappings:
-      - type: from_entity
-        entity: allergen_preference
-        intent: set_allergen_preference
+    - type: from_entity
+      entity: allergen_preference
+      intent: set_allergen_preference
     influence_conversation: true
   label_preference:
     type: list
     mappings:
-      - type: from_entity
-        entity: label_preference
-        intent: set_label_preference
+    - type: from_entity
+      entity: label_preference
+      intent: set_label_preference
     influence_conversation: true
   env_preference:
     type: list
     mappings:
-      - type: from_entity
-        entity: env_preference
-        intent: set_env_preference
+    - type: from_entity
+      entity: env_preference
+      intent: set_env_preference
     influence_conversation: true
-
+  first_product_for_comparison:
+    type: text
+    mappings:
+    - type: from_entity
+      entity: barcode
+      conditions:
+      - active_loop: product_comparison_form
+        requested_slot: first_product_for_comparison
+    influence_conversation: true
+  second_product_for_comparison:
+    type: text
+    mappings:
+    - type: custom
+      action: action_fill_second_product_for_comparison
+    influence_conversation: true
+  product_comparison_list:
+    type: list
+    mappings:
+    - type: custom
+      action: action_update_comparison_list_and_length
+    influence_conversation: true
+  product_comparison_list_length:
+    type: float
+    min_value: 0
+    initial_value: 0
+    mappings:
+    - type: custom
+      action: action_update_comparison_list_and_length
+    influence_conversation: false
+  product_comparison_result:
+    type: any
+    mappings:
+    - type: custom
+forms:
+  product_comparison_form:
+    required_slots:
+    - first_product_for_comparison
+    - second_product_for_comparison
 actions:
-  # - action_set_slot_from_user_input
-  - action_greet
-  - action_get_product_info_by_barcode
-  - action_get_top_product_info_by_name
-  - action_answer_about_product_property_by_barcode
-  - action_confirm_preference
-  - action_print_preferences
-  - action_get_product_by_barcode
-
+- utter_more_products_or_compare
+- action_compare_products_by_barcode
+- action_show_product_comparison_list
+- action_update_comparison_list_and_length
+- action_fill_second_product_for_comparison
+- utter_greet
+- utter_ask_first_product_for_comparison
+- action_greet
+- action_get_product_info_by_barcode
+- action_get_top_product_info_by_name
+- action_answer_about_product_property_by_barcode
+- action_confirm_preference
+- action_print_preferences
+- validate_product_comparison_form
 responses:
-  # utter_greet:
-  # - text: "Hey {user_name}! How are you?"
-  # - text: "Hey {user_name}! What's up?"
-  # - text: "Hey! How are you?"
-  # - text: "Hey! What's up?"
   utter_greet:
-    - text: "Hi, I'm Eco! 👋 I'm a sustainable nutritional bot. 🌿 Can I assist you by providing information about a product or giving you recommendations for food? 👀"
-
+  - text: Hi, I'm Eco! 👋 I'm a sustainable nutritional bot. 🌿 Can I assist you by providing information about a product or giving you recommendations for food? 👀
   utter_cheer_up:
-    - text: "Here is something to cheer you up:"
-      image: "https://i.imgur.com/nGF1K8f.jpg"
-
+  - text: 'Here is something to cheer you up:'
+    image: https://i.imgur.com/nGF1K8f.jpg
   utter_happy:
-    - text: "Great, carry on!"
-
+  - text: Great, carry on!
   utter_goodbye:
-    - text: "Bye"
-
+  - text: Bye
   utter_iamabot:
-    - text: "I am a bot, powered by Rasa."
-
+  - text: I am a bot, powered by Rasa.
   utter_did_that_help:
-    - text: "Did that help you?"
-
-  utter_sure_ask_for_product_barcode:
-    - text: "Sure! Could you please provide me the barcode of the products?"
-
-  utter_ask_for_second_product:
-    - text: "1 product is currently in the comparison list. I need at least one more product barcode to start comparison."
-      buttons:
-        - title: "Show comarison list"
-          payload: "/"
-
-  # ask user if he/she wants to provide more products, or start comparison
+  - text: Did that help you?
+  utter_ask_first_product_for_comparison:
+  - text: Sure! Could you please provide me the barcode of the first product?
+  utter_ask_second_product_for_comparison:
+  - text: 1 product is currently in the comparison list. I need at least one more product's barcode to start comparison. Could you please provide me the barcode of the next product?
+    buttons:
+    - title: Show comarison list
+      payload: /show_product_comparison_list
   utter_more_products_or_compare:
-    - text: "N products are currently in the comparison list. You can add more products by giving barcode."
-      buttons:
-        - title: "Compare"
-          payload: "/start_product_comparison"
-        - title: "Show comarison list"
-          payload: "/"
-
+  - text: '{product_comparison_list_length} products are currently in the comparison list. You can add more products by giving barcodes one by one.'
+    buttons:
+    - title: Compare
+      payload: /start_product_comparison
+    - title: Show comarison list
+      payload: /show_product_comparison_list
   utter_ask_for_product_barcode:
-    - text: "Could you please provide me the barcode of the products?"
-
-  utter_show_current_product_comparison_list:
-    - text: ""
-
+  - text: Could you please provide me the barcode of the next product?
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

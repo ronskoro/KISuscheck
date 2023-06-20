@@ -16,3 +16,20 @@ rules:
     steps:
       - intent: bot_challenge
       - action: utter_iamabot
+
+  - rule: end of product comparison form
+    #condition:
+    #  - active_loop: product_comparison_form
+    steps:
+      - action: product_comparison_form
+      - slot_was_set:
+          - second_product_for_comparison
+      - slot_was_set:
+          - requested_slot: null
+      - active_loop: null
+      - action: utter_more_products_or_compare
+
+  - rule: start product comparison
+    steps:
+      - intent: start_product_comparison
+      - action: action_compare_products_by_barcode
