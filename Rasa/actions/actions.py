@@ -4,9 +4,6 @@
 # See this guide on how to implement these action:
 # https://rasa.com/docs/rasa/custom-actions
 
-from sentence_transformers import SentenceTransformer
-import torch
-import json
 from typing import Text, Dict, Any, List
 from rasa_sdk import Tracker, FormValidationAction, Action
 from rasa_sdk.executor import CollectingDispatcher
@@ -14,37 +11,30 @@ from rasa_sdk.events import SlotSet
 from rasa_sdk.types import DomainDict
 from rasa_sdk.events import EventType
 import requests
-import pandas as pd
-
-
-import numpy as np
+import json
 import sys
 # sys.path.append('C:/Users/maria/anaconda3/envs/rasa-faq/Lib/site-packages/torch/torch._C')
-sys.path.append(
-    'C:/Users/maria/anaconda3/envs/KI-SusCheck-faq/Lib/site-packages')
-
+sys.path.append('C:/Users/maria/anaconda3/envs/KI-SusCheck-faq/Lib/site-packages')
+import pandas as pd
+import numpy as np
+from sentence_transformers import SentenceTransformer
+import torch
 # sentence embedding selection
-sentence_transformer_select = True
-# Refer: https://github.com/UKPLab/sentence-transformers/blob/master/docs/pretrained-models/nli-models.md
-pretrained_model = 'bert-base-nli-mean-tokens'
+sentence_transformer_select=True
+pretrained_model='bert-base-nli-mean-tokens' # Refer: https://github.com/UKPLab/sentence-transformers/blob/master/docs/pretrained-models/nli-models.md
 score_threshold = 0.70  # This confidence scores can be adjusted based on your need!!
 
 # Custom Action
-
 
 class ActionGetFAQAnswer(Action):
 
     def __init__(self):
         print("ActionGetFAQAnswer init")
         super(ActionGetFAQAnswer, self).__init__()
-        self.faq_data = json.load(
-            open("./data/faq.json", "rt", encoding="utf-8"))
-        self.sentence_embedding_choose(
-            sentence_transformer_select, pretrained_model)
-        self.standard_questions_encoder = np.load(
-            "./data/standard_questions.npy")
-        self.standard_questions_encoder_len = np.load(
-            "./data/standard_questions_len.npy")
+        self.faq_data = json.load(open("./data/faq.json", "rt", encoding="utf-8"))
+        self.sentence_embedding_choose(sentence_transformer_select, pretrained_model)
+        self.standard_questions_encoder = np.load("./data/standard_questions.npy")
+        self.standard_questions_encoder_len = np.load("./data/standard_questions_len.npy")
         print(self.standard_questions_encoder.shape)
 
     def sentence_embedding_choose(self, sentence_transformer_select=True, pretrained_model='bert-base-nli-mean-tokens'):
@@ -54,13 +44,12 @@ class ActionGetFAQAnswer(Action):
 
     def get_most_similar_standard_question_id(self, query_question):
         if self.sentence_transformer_select:
-            query_vector = torch.tensor(
-                self.bc.encode([query_question])[0]).numpy()
+            query_vector = torch.tensor(self.bc.encode([query_question])[0]).numpy()
         else:
             query_vector = self.bc.encode([query_question])[0]
         print("Question received at action engineer")
         score = np.sum((self.standard_questions_encoder * query_vector), axis=1) / (
-            self.standard_questions_encoder_len * (np.sum(query_vector * query_vector) ** 0.5))
+                self.standard_questions_encoder_len * (np.sum(query_vector * query_vector) ** 0.5))
         top_id = np.argsort(score)[::-1][0]
         return top_id, score[top_id]
 
@@ -72,37 +61,32 @@ class ActionGetFAQAnswer(Action):
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         query = tracker.latest_message['text']
         # print(query)
-        most_similar_id, score = self.get_most_similar_standard_question_id(
-            query)
-        print("The question is matched with id:{} with score: {}".format(
-            most_similar_id, score))
-        # This confidence scores can be adjusted based on your need!!
-        if float(score) > score_threshold:
+        most_similar_id, score = self.get_most_similar_standard_question_id(query)
+        print("The question is matched with id:{} with score: {}".format(most_similar_id,score))
+        if float(score) > score_threshold: # This confidence scores can be adjusted based on your need!!
             response = self.faq_data[most_similar_id]['a']
             dispatcher.utter_message(response)
-            if (self.faq_data[most_similar_id].get('img') is not None):
+            if(self.faq_data[most_similar_id].get('img') is not None):
                 imgs = self.faq_data[most_similar_id]['img']
-                if (len(imgs) > 0):
+                if(len(imgs)>0):
                     for i in imgs:
                         print(i)
                         dispatcher.utter_message(image=i)
-            if (self.faq_data[most_similar_id].get('sources') is not None):
+            if(self.faq_data[most_similar_id].get('sources') is not None):
                 resources = self.faq_data[most_similar_id]['sources']
-                if (len(resources) > 0):
-                    dispatcher.utter_message(
-                        "You can find more information about this topic here: ")
+                if(len(resources)>0):
+                    dispatcher.utter_message("You can find more information about this topic here: ")
                     for i in resources:
                         dispatcher.utter_message(i)
                 else:
                     dispatcher.utter_message(resources)
-
+        
             # dispatcher.utter_message("Problem solved?")
         else:
             response = "Sorry, this question is beyond my ability..."
             print(response)
             dispatcher.utter_message(response)
-            dispatcher.utter_message(
-                "Sorry, I can't answer your question. You can dial the manual service...")
+            dispatcher.utter_message("Sorry, I can't answer your question. You can dial the manual service...")
         return []
 
 
@@ -119,142 +103,25 @@ def encode_standard_question(sentence_transformer_select=True, pretrained_model=
     print("Standard question size", len(standard_questions))
     print("Start to calculate encoder....")
     if sentence_transformer_select:
-        standard_questions_encoder = torch.tensor(
-            bc.encode(standard_questions)).numpy()
+        standard_questions_encoder = torch.tensor(bc.encode(standard_questions)).numpy()
     # else:
     #     standard_questions_encoder = bc.encode(standard_questions)
     np.save("./data/standard_questions", standard_questions_encoder)
-    standard_questions_encoder_len = np.sqrt(
-        np.sum(standard_questions_encoder * standard_questions_encoder, axis=1))
+    standard_questions_encoder_len = np.sqrt(np.sum(standard_questions_encoder * standard_questions_encoder, axis=1))
     np.save("./data/standard_questions_len", standard_questions_encoder_len)
 
 # encode_standard_question(sentence_transformer_select,pretrained_model)
 # x = ActionGetFAQAnswer()
 # x.run()
-
-
-# sys.path.append('C:/Users/maria/anaconda3/envs/rasa-faq/Lib/site-packages/torch/torch._C')
-sys.path.append(
-    'C:/Users/maria/anaconda3/envs/KI-SusCheck-faq/Lib/site-packages')
-
-# sentence embedding selection
-sentence_transformer_select = True
-# Refer: https://github.com/UKPLab/sentence-transformers/blob/master/docs/pretrained-models/nli-models.md
-pretrained_model = 'bert-base-nli-mean-tokens'
-score_threshold = 0.70  # This confidence scores can be adjusted based on your need!!
-
-# Custom Action
-
-
-class ActionGetFAQAnswer(Action):
-
-    def __init__(self):
-        print("ActionGetFAQAnswer init")
-        super(ActionGetFAQAnswer, self).__init__()
-        self.faq_data = json.load(
-            open("./data/faq.json", "rt", encoding="utf-8"))
-        self.sentence_embedding_choose(
-            sentence_transformer_select, pretrained_model)
-        self.standard_questions_encoder = np.load(
-            "./data/standard_questions.npy")
-        self.standard_questions_encoder_len = np.load(
-            "./data/standard_questions_len.npy")
-        print(self.standard_questions_encoder.shape)
-
-    def sentence_embedding_choose(self, sentence_transformer_select=True, pretrained_model='bert-base-nli-mean-tokens'):
-        self.sentence_transformer_select = sentence_transformer_select
-        if sentence_transformer_select:
-            self.bc = SentenceTransformer(pretrained_model)
-
-    def get_most_similar_standard_question_id(self, query_question):
-        if self.sentence_transformer_select:
-            query_vector = torch.tensor(
-                self.bc.encode([query_question])[0]).numpy()
-        else:
-            query_vector = self.bc.encode([query_question])[0]
-        print("Question received at action engineer")
-        score = np.sum((self.standard_questions_encoder * query_vector), axis=1) / (
-            self.standard_questions_encoder_len * (np.sum(query_vector * query_vector) ** 0.5))
-        top_id = np.argsort(score)[::-1][0]
-        return top_id, score[top_id]
-
-    def name(self) -> Text:
-        return "action_faq_get_answer"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-        query = tracker.latest_message['text']
-        # print(query)
-        most_similar_id, score = self.get_most_similar_standard_question_id(
-            query)
-        print("The question is matched with id:{} with score: {}".format(
-            most_similar_id, score))
-        # This confidence scores can be adjusted based on your need!!
-        if float(score) > score_threshold:
-            response = self.faq_data[most_similar_id]['a']
-            dispatcher.utter_message(response)
-            if (self.faq_data[most_similar_id].get('img') is not None):
-                imgs = self.faq_data[most_similar_id]['img']
-                if (len(imgs) > 0):
-                    for i in imgs:
-                        print(i)
-                        dispatcher.utter_message(image=i)
-            if (self.faq_data[most_similar_id].get('sources') is not None):
-                resources = self.faq_data[most_similar_id]['sources']
-                if (len(resources) > 0):
-                    dispatcher.utter_message(
-                        "You can find more information about this topic here: ")
-                    for i in resources:
-                        dispatcher.utter_message(i)
-                else:
-                    dispatcher.utter_message(resources)
-
-            # dispatcher.utter_message("Problem solved?")
-        else:
-            response = "Sorry, this question is beyond my ability..."
-            print(response)
-            dispatcher.utter_message(response)
-            dispatcher.utter_message(
-                "Sorry, I can't answer your question. You can dial the manual service...")
-        return []
-
-
-def encode_standard_question(sentence_transformer_select=True, pretrained_model='bert-base-nli-mean-tokens'):
-    """
-    This will encode all the questions available in question database into sentence embedding. The result will be stored into numpy array for comparision purpose.
-    """
-    if sentence_transformer_select:
-        bc = SentenceTransformer(pretrained_model)
-    # else:
-    #     bc = BertClient(check_version=False)
-    data = json.load(open("./data/faq.json", "rt", encoding="utf-8"))
-    standard_questions = [each['q'] for each in data]
-    print("Standard question size", len(standard_questions))
-    print("Start to calculate encoder....")
-    if sentence_transformer_select:
-        standard_questions_encoder = torch.tensor(
-            bc.encode(standard_questions)).numpy()
-    # else:
-    #     standard_questions_encoder = bc.encode(standard_questions)
-    np.save("./data/standard_questions", standard_questions_encoder)
-    standard_questions_encoder_len = np.sqrt(
-        np.sum(standard_questions_encoder * standard_questions_encoder, axis=1))
-    np.save("./data/standard_questions_len", standard_questions_encoder_len)
-
-# encode_standard_question(sentence_transformer_select,pretrained_model)
-# x = ActionGetFAQAnswer()
-# x.run()
-
 
 class getProductInfoByBarcode(Action):
     def name(self) -> Text:
         return "action_get_product_info_by_barcode"
 
     async def run(self, dispatcher: CollectingDispatcher,
-                  tracker: Tracker,
-                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
         # Extract the barcode from the user input
         barcode = None
         entities = tracker.latest_message["entities"]
@@ -266,41 +133,34 @@ class getProductInfoByBarcode(Action):
                 break
 
         # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
-        if (barcode is not None):
+        if(barcode is not None):
             SlotSet("barcode", barcode)
-            response = requests.get(
-                'https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
+            response = requests.get('https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
             resProduct = response.json()['product']
-            if (response.status_code == 200 and response.json().get('product') is not None):
-                if (resProduct.get("image_url") is not None):
+            if(response.status_code == 200 and response.json().get('product') is not None):
+                if(resProduct.get("image_url") is not None):
                     dispatcher.utter_message(image=resProduct['image_url'])
-                if (resProduct.get("product_name_en") is not None):
-                    dispatcher.utter_message(
-                        text="Product Name is " + resProduct['product_name_en'])
-                if (resProduct.get("labels") is not None):
-                    dispatcher.utter_message(
-                        text="Product Labels: " + resProduct['labels'])
-                if (resProduct.get("nutriscore_data") is not None and resProduct['nutriscore_data'].get("score") is not None):
-                    dispatcher.utter_message(
-                        text="Nutrition score = " + resProduct['nutriscore_data']['score'].__str__())
-                if (resProduct.get("nutriscore_grade") is not None):
-                    dispatcher.utter_message(
-                        text="Nutrition grade = " + resProduct['nutriscore_grade'])
+                if(resProduct.get("product_name_en") is not None):
+                    dispatcher.utter_message(text="Product Name is " + resProduct['product_name_en'])
+                if(resProduct.get("labels") is not None):
+                    dispatcher.utter_message(text= "Product Labels: " + resProduct['labels'])
+                if(resProduct.get("nutriscore_data") is not None and resProduct['nutriscore_data'].get("score") is not None):
+                    dispatcher.utter_message(text="Nutrition score = " + resProduct['nutriscore_data']['score'].__str__())
+                if(resProduct.get("nutriscore_grade") is not None):
+                    dispatcher.utter_message(text="Nutrition grade = " + resProduct['nutriscore_grade'])
                 return []
-
+            
             dispatcher.utter_message(text="Sorry, I can't find the product.")
-        dispatcher.utter_message(
-            text="Oh I could not find that product! Please recheck that you entered it correctly.")
+        dispatcher.utter_message(text="Oh I could not find that product! Please recheck that you entered it correctly.")
         return []
-
-
 class getProductInfoByName(Action):
     def name(self) -> Text:
         return "action_get_top_product_info_by_name"
 
     async def run(self, dispatcher: CollectingDispatcher,
-                  tracker: Tracker,
-                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
 
         productName = None
         gotProducts = False
@@ -311,30 +171,27 @@ class getProductInfoByName(Action):
             if entity["entity"] == "food":
                 productName = entity["value"]
                 break
-        if (productName is None and tracker.get_slot("last_searched_product_name") is not None):
+        if(productName is None and tracker.get_slot("last_searched_product_name") is not None):
             productName = tracker.get_slot("last_searched_product_name")
 
         # API endpoint
-        if (productName is not None):
+        if(productName is not None):
             ingredient_preference = ""
             allergen_preference = ""
-            if (tracker.get_slot("ingredient_preference") is not None):
-                ingredient_preference = "&labels_tags=" + \
-                    ','.join(tracker.get_slot("ingredient_preference"))
-            if (tracker.get_slot("allergen_preference") is not None):
-                allergen_preference = "&allergens_tags=" + \
-                    ','.join(tracker.get_slot("allergen_preference"))
-            url = "https://world.openfoodfacts.org/api/v2/search?categories_tags="+productName + \
-                ingredient_preference + allergen_preference + "&sort_by=popularity_key"
+            if(tracker.get_slot("ingredient_preference") is not None):
+                ingredient_preference = "&labels_tags=" + ','.join(tracker.get_slot("ingredient_preference"))
+            if(tracker.get_slot("allergen_preference") is not None):
+                allergen_preference = "&allergens_tags=" + ','.join(tracker.get_slot("allergen_preference"))
+            url = "https://world.openfoodfacts.org/api/v2/search?categories_tags="+productName+ ingredient_preference + allergen_preference +"&sort_by=popularity_key"
             print(url)
             # Send GET request
             response = requests.get(url)
 
             product_cat_limit = tracker.get_slot("product_cat_limit")
-            if (product_cat_limit is None):
+            if(product_cat_limit is None):     
                 product_cat_limit = {productName: 0}
-            elif (product_cat_limit.get(productName) is None):
-                product_cat_limit[productName] = 0
+            elif(product_cat_limit.get(productName) is None): 
+                product_cat_limit[productName] = 0    
             curr_product_cat_limit = product_cat_limit[productName]
 
             # Check if the request was successful
@@ -343,90 +200,76 @@ class getProductInfoByName(Action):
                 data = response.json()
 
                 products = data["products"]
-
-                if (len(products) > 0 and curr_product_cat_limit < len(products)):
+                
+                if(len(products) > 0 and curr_product_cat_limit < len(products)):       
                     for i in range(curr_product_cat_limit, curr_product_cat_limit+3):
-                        # i, product in enumerate(products):
-                        if (i < len(products)):
+                    # i, product in enumerate(products):
+                        if(i < len(products)):
                             product = products[i]
-                        if (product.get("code") is not None):
-                            dispatcher.utter_message(
-                                text=str(i+1) + "- Barcode is " + product['code'])
-                        if (product.get("image_url") is not None):
-                            dispatcher.utter_message(
-                                image=product['image_url'])
-                        if (product.get("product_name") is not None):
-                            dispatcher.utter_message(
-                                text="Product Name is " + product['product_name'])
-                        if (product.get("labels") is not None):
-                            dispatcher.utter_message(
-                                text="Product Labels: " + product['labels'])
-                        if (product.get("nutriscore_data") is not None and product['nutriscore_data'].get("score") is not None):
-                            dispatcher.utter_message(
-                                text="Nutrition score = " + product['nutriscore_data']['score'].__str__())
-                        if (product.get("nutriscore_grade") is not None):
-                            dispatcher.utter_message(
-                                text="Nutrition grade = " + product['nutriscore_grade'])
+                        if(product.get("code") is not None):
+                            dispatcher.utter_message(text=str(i+1) +"- Barcode is " + product['code'])
+                        if(product.get("image_url") is not None):
+                            dispatcher.utter_message(image=product['image_url'])
+                        if(product.get("product_name") is not None):
+                            dispatcher.utter_message(text="Product Name is " + product['product_name'])
+                        if(product.get("labels") is not None):
+                            dispatcher.utter_message(text= "Product Labels: " + product['labels'])
+                        if(product.get("nutriscore_data") is not None and product['nutriscore_data'].get("score") is not None):
+                            dispatcher.utter_message(text="Nutrition score = " + product['nutriscore_data']['score'].__str__())
+                        if(product.get("nutriscore_grade") is not None):
+                            dispatcher.utter_message(text="Nutrition grade = " + product['nutriscore_grade'])
                     gotProducts = True
 
-                    curr_product_cat_limit += 3
-                    product_cat_limit[productName] = curr_product_cat_limit
-
+                    curr_product_cat_limit += 3       
+                    product_cat_limit[productName] = curr_product_cat_limit     
+                                           
                     return [SlotSet("product_cat_limit", product_cat_limit), SlotSet("last_searched_product_name", productName)]
-
-            if (gotProducts == False):
-                url = "https://world.openfoodfacts.org/api/v2/search?brands_tags=" + \
-                    productName + ingredient_preference + "&sort_by=popularity_key"
+            
+            if(gotProducts == False):
+                url = "https://world.openfoodfacts.org/api/v2/search?brands_tags="+ productName + ingredient_preference+ "&sort_by=popularity_key"
 
                 # Send GET request
                 response = requests.get(url)
 
                 # Check if the request was successful
                 if response.status_code == 200:
-
+                    
                     data = response.json()
 
                     products = data["products"]
 
-                    if (len(products) > 0 and curr_product_cat_limit < len(products)):
+                    if(len(products) > 0 and curr_product_cat_limit < len(products)):       
                         for i in range(curr_product_cat_limit, curr_product_cat_limit+3):
-                            # i, product in enumerate(products):
-                            if (i < len(products)):
+                        # i, product in enumerate(products):
+                            if(i < len(products)):
                                 product = products[i]
-                            if (product.get("code") is not None):
-                                dispatcher.utter_message(
-                                    text=str(i+1) + "- Barcode is " + product['code'])
-                            if (product.get("image_url") is not None):
-                                dispatcher.utter_message(
-                                    image=product['image_url'])
-                            if (product.get("product_name") is not None):
-                                dispatcher.utter_message(
-                                    text="Product Name is " + product['product_name'])
-                            if (product.get("labels") is not None):
-                                dispatcher.utter_message(
-                                    text="Product Labels: " + product['labels'])
-                            if (product.get("nutriscore_data") is not None and product['nutriscore_data'].get("score") is not None):
-                                dispatcher.utter_message(
-                                    text="Nutrition score = " + product['nutriscore_data']['score'].__str__())
-                            if (product.get("nutriscore_grade") is not None):
-                                dispatcher.utter_message(
-                                    text="Nutrition grade = " + product['nutriscore_grade'])
+                            if(product.get("code") is not None):
+                                dispatcher.utter_message(text=str(i+1) +"- Barcode is " + product['code'])
+                            if(product.get("image_url") is not None):
+                                dispatcher.utter_message(image=product['image_url'])
+                            if(product.get("product_name") is not None):
+                                dispatcher.utter_message(text="Product Name is " + product['product_name'])
+                            if(product.get("labels") is not None):
+                                dispatcher.utter_message(text= "Product Labels: " + product['labels'])
+                            if(product.get("nutriscore_data") is not None and product['nutriscore_data'].get("score") is not None):
+                                dispatcher.utter_message(text="Nutrition score = " + product['nutriscore_data']['score'].__str__())
+                            if(product.get("nutriscore_grade") is not None):
+                                dispatcher.utter_message(text="Nutrition grade = " + product['nutriscore_grade'])
 
-                        curr_product_cat_limit += 3
-                        product_cat_limit[productName] = curr_product_cat_limit
+                        curr_product_cat_limit += 3       
+                        product_cat_limit[productName] = curr_product_cat_limit                            
                         return [SlotSet("product_cat_limit", product_cat_limit), SlotSet("last_searched_product_name", productName)]
-
-        dispatcher.utter_message(text="Sorry, I could not find that product!")
+    
+        dispatcher.utter_message(text="Sorry, I could not find that product!")   
         return []
-
-
 class answerAboutProductPropertyByBarcode(Action):
     def name(self) -> Text:
         return "action_answer_about_product_property_by_barcode"
 
     async def run(self, dispatcher: CollectingDispatcher,
-                  tracker: Tracker,
-                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
 
         barcode = None
         property = None
@@ -440,94 +283,79 @@ class answerAboutProductPropertyByBarcode(Action):
                 property = entity["value"]
 
         # API endpoint
-        if (barcode is not None and property is not None):
+        if(barcode is not None and property is not None):
             # "https://world.openfoodfacts.org/api/v2/search?labels_tags="+property+"&sort_by=popularity_key"
-            url = 'https://world.openfoodfacts.org/api/v2/product/'+barcode+'.json'
+            url = 'https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json'
 
             # Send GET request
             response = requests.get(url)
 
             # Check if the request was successful
             if response.status_code == 200:
-
+                
                 product = response.json()['product']
-                product_name = ""
+                product_name = ""            
 
-                if (product.get("_id") is not None and product["_id"] == barcode):
-                    if (product.get("product_name") is not None):
+                if(product.get("_id") is not None and product["_id"] == barcode):
+                    if(product.get("product_name") is not None):
                         product_name = product['product_name']
 
-                    if (product.get("labels") is not None):
+                    if(product.get("labels") is not None):
                         labels = product['labels'].split(',')
-                        stripped_labels = [word.strip().lower()
-                                           for word in labels]
+                        stripped_labels = [word.strip().lower() for word in labels]
 
-                        if (property.lower() in stripped_labels):
-                            dispatcher.utter_message(
-                                text=product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
+                        if(property.lower() in stripped_labels):
+                            dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" +  " has " + property + " ingredients")
                             return []
-
-                    if (product.get("labels_old") is not None):
+                        
+                    if(product.get("labels_old") is not None):
                         labels = product['labels_old'].split(',')
-                        stripped_labels = [word.strip().lower()
-                                           for word in labels]
+                        stripped_labels = [word.strip().lower() for word in labels]
 
-                        if (property.lower() in stripped_labels):
-                            dispatcher.utter_message(
-                                text=product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
+                        if(property.lower() in stripped_labels):
+                            dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
                             return []
 
-                    if (product.get("ingredients_analysis_tags") is not None):
+                    if(product.get("ingredients_analysis_tags") is not None):
                         labels = product['ingredients_analysis_tags']
-                        stripped_labels = [word.strip().lower()
-                                           for word in labels]
+                        stripped_labels = [word.strip().lower() for word in labels]
 
                         for label in stripped_labels:
-                            if (property.lower() in label and 'no' not in label):
-                                dispatcher.utter_message(
-                                    text=product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
+                            if(property.lower() in label and 'no' not in label):
+                                dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients") 
+                                return []                                            
+                            elif(property.lower() in label and 'no' in label):
+                                dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" +  " has no " + property + " ingredients")
                                 return []
-                            elif (property.lower() in label and 'no' in label):
-                                dispatcher.utter_message(
-                                    text=product_name + " ( barcode: " + barcode + " )" + " has no " + property + " ingredients")
-                                return []
-                    if (product.get("ingredients_tags") is not None):
+                    if(product.get("ingredients_tags") is not None):
                         labels = product['ingredients_tags']
-                        stripped_labels = [word.strip().lower()
-                                           for word in labels]
+                        stripped_labels = [word.strip().lower() for word in labels]
 
                         for label in stripped_labels:
-                            if (property.lower() in label and 'no' not in label):
-                                dispatcher.utter_message(
-                                    text=product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
+                            if(property.lower() in label and 'no' not in label):
+                                dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients") 
+                                return []                                            
+                            elif(property.lower() in label and 'no' in label):
+                                dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" +  " has no " + property + " ingredients")
                                 return []
-                            elif (property.lower() in label and 'no' in label):
-                                dispatcher.utter_message(
-                                    text=product_name + " ( barcode: " + barcode + " )" + " has no " + property + " ingredients")
-                                return []
-
-                    if (product.get("traces_hierarchy") is not None):
+                            
+                    if(product.get("traces_hierarchy") is not None):
                         labels = product['traces_hierarchy']
-                        stripped_labels = [word.strip().lower()
-                                           for word in labels]
+                        stripped_labels = [word.strip().lower() for word in labels]
 
                         for label in stripped_labels:
-                            if (property.lower() in label and 'no' not in label):
-                                dispatcher.utter_message(
-                                    text=product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
+                            if(property.lower() in label and 'no' not in label):
+                                dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients") 
+                                return []                                            
+                            elif(property.lower() in label and 'no' in label):
+                                dispatcher.utter_message(text= product_name + " ( barcode: " + barcode + " )" +  " has no " + property + " ingredients")
                                 return []
-                            elif (property.lower() in label and 'no' in label):
-                                dispatcher.utter_message(
-                                    text=product_name + " ( barcode: " + barcode + " )" + " has no " + property + " ingredients")
-                                return []
-
-                        dispatcher.utter_message(text="Sorry, I don't know if " + product_name +
-                                                 " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
+                                            
+                        dispatcher.utter_message(text= "Sorry, I don't know if " + product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
                         return []
-
-        dispatcher.utter_message(text="Sorry, I did not get that property!")
-        return []
-
+        
+        dispatcher.utter_message(text="Sorry, I did not get that property!")   
+        return []    
 
 class getProductAnimalFriendlinessInfo(Action):
     def name(self) -> Text:
