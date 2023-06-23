@@ -292,20 +292,16 @@ stories:
     steps:
       - action: utter_stop_compare_or_know_more_about_the_result
       - intent: stop_comparing_and_clear_comparison_history
+      - action: action_stop_comparing_and_clear_compare_history
+      - action: action_deactivate_loop
+      - active_loop: null
+      - action: utter_greet
 
   - story: compare multiple products - after run compare, know more about the comparison result
     steps:
       - action: utter_stop_compare_or_know_more_about_the_result
       - intent: know_more_about_comparison_result
       - action: utter_specify_question
-
-  - story: compare multiple products - stop comparison intent detect, ask if stop or continue, stop
-    steps:
-      - intent: stop_comparing_and_clear_comparison_history
-      - action: action_stop_comparing_and_clear_compare_history
-      - action: action_deactivate_loop
-      - active_loop: null
-      - action: utter_greet
 
   - story: compare multiple products - all barcodes provided at beginning
     steps:
