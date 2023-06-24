@@ -1,9 +1,14 @@
-
 from docx import Document
 import openai
 import tiktoken
 import os
-from itertools import islice
+import pandas as pd
+import numpy as np
+from dotenv import load_dotenv
+from openai.embeddings_utils import get_embedding, cosine_similarity
+
+load_dotenv('.env')
+openai.api_key=os.environ.get('OPENAI_API_KEY')
 
 # Embedding model. Currently recommended version. 
 EMBEDDING_MODEL = 'text-embedding-ada-002'
@@ -59,10 +64,8 @@ class TextEmbedder:
             encoded_text = encoding.encode(text)
 
             # Split the text into chunks based on max_token_length
-            # TODO: find a solution to chunk the document semantically, i.e. in semantic regions. 
+            # TODO: find a solution to chunk the document semantically, i.e. semantic segmentations. 
             encoded_chunks = [encoded_text[i:i + max_token_length] for i in range(0, len(encoded_text), max_token_length)]
-
-            print(len(encoded_chunks[2]))
             
             # Create the output directory if it doesn't exist
             os.makedirs(self.output_dir, exist_ok=True)
@@ -74,27 +77,61 @@ class TextEmbedder:
                 output_file = os.path.join(self.output_dir, f'report_chunk_{i}.txt')
                 with open(output_file, 'w', encoding='utf-8') as file:
                     file.write(decoded_text)  
-    
-    def embed_chunks(self):
-        # TODO: Save the chunks that include the embeddings together with the texts they embed. Check out the part in the wikipedia notebook.  
-        pass
 
-# Chunk the data into txt files of token length
-    
-# Location where the txt format of the report should be saved. 
-txt_file = 'data/sustainability_report.txt'
-docx_file: str = 'data/FiBL-Bericht_Basiskonzept-KErn-final_en_preprocessed.docx'
-chunked_txt_dir = 'data/sustainability_report_chunks'
-preprocessor = Preprocessor(docx_file=docx_file)
-# No preprocessing is needed.
-# preprocessor.preprocess()
+    def embed_chunks(self, embeddings_file):
+        df = pd.DataFrame(columns=["text", "embedding"])
+        for filename in os.listdir(self.output_dir):
+            file_path = os.path.join(self.output_dir, filename)
+            if os.path.isfile(file_path):
+                with open(file_path, 'r', encoding='utf-8') as file:
+                    text = file.read()
 
-# chunk the report
-embedder = TextEmbedder(txt_file=txt_file, output_dir='data/report_chunks')
-# Setting the chunk size to be half of the max of the chat completion length. 
-# The reason is because the max length is equal to query + knowledge base + response. 
-chunk_size = int(CHAT_COMPLETION_CTX_LENGTH/2)
-embedder.chunk_text(EMBEDDING_ENCODING, chunk_size)
+                    embedding = openai.Embedding.create(
+                        input=text, 
+                        model=EMBEDDING_MODEL
+                    )['data'][0]['embedding']
+
+                    # append new embedding
+                    print(f'the text: {text}\n')
+                    print(f'The embedding: {embedding}')
+                    df = df.append({'text': text, 'embedding': embedding}, ignore_index=True)
+
+        # save the embedding with the corresponding text
+        df.to_csv(embeddings_file, index=False, mode='w')
+
+    def search_chunks(self, embeddings_file, query, k=3, pprint=True):
+        """
+        This function provides semantic search using embeddings.
+        Search the chunks and find the k most similar chunks based on the query.
+        """
+        df = pd.read_csv(embeddings_file)
+        df["embedding"] = df.embedding.apply(eval).apply(np.array)
+        query_embedding = get_embedding(
+            query, 
+            engine=EMBEDDING_MODEL
+        )
+
+        # Apply cosine similarity to find the k most similar chunks. 
+        df["similarity"] = df.embedding.apply(lambda x: cosine_similarity(x, query_embedding))
+        
+        results = (
+        df.sort_values("similarity", ascending=False)
+        .head(k)
+        # .combined.str.replace("Title: ", "")
+        # .str.replace("; Content:", ": ")
+        )
+
+        # todo: combine the strings
+        
+        # print results
+        if pprint:
+            for r in results:
+                print(r[:200])
+                print()
+        
+        return results
+
+
 
 
     
