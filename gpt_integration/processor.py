@@ -22,9 +22,26 @@ class Preprocessor:
     This class is used for preprocessing DOCX documents and chunking them into separate text files.
     """
     def __init__(self, docx_file):
+        """
+        Initialize the Preprocessor object.
+
+        Args:
+            docx_file (str): Path to the DOCX file to be processed.
+
+        """
         self.docx_file = docx_file
 
     def convert_docx_to_txt(self, txt_file='data/sustainability_report.txt'):
+        """
+        Convert the DOCX file to TXT format.
+
+        Args:
+            txt_file (str): Path to the output TXT file.
+
+        Returns:
+            None
+
+        """
         # Open the DOCX file
         doc = Document(self.docx_file)
 
@@ -37,10 +54,15 @@ class Preprocessor:
     
     def preprocess(self):
         """
-        The method preprocesses the data. 
-        The preprocessing pipeline can be expanded by adding additional function calls. 
+        Preprocess the data.
+
+        The preprocessing pipeline can be expanded by adding additional function calls.
+
+        Returns:
+            None
+
         """
-        print(f'Preprocessing  of {self.docx_file} initiated...')
+        print(f'Preprocessing of {self.docx_file} initiated...')
         self.convert_docx_to_txt()
         print('Preprocessing done.')
 
@@ -53,83 +75,147 @@ class TextEmbedder:
         self.txt_file = txt_file
         self.output_dir = output_dir
 
-    def chunk_text(self, encoding_name, max_token_length):
-        with open(self.txt_file, 'r', encoding='utf-8') as file:
-            text = file.read()
+def chunk_text(self, encoding_name, max_token_length):
+    """
+    Chunk the text into smaller segments based on the maximum token length.
 
-            # get encoding and the strings in token lengths
-            encoding = tiktoken.get_encoding(encoding_name)
+    Args:
+        encoding_name (str): Name of the encoding to use for tokenization.
+        max_token_length (int): Maximum length of tokens allowed in each chunk.
 
-            # convert the text into tokens
-            encoded_text = encoding.encode(text)
+    Returns:
+        None
 
-            # Split the text into chunks based on max_token_length
-            # TODO: find a solution to chunk the document semantically, i.e. semantic segmentations. 
-            encoded_chunks = [encoded_text[i:i + max_token_length] for i in range(0, len(encoded_text), max_token_length)]
-            
-            # Create the output directory if it doesn't exist
-            os.makedirs(self.output_dir, exist_ok=True)
+    """
+    # Open the text file for reading
+    with open(self.txt_file, 'r', encoding='utf-8') as file:
+        text = file.read()
 
-            for i, chunk in enumerate(encoded_chunks):
-                print(f'chunk {i} is of length: {len(chunk)}\n')
-                # decoded text
-                decoded_text = encoding.decode(chunk)
-                output_file = os.path.join(self.output_dir, f'report_chunk_{i}.txt')
-                with open(output_file, 'w', encoding='utf-8') as file:
-                    file.write(decoded_text)  
+        # Get the encoding and the strings in token lengths
+        encoding = tiktoken.get_encoding(encoding_name)
+
+        # Convert the text into tokens using the specified encoding
+        encoded_text = encoding.encode(text)
+
+        # Split the text into chunks based on the maximum token length
+        # TODO: Find a solution to chunk the document semantically, i.e., semantic segmentations.
+        encoded_chunks = [encoded_text[i:i + max_token_length] for i in range(0, len(encoded_text), max_token_length)]
+
+        # Create the output directory if it doesn't exist
+        os.makedirs(self.output_dir, exist_ok=True)
+
+        # Iterate over the encoded chunks and write them to separate files
+        for i, chunk in enumerate(encoded_chunks):
+            print(f'Chunk {i} is of length: {len(chunk)}\n')
+            # Decode the chunk into text
+            decoded_text = encoding.decode(chunk)
+            output_file = os.path.join(self.output_dir, f'report_chunk_{i}.txt')
+            with open(output_file, 'w', encoding='utf-8') as file:
+                file.write(decoded_text)  
 
     def embed_chunks(self, embeddings_file):
+        """
+        Embeds the chunks of text and saves the embeddings with the corresponding text to a CSV file.
+
+        Args:
+            embeddings_file (str): Path to the output CSV file to save the embeddings.
+
+        Returns:
+            None
+
+        """
+        # Create an empty DataFrame to store the text and embeddings
         df = pd.DataFrame(columns=["text", "embedding"])
+
+        # Iterate over the files in the output directory
         for filename in os.listdir(self.output_dir):
             file_path = os.path.join(self.output_dir, filename)
+
+            # Check if the file is a regular file
             if os.path.isfile(file_path):
+                # Open the file and read the text
                 with open(file_path, 'r', encoding='utf-8') as file:
                     text = file.read()
 
+                    # Generate the embedding for the text using the OpenAI Embedding API
                     embedding = openai.Embedding.create(
-                        input=text, 
+                        input=text,
                         model=EMBEDDING_MODEL
                     )['data'][0]['embedding']
 
-                    # append new embedding
-                    print(f'the text: {text}\n')
+                    # Append the text and embedding to the DataFrame
+                    print(f'The text: {text}\n')
                     print(f'The embedding: {embedding}')
                     df = df.append({'text': text, 'embedding': embedding}, ignore_index=True)
 
-        # save the embedding with the corresponding text
+        # Save the DataFrame to a CSV file
         df.to_csv(embeddings_file, index=False, mode='w')
 
     def search_chunks(self, embeddings_file, query, k=3, pprint=True):
         """
         This function provides semantic search using embeddings.
         Search the chunks and find the k most similar chunks based on the query.
+
+        Args:
+            embeddings_file (str): Path to the embeddings file.
+            query (str): The query string used for similarity search.
+            k (int, optional): The number of most similar chunks to retrieve. Defaults to 3.
+            pprint (bool, optional): Whether to print the results. Defaults to True.
+
+        Returns:
+            pandas.DataFrame: The DataFrame containing the k most similar chunks.
+
+        Todo:
+            - Combine the strings in the results.
+
         """
+        # Read the embeddings file into a DataFrame
         df = pd.read_csv(embeddings_file)
+
+        # Convert the 'embedding' column from string to numpy array
         df["embedding"] = df.embedding.apply(eval).apply(np.array)
+
+        # Get the embedding for the query
         query_embedding = get_embedding(
-            query, 
+            query,
             engine=EMBEDDING_MODEL
         )
 
-        # Apply cosine similarity to find the k most similar chunks. 
+        # Apply cosine similarity to find the k most similar chunks
         df["similarity"] = df.embedding.apply(lambda x: cosine_similarity(x, query_embedding))
-        
+
+        # Sort the DataFrame by similarity in descending order and retrieve the top k chunks
         results = (
-        df.sort_values("similarity", ascending=False)
-        .head(k)
-        # .combined.str.replace("Title: ", "")
-        # .str.replace("; Content:", ": ")
+            df.sort_values("similarity", ascending=False)
+            .head(k)
         )
 
-        # todo: combine the strings
-        
-        # print results
+        # TODO: Combine the strings in the results
+
+        # Print the results if pprint is True
         if pprint:
             for r in results:
                 print(r[:200])
                 print()
-        
+
         return results
+
+class QueryEngine():
+    def query(df, user_message):
+        """
+        Queries the knowledge base by providing the user message and concatenating the relevant text
+        from the knowledge base. 
+
+        Args:
+            df (pandas dataframe): contains the embeddings and texts as a dataframe.
+            
+        """
+
+
+    
+
+
+
 
 
 
