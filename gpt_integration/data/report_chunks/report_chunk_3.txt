@@ -1,35 +1,33 @@
-" (for ancillary processes or by-products) must be specified (cf. WBAE, 2020).
+ zelnes Product.
 
-In phase 3, the effects are summarized in environmental categories (life cycle assessment) and units of action converted. These categories include, for example, climate change, water or land use tongue. Also Effects on the human permit itself model.
+3) The WBAE model the sustainability
 
-In phase 4, a sensitivity analysis is performed, conclusions are drawn and recommendations are made derived (interpretation phase).
+A another Approach is the sustainability model of scientific Advisory Board for agricultural policy, nutritional tion and health consumer protection (WBAE) the federal government Germany.
 
-According to WBAE puts "the Agriculture however one special Challenge represent, there the definition of the system boundaries and the acquisition of data due to the differences between the companies and the terogenicity the primary production difficult are" (WBAE, 2020). The is called, the Agriculture or. the Country- use is through one height variability shaped. Besides that gives it for different production process Data gaps that can only be filled with estimates. This makes the challenge gene and complexity one LCA clearly.
+The WBAE approach consists out of four Dimensions: Environment, social, Health and animal welfare.
 
-product Environment footprints (PEF)
+Health: One health-promoting Nourishment, the to one higher Life expectancy, more healthy years of life and more wellbeing for all contributes.
 
+social: One Nourishment, the social minimum standards along from value chains ge guarantees.
 
-A more comparable Approach for the LCA is the PEF method (product Environment footprint). The PEF is a multi-criteria method for life-cycle-based modeling and assessment of environmental effects, the through occurring Material- and energy flows (inputs) as well as the associated emissions
+Environment: An environmentally friendly and climate-friendly diet that is part of the medium and long-term sustainability goals of Germany fits.
 
+Animal welfare: A diet that supports more animal welfare and thus the changing ethical s claims the Company just becomes.
 
 
 
 
-and waste streams (outputs) in the manufacture of products and the provision of services, arise hen” (Finkbeiner, 2018). [Note: Products are not just about food]. The difference to the LCA is the target group of the approach: The PEF is not only used for internal project and process optimization, but is also “oriented towards communication, business-to-business (B2B) or business-to-consumer (B2C) (ibid.). Full development and Assessment of PEFs as political or independent instruments in the transition phase. From this Ground becomes not closer responded to.
 
-cradle to cradle
 
 
-The principle of "Cradle to cradle (C2C)” strives thereafter, a positive footprint to leave behind. This principle follows to the Approach one continuous and consistent circular economy (in the contrast to "cradle to grave"). This means that the cradle to cradle approach evaluates the entire life cycle of a product ducts. This cycle "From the cradle to the cradle" describes "the secure and potentially infinite zir cultion of materials and nutrients in cycles. All ingredients are harmless and executable. Garbage in today's sense, as created by the "take-make-waste" model, does not exist more, but only usable nutrients” (EPEA, 2021). Cradle to cradle " promotes diversity and supports regional approaches . In the meantime gives it also a C2C product standard the also social standards taken into account" (ibid.).
+The dimensions were set up for the sustainable action of the individual/consumer and from view one healthy Nourishment. The individual rating levels are however not simply combinable, In some cases, conflicting goals can also arise between individual levels – but synergies can also arise. To the WBAE approach lacks the economic dimension and the dimension of corporate management/management delve , ie a (sustainable) Act of producers/companies becomes not taken into account.
 
-Eco score
 
+In the individual dimensions, the WBAE defined it itself none sustainability criteriareport describes subject areas that are considered, but Are , the measurable are.
 
-The calculation of eco score, one more comprehensive assessment tool, based on the life cycle analysis sen (LCA) for 2,500 product categories by the French state agency for ecological transition (Ademe) together with the French Research Institute of Agriculture, Food and Environment (Inrae) in the Agribalyse database. However, only standard ted CO 2 production data (plus bonuses or. less penalties) used. At the Eco score acts it This is a so-called Front of Pack (FOP) label , an identification on the front of packaged food.
 
-The Eco-Score evaluates the environmental properties of a food, ie it records which environmental world footprint a product has. So gives it 16 categories, the at the Evaluation of product one role play:
+Example social: Existing approaches were described, but not critical rated.
 
-climate change
 
 
 
@@ -39,183 +37,33 @@ climate change
 
 
 
-ozone depletion
 
-For the People poisonous: carcinogenic
 
-For the People poisonous: non-carcinogenic
 
-particulate matter
 
-ionizing radiation
 
-photochemical Education from ozone
 
-acidification
 
-terrestrial eutrophication
 
-aquatic eutrophication the seas
 
-aquatic eutrophication from Freshwater
 
-ecotoxicity
 
-land use
 
-water use
 
-use fossil fuels
 
-Raw material consumption: minerals and metals
 
-The rating scale contains five stages from A until E A Groceries with the Evaluation A has one low low impact on the environment and a product rated E has a high impact on the environment. In addition, plus or minus points can be awarded through certain other criteria. be collected. For example, with sustainability labels such as "Demeter" and "Bio" plus points or through one not sustainable Packaging minuses to be collected.
 
-the fact that life cycle analyzes are used as a basis causes criticism . life cycle analysis According to one accusation, people prefer products from intensive agriculture. In addition the imported Groceries at the Eco score not worse away as local produced (food news, 2021).
 
-Besides that recorded the Eco score subjects How Biodiversity, animal welfare or Mission from crop protection teln (PSM) not directly. However, these aspects are increasingly being viewed by consumers as information to the Evaluation the sustainability one product desired.
 
 
-Product Comparisons with different results
 
-Below is an example of a different Eco-Score rating with one and the same- ben product shown. Data for the indicators of the Eco-Score is mainly provided by the manufacturers of the Products. For this reason the data is not always complete. Received in the following example a and the same thing product two different scores, once the Eco score D and once the Value C
 
 
 
 
+Advantages and disadvantages of this approach: Dietary behavior and health issues are considered intensively, but there are weaknesses, e.g. in the environmental dimension, since production on processes not sufficiently rated become.
 
 
+SDGs
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-A component of Eco score is, How described, one Life Cycle Analysis. This includes the phases (p.
-
-Illustration):
-
-Agriculture
-
-processing
-
-kind the Packaging
-
-transport
-
-distribution
-
-consumption
-
-The life cycle assessment of both products is 54 out of 100. The PEF (environmental footprint) 0.13, the Effects on the climate change (CO 2 footprint): 1.49 kg CO 2 .eq/kg Product. Additional bonuses and penalties can the products in the following areas receive:
-
-production method eg organic, fair traded Etc.
-
-Origin the Ingredients, environmental policy and transport
-
-threatened species
-
-kind the Packaging
-
-Both products get deductions in environmental policy (-5 points) and in the type of packaging (- 15 points). The product on the right gets 15 points for production according to the EU organic regulation. This Points are offset against the life cycle assessment. Since the production method for the product on the left (out of unknown Found) not taken into account became, cuts be Eco score worse away – at otherwise same score. With it is missing for a and same product one clear assessment statement.
-
-Around the weaknesses of Eco score to clarify become in the following two different Products considered with the same result for the Eco-Score. Again, no full calculation could be made of Eco scores take place. Therewith receive both Products a bad Eco score. In both cases became
-
-
-
-
-
-
-
-the production method not taken into account, What but out of view one holistic point of view emergency would be necessary, since aspects such as biodiversity or animal welfare were not taken into account. Also show Dien von Antony (2021) that in extensive dairy cow farming this is possible with a complete LCA nope good cut off How in an intensive mode of production.
-
-In order to make a correct statement as to how the Eco-Score differentiates between different production methods, EU organic, association organic or additional aspects such as fair and regional or not, For example, would it make sense to compare the following dairy products that cover these different aspects content: Upländer farm dairy, Arla organic pasture milk and Hamfelder Hof fresh milk. All three Dairy products became biological produced.
-
-uplander Milk: certified fair milk after Bioland standard
-
-Arla: organic pasture milk after EU organic regulation
-
-Hamfelder court organic fresh milk – after Bioland standard
-
-Production or animal welfare/animal husbandry: Arla advertises grazing. Should the milk actually come from nemark, grazing for the animals would be (more or less) obligatory - also because of of the organic logo. Pasture husbandry can also be used for Upländer milk and organic fresh milk Animals went out become. This is according to Bioland standard required. Simultaneously is the Expression
-
-"Pasture milk" not defined or protected under food law (Lower Saxony Consumer Advice Centre, 2021). How the study of Federal Environment Agency (UBA) shows, hang the environmental impacts one pasture (e.g. GHG pollution) including with the regional conditions (possibilities for the feed building and for grazing) and the others feeding together (Antony, 2021).
-
-Processing: Both Upländer and Arla milk were processed in this way (including heat is) that they have a longer shelf life (so-called ESL milk). The organic fresh milk from the Hamfelder Hof became at the least processed.
-
-Packaging: All three dairy products are packaged in a Tetrapak whose environmental impact gene considered controversial become.
-
-Transport: Arla milk may have to travel a long way. This depends on where the milk comes from. At the Hamfelder court fresh milk acts it itself around one local produced Milk. The carbon footprint _ in Relation on the transportation is so very different.
-
-
-
-
-
-Marketing: Upländer Milch is mainly marketed regionally (Hesse), Arla is nationally so far marketed and Hamfelder court fresh milk becomes expected rather local marketed.
-
-social: Behind the Upländer milk stands one Cooperative. Besides that is she as fair marked draws. The Hamfelder Hof also stands for a smaller production company. Whether and in which Scope social criteria at Arla a role play, becomes not apparent.
-
-
-planet score
-
-
-A news Approach is the 2021 in France developed planet score (Protillapro.com, 2021). This based based on an LCA approach, but also takes into account the use of plants in food production zen protection agents, climate effects, biodiversity and animal welfare . The label considers differences not only within one product category (e.g apples different Sorts) and different production on methods, but also differences between product categories (e
+At the political level, all UN members adopted the 2030 Agenda for Sustainable Development in 2015. lung. In it, 17 general sustainability goals , so-called Sustainable Development Goals, called SDGs for short. These goals are to be adopted by all developing, emerging and industrial rie states reached become, are indivisible and conditional each
