@@ -2,6 +2,7 @@ from docx import Document
 import openai
 import tiktoken
 import os
+import shutil
 import pandas as pd
 import numpy as np
 from dotenv import load_dotenv
@@ -12,7 +13,9 @@ openai.api_key=os.environ.get('OPENAI_API_KEY')
 
 # Embedding model. Currently recommended version. 
 EMBEDDING_MODEL = 'text-embedding-ada-002'
-CHAT_COMPLETION_CTX_LENGTH = 4096
+# Model used for the chat generation.
+GPT_MODEL = 'gpt-3.5-turbo'
+CHAT_COMPLETION_CTX_LENGTH = 4097
 # Define the query length in order to subtract from the maximum length the chunk can contain. 
 QUERY_LENGTH = 200
 EMBEDDING_ENCODING = 'cl100k_base'
@@ -75,43 +78,47 @@ class TextEmbedder:
         self.txt_file = txt_file
         self.output_dir = output_dir
 
-def chunk_text(self, encoding_name, max_token_length):
-    """
-    Chunk the text into smaller segments based on the maximum token length.
+    def chunk_text(self, encoding_name, max_token_length):
+        """
+        Chunk the text into smaller segments based on the maximum token length.
 
-    Args:
-        encoding_name (str): Name of the encoding to use for tokenization.
-        max_token_length (int): Maximum length of tokens allowed in each chunk.
+        Args:
+            encoding_name (str): Name of the encoding to use for tokenization.
+            max_token_length (int): Maximum length of tokens allowed in each chunk.
 
-    Returns:
-        None
+        Returns:
+            None
 
-    """
-    # Open the text file for reading
-    with open(self.txt_file, 'r', encoding='utf-8') as file:
-        text = file.read()
+        """
+        # Open the text file for reading
+        with open(self.txt_file, 'r', encoding='utf-8') as file:
+            text = file.read()
 
-        # Get the encoding and the strings in token lengths
-        encoding = tiktoken.get_encoding(encoding_name)
+            # Get the encoding and the strings in token lengths
+            encoding = tiktoken.get_encoding(encoding_name)
 
-        # Convert the text into tokens using the specified encoding
-        encoded_text = encoding.encode(text)
+            # Convert the text into tokens using the specified encoding
+            encoded_text = encoding.encode(text)
 
-        # Split the text into chunks based on the maximum token length
-        # TODO: Find a solution to chunk the document semantically, i.e., semantic segmentations.
-        encoded_chunks = [encoded_text[i:i + max_token_length] for i in range(0, len(encoded_text), max_token_length)]
+            # Split the text into chunks based on the maximum token length
+            # TODO: Find a solution to chunk the document semantically, i.e., semantic segmentations.
+            encoded_chunks = [encoded_text[i:i + max_token_length] for i in range(0, len(encoded_text), max_token_length)]
 
-        # Create the output directory if it doesn't exist
-        os.makedirs(self.output_dir, exist_ok=True)
+            # Overwrite the directory if it exists
+            if os.path.exists(self.output_dir):
+                shutil.rmtree(self.output_dir)
 
-        # Iterate over the encoded chunks and write them to separate files
-        for i, chunk in enumerate(encoded_chunks):
-            print(f'Chunk {i} is of length: {len(chunk)}\n')
-            # Decode the chunk into text
-            decoded_text = encoding.decode(chunk)
-            output_file = os.path.join(self.output_dir, f'report_chunk_{i}.txt')
-            with open(output_file, 'w', encoding='utf-8') as file:
-                file.write(decoded_text)  
+            # Create the output directory
+            os.makedirs(self.output_dir, exist_ok=True)
+
+            # Iterate over the encoded chunks and write them to separate files
+            for i, chunk in enumerate(encoded_chunks):
+                print(f'Chunk {i} is of length: {len(chunk)}\n')
+                # Decode the chunk into text
+                decoded_text = encoding.decode(chunk)
+                output_file = os.path.join(self.output_dir, f'report_chunk_{i}.txt')
+                with open(output_file, 'w', encoding='utf-8') as file:
+                    file.write(decoded_text)  
 
     def embed_chunks(self, embeddings_file):
         """
@@ -201,7 +208,7 @@ def chunk_text(self, encoding_name, max_token_length):
         return results
 
 class QueryEngine():
-    def query(df, user_message):
+    def query(self, df, user_message, max_num_sentences, max_num_words):
         """
         Queries the knowledge base by providing the user message and concatenating the relevant text
         from the knowledge base. 
@@ -210,6 +217,32 @@ class QueryEngine():
             df (pandas dataframe): contains the embeddings and texts as a dataframe.
             
         """
+        # concatenate the texts from the df together. 
+        concatenated_kb = df['text'].str.cat(sep="Chunk: ")
+
+        print('The concatenated knowledge base: \n', concatenated_kb)
+
+        # System message
+        role_content = f"""
+        Answer the user query using information from the knowledge based provided as chunks.
+        Limit your answer to {max_num_sentences} sentences and up to 20 words in length.
+        """
+
+        # Delimiter between the user message and the knowledge base. 
+        delimiter = "Below are the chunks used as the knowledge based:\n"
+
+        messages = [{"role": "system", "content": role_content},
+            {"role": "user", "content": user_message + delimiter + concatenated_kb}]
+        
+        print('The user content: ', user_message + delimiter + concatenated_kb)
+
+        response = openai.ChatCompletion.create(
+            model = GPT_MODEL, 
+            messages=messages
+        )
+
+        response_message = response["choices"][0]["message"]
+        return response_message
 
 
     
