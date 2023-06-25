@@ -171,10 +171,6 @@ class TextEmbedder:
 
         Returns:
             pandas.DataFrame: The DataFrame containing the k most similar chunks.
-
-        Todo:
-            - Combine the strings in the results.
-
         """
         # Read the embeddings file into a DataFrame
         df = pd.read_csv(embeddings_file)
@@ -196,9 +192,7 @@ class TextEmbedder:
             df.sort_values("similarity", ascending=False)
             .head(k)
         )
-
-        # TODO: Combine the strings in the results
-
+        
         # Print the results if pprint is True
         if pprint:
             for r in results:
