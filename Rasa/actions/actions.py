@@ -4,6 +4,8 @@
 # See this guide on how to implement these action:
 # https://rasa.com/docs/rasa/custom-actions
 
+import sys
+sys.path.append('C:/Users/maria/anaconda3/envs/KI-SusCheck-faq/Lib/site-packages')
 import torch
 from sentence_transformers import SentenceTransformer
 import numpy as np
@@ -16,12 +18,7 @@ from rasa_sdk.types import DomainDict
 from rasa_sdk.events import EventType
 import requests
 import json
-import sys
-# sys.path.append('C:/Users/maria/anaconda3/envs/rasa-faq/Lib/site-packages/torch/torch._C')
-sys.path.append(
-    'C:/Users/maria/anaconda3/envs/KI-SusCheck-faq/Lib/site-packages')
-# sentence embedding selection
-sentence_transformer_select = True
+
 # Refer: https://github.com/UKPLab/sentence-transformers/blob/master/docs/pretrained-models/nli-models.md
 pretrained_model = 'bert-base-nli-mean-tokens'
 score_threshold = 0.70  # This confidence scores can be adjusted based on your need!!
@@ -34,25 +31,18 @@ class ActionGetFAQAnswer(Action):
         super(ActionGetFAQAnswer, self).__init__()
         self.faq_data = json.load(
             open("./data/faq.json", "rt", encoding="utf-8"))
-        self.sentence_embedding_choose(
-            sentence_transformer_select, pretrained_model)
+        self.sentence_embedding_choose(pretrained_model)
         self.standard_questions_encoder = np.load(
             "./data/standard_questions.npy")
         self.standard_questions_encoder_len = np.load(
             "./data/standard_questions_len.npy")
         print(self.standard_questions_encoder.shape)
 
-    def sentence_embedding_choose(self, sentence_transformer_select=True, pretrained_model='bert-base-nli-mean-tokens'):
-        self.sentence_transformer_select = sentence_transformer_select
-        if sentence_transformer_select:
-            self.bc = SentenceTransformer(pretrained_model)
+    def sentence_embedding_choose(self, pretrained_model='bert-base-nli-mean-tokens'):
+        self.bc = SentenceTransformer(pretrained_model)
 
     def get_most_similar_standard_question_id(self, query_question):
-        if self.sentence_transformer_select:
-            query_vector = torch.tensor(
-                self.bc.encode([query_question])[0]).numpy()
-        else:
-            query_vector = self.bc.encode([query_question])[0]
+        query_vector = torch.tensor(self.bc.encode([query_question])[0]).numpy()
         print("Question received at action engineer")
         score = np.sum((self.standard_questions_encoder * query_vector), axis=1) / (
             self.standard_questions_encoder_len * (np.sum(query_vector * query_vector) ** 0.5))
@@ -101,23 +91,16 @@ class ActionGetFAQAnswer(Action):
         return []
 
 
-def encode_standard_question(sentence_transformer_select=True, pretrained_model='bert-base-nli-mean-tokens'):
+def encode_standard_question(pretrained_model='bert-base-nli-mean-tokens'):
     """
     This will encode all the questions available in question database into sentence embedding. The result will be stored into numpy array for comparision purpose.
     """
-    if sentence_transformer_select:
-        bc = SentenceTransformer(pretrained_model)
-    # else:
-    #     bc = BertClient(check_version=False)
+    bc = SentenceTransformer(pretrained_model)
     data = json.load(open("./data/faq.json", "rt", encoding="utf-8"))
     standard_questions = [each['q'] for each in data]
     print("Standard question size", len(standard_questions))
     print("Start to calculate encoder....")
-    if sentence_transformer_select:
-        standard_questions_encoder = torch.tensor(
-            bc.encode(standard_questions)).numpy()
-    # else:
-    #     standard_questions_encoder = bc.encode(standard_questions)
+    standard_questions_encoder = torch.tensor(bc.encode(standard_questions)).numpy()
     np.save("./data/standard_questions", standard_questions_encoder)
     standard_questions_encoder_len = np.sqrt(
         np.sum(standard_questions_encoder * standard_questions_encoder, axis=1))
@@ -319,9 +302,10 @@ class answerAboutProductPropertyByBarcode(Action):
                 barcode = entity["value"]
             elif entity["entity"] == "food_property":
                 property = entity["value"]
+                propertyFirst = property[0]
 
         # API endpoint
-        if (barcode is not None and property is not None):
+        if (barcode is not None and propertyFirst is not None):
             # "https://world.openfoodfacts.org/api/v2/search?labels_tags="+property+"&sort_by=popularity_key"
             url = 'https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json'
 
@@ -343,7 +327,7 @@ class answerAboutProductPropertyByBarcode(Action):
                         stripped_labels = [word.strip().lower()
                                            for word in labels]
 
-                        if (property.lower() in stripped_labels):
+                        if (propertyFirst.lower() in stripped_labels):
                             dispatcher.utter_message(
                                 text=product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
                             return []
@@ -353,7 +337,7 @@ class answerAboutProductPropertyByBarcode(Action):
                         stripped_labels = [word.strip().lower()
                                            for word in labels]
 
-                        if (property.lower() in stripped_labels):
+                        if (propertyFirst.lower() in stripped_labels):
                             dispatcher.utter_message(
                                 text=product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
                             return []
@@ -364,13 +348,13 @@ class answerAboutProductPropertyByBarcode(Action):
                                            for word in labels]
 
                         for label in stripped_labels:
-                            if (property.lower() in label and 'no' not in label):
+                            if (propertyFirst.lower() in label and ('no' not in label and 'free' not in label)):
                                 dispatcher.utter_message(
                                     text=product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
                                 return []
-                            elif (property.lower() in label and 'no' in label):
+                            elif (propertyFirst.lower() in label and ('no' in label or 'free' in label)):
                                 dispatcher.utter_message(
-                                    text=product_name + " ( barcode: " + barcode + " )" + " has no " + property + " ingredients")
+                                    text=product_name + " ( barcode: " + barcode + " )" + " has non-" + property + " ingredients")
                                 return []
                     if (product.get("ingredients_tags") is not None):
                         labels = product['ingredients_tags']
@@ -378,13 +362,13 @@ class answerAboutProductPropertyByBarcode(Action):
                                            for word in labels]
 
                         for label in stripped_labels:
-                            if (property.lower() in label and 'no' not in label):
+                            if (propertyFirst.lower() in label and ('no' not in label and 'free' not in label)):
                                 dispatcher.utter_message(
                                     text=product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
                                 return []
-                            elif (property.lower() in label and 'no' in label):
+                            elif (propertyFirst.lower() in label and ('no' in label or 'free' in label)):
                                 dispatcher.utter_message(
-                                    text=product_name + " ( barcode: " + barcode + " )" + " has no " + property + " ingredients")
+                                    text=product_name + " ( barcode: " + barcode + " )" + " has non-" + property + " ingredients")
                                 return []
 
                     if (product.get("traces_hierarchy") is not None):
@@ -393,13 +377,13 @@ class answerAboutProductPropertyByBarcode(Action):
                                            for word in labels]
 
                         for label in stripped_labels:
-                            if (property.lower() in label and 'no' not in label):
+                            if (propertyFirst.lower() in label and ('no' not in label and 'free' not in label)):
                                 dispatcher.utter_message(
                                     text=product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
                                 return []
-                            elif (property.lower() in label and 'no' in label):
+                            elif (propertyFirst.lower() in label and ('no' in label or 'free' in label)):
                                 dispatcher.utter_message(
-                                    text=product_name + " ( barcode: " + barcode + " )" + " has no " + property + " ingredients")
+                                    text=product_name + " ( barcode: " + barcode + " )" + " has non" + property + " ingredients")
                                 return []
 
                         dispatcher.utter_message(text="Sorry, I don't know if " + product_name +
