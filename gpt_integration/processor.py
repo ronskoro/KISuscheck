@@ -76,6 +76,7 @@ class TextEmbedder:
     """
     def __init__(self, txt_file, output_dir):
         self.txt_file = txt_file
+
         self.output_dir = output_dir
 
     def chunk_text(self, encoding_name, max_token_length):
@@ -158,6 +159,7 @@ class TextEmbedder:
         # Save the DataFrame to a CSV file
         df.to_csv(embeddings_file, index=False, mode='w')
 
+class QueryEngine():
     def search_chunks(self, embeddings_file, query, k=3, pprint=True):
         """
         This function provides semantic search using embeddings.
@@ -200,8 +202,7 @@ class TextEmbedder:
                 print()
 
         return results
-
-class QueryEngine():
+    
     def query(self, df, user_message, max_num_sentences, max_num_words):
         """
         Queries the knowledge base by providing the user message and concatenating the relevant text
