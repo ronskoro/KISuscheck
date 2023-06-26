@@ -8,6 +8,10 @@ rules:
   - intent: greet
   - action: utter_greet
 
+- rule: ask a faq
+  steps:
+  - intent: faq
+  - action: action_faq_get_answer
 
 - rule: Say goodbye anytime the user says goodbye
   steps:
@@ -20,4 +24,6 @@ rules:
   steps:
   - intent: bot_challenge
   - action: utter_iamabot
+
+
   

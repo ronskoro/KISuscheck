@@ -21,6 +21,7 @@ intents:
   - ask_about_product_property_by_barcode
   - ask_about_product_property_by_name
   - ask_about_animal_friendliness_of_product
+  - faq
 
 entities:
   - user_name
@@ -42,6 +43,17 @@ slots:
       - type: from_entity
         entity: user_name
         initial_value: ""
+    influence_conversation: false
+  product_cat_limit:
+    type: any
+    mappings:
+      - type: custom
+        initial_value: {}
+  last_searched_product_name:
+    type: any
+    mappings:
+      - type: custom
+        initial_value: {}
     influence_conversation: false
   barcode:
     type: text
@@ -121,6 +133,7 @@ actions:
   - utter_like_to_know_more
   - action_get_product_animal_friendliness_info
   - utter_specify_question
+  - action_faq_get_answer
 
 responses:
   # utter_greet: 
@@ -152,6 +165,9 @@ responses:
 
   utter_specify_question:
   - text: Sure. What would you like to know?
+
+  utter_ask_to_show_more_products:
+  - text: Would you like to see more products?
 
 session_config:
   session_expiration_time: 60

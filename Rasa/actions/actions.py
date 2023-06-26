@@ -10,6 +10,109 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.events import SlotSet
 import requests
 
+import numpy as np
+import sys
+# sys.path.append('C:/Users/maria/anaconda3/envs/rasa-faq/Lib/site-packages/torch/torch._C')
+sys.path.append('C:/Users/maria/anaconda3/envs/KI-SusCheck-faq/Lib/site-packages')
+import json
+import torch
+from sentence_transformers import SentenceTransformer
+
+# sentence embedding selection
+sentence_transformer_select=True
+pretrained_model='bert-base-nli-mean-tokens' # Refer: https://github.com/UKPLab/sentence-transformers/blob/master/docs/pretrained-models/nli-models.md
+score_threshold = 0.70  # This confidence scores can be adjusted based on your need!!
+
+# Custom Action
+
+class ActionGetFAQAnswer(Action):
+
+    def __init__(self):
+        print("ActionGetFAQAnswer init")
+        super(ActionGetFAQAnswer, self).__init__()
+        self.faq_data = json.load(open("./data/faq.json", "rt", encoding="utf-8"))
+        self.sentence_embedding_choose(sentence_transformer_select, pretrained_model)
+        self.standard_questions_encoder = np.load("./data/standard_questions.npy")
+        self.standard_questions_encoder_len = np.load("./data/standard_questions_len.npy")
+        print(self.standard_questions_encoder.shape)
+
+    def sentence_embedding_choose(self, sentence_transformer_select=True, pretrained_model='bert-base-nli-mean-tokens'):
+        self.sentence_transformer_select = sentence_transformer_select
+        if sentence_transformer_select:
+            self.bc = SentenceTransformer(pretrained_model)
+
+    def get_most_similar_standard_question_id(self, query_question):
+        if self.sentence_transformer_select:
+            query_vector = torch.tensor(self.bc.encode([query_question])[0]).numpy()
+        else:
+            query_vector = self.bc.encode([query_question])[0]
+        print("Question received at action engineer")
+        score = np.sum((self.standard_questions_encoder * query_vector), axis=1) / (
+                self.standard_questions_encoder_len * (np.sum(query_vector * query_vector) ** 0.5))
+        top_id = np.argsort(score)[::-1][0]
+        return top_id, score[top_id]
+
+    def name(self) -> Text:
+        return "action_faq_get_answer"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        query = tracker.latest_message['text']
+        # print(query)
+        most_similar_id, score = self.get_most_similar_standard_question_id(query)
+        print("The question is matched with id:{} with score: {}".format(most_similar_id,score))
+        if float(score) > score_threshold: # This confidence scores can be adjusted based on your need!!
+            response = self.faq_data[most_similar_id]['a']
+            dispatcher.utter_message(response)
+            if(self.faq_data[most_similar_id].get('img') is not None):
+                imgs = self.faq_data[most_similar_id]['img']
+                if(len(imgs)>0):
+                    for i in imgs:
+                        print(i)
+                        dispatcher.utter_message(image=i)
+            if(self.faq_data[most_similar_id].get('sources') is not None):
+                resources = self.faq_data[most_similar_id]['sources']
+                if(len(resources)>0):
+                    dispatcher.utter_message("You can find more information about this topic here: ")
+                    for i in resources:
+                        dispatcher.utter_message(i)
+                else:
+                    dispatcher.utter_message(resources)
+        
+            # dispatcher.utter_message("Problem solved?")
+        else:
+            response = "Sorry, this question is beyond my ability..."
+            print(response)
+            dispatcher.utter_message(response)
+            dispatcher.utter_message("Sorry, I can't answer your question. You can dial the manual service...")
+        return []
+
+
+def encode_standard_question(sentence_transformer_select=True, pretrained_model='bert-base-nli-mean-tokens'):
+    """
+    This will encode all the questions available in question database into sentence embedding. The result will be stored into numpy array for comparision purpose.
+    """
+    if sentence_transformer_select:
+        bc = SentenceTransformer(pretrained_model)
+    # else:
+    #     bc = BertClient(check_version=False)
+    data = json.load(open("./data/faq.json", "rt", encoding="utf-8"))
+    standard_questions = [each['q'] for each in data]
+    print("Standard question size", len(standard_questions))
+    print("Start to calculate encoder....")
+    if sentence_transformer_select:
+        standard_questions_encoder = torch.tensor(bc.encode(standard_questions)).numpy()
+    # else:
+    #     standard_questions_encoder = bc.encode(standard_questions)
+    np.save("./data/standard_questions", standard_questions_encoder)
+    standard_questions_encoder_len = np.sqrt(np.sum(standard_questions_encoder * standard_questions_encoder, axis=1))
+    np.save("./data/standard_questions_len", standard_questions_encoder_len)
+
+# encode_standard_question(sentence_transformer_select,pretrained_model)
+# x = ActionGetFAQAnswer()
+# x.run()
+
 class getProductInfoByBarcode(Action):
     def name(self) -> Text:
         return "action_get_product_info_by_barcode"
@@ -67,25 +170,41 @@ class getProductInfoByName(Action):
             if entity["entity"] == "food":
                 productName = entity["value"]
                 break
+        if(productName is None and tracker.get_slot("last_searched_product_name") is not None):
+            productName = tracker.get_slot("last_searched_product_name")
 
         # API endpoint
         if(productName is not None):
-            url = "https://world.openfoodfacts.org/api/v2/search?categories_tags="+productName+"&sort_by=popularity_key"
-
+            ingredient_preference = ""
+            allergen_preference = ""
+            if(tracker.get_slot("ingredient_preference") is not None):
+                ingredient_preference = "&labels_tags=" + ','.join(tracker.get_slot("ingredient_preference"))
+            if(tracker.get_slot("allergen_preference") is not None):
+                allergen_preference = "&allergens_tags=" + ','.join(tracker.get_slot("allergen_preference"))
+            url = "https://world.openfoodfacts.org/api/v2/search?categories_tags="+productName+ ingredient_preference + allergen_preference +"&sort_by=popularity_key"
+            print(url)
             # Send GET request
             response = requests.get(url)
 
+            product_cat_limit = tracker.get_slot("product_cat_limit")
+            if(product_cat_limit is None):     
+                product_cat_limit = {productName: 0}
+            elif(product_cat_limit.get(productName) is None): 
+                product_cat_limit[productName] = 0    
+            curr_product_cat_limit = product_cat_limit[productName]
+
             # Check if the request was successful
             if response.status_code == 200:
-                print("Success")
+                # print("Success")
                 data = response.json()
 
                 products = data["products"]
-
-                if(len(products) > 0):                   
-                    for i, product in enumerate(products):
-                        if i == 3:
-                            break
+                
+                if(len(products) > 0 and curr_product_cat_limit < len(products)):       
+                    for i in range(curr_product_cat_limit, curr_product_cat_limit+3):
+                    # i, product in enumerate(products):
+                        if(i < len(products)):
+                            product = products[i]
                         if(product.get("code") is not None):
                             dispatcher.utter_message(text=str(i+1) +"- Barcode is " + product['code'])
                         if(product.get("image_url") is not None):
@@ -99,10 +218,14 @@ class getProductInfoByName(Action):
                         if(product.get("nutriscore_grade") is not None):
                             dispatcher.utter_message(text="Nutrition grade = " + product['nutriscore_grade'])
                     gotProducts = True
-                    return []
+
+                    curr_product_cat_limit += 3       
+                    product_cat_limit[productName] = curr_product_cat_limit     
+                                           
+                    return [SlotSet("product_cat_limit", product_cat_limit), SlotSet("last_searched_product_name", productName)]
             
             if(gotProducts == False):
-                url = "https://world.openfoodfacts.org/api/v2/search?brands_tags="+productName+"&sort_by=popularity_key"
+                url = "https://world.openfoodfacts.org/api/v2/search?brands_tags="+ productName + ingredient_preference+ "&sort_by=popularity_key"
 
                 # Send GET request
                 response = requests.get(url)
@@ -114,10 +237,11 @@ class getProductInfoByName(Action):
 
                     products = data["products"]
 
-                    if(len(products) > 0):       
-                        for i, product in enumerate(products):
-                            if i == 3:
-                                break
+                    if(len(products) > 0 and curr_product_cat_limit < len(products)):       
+                        for i in range(curr_product_cat_limit, curr_product_cat_limit+3):
+                        # i, product in enumerate(products):
+                            if(i < len(products)):
+                                product = products[i]
                             if(product.get("code") is not None):
                                 dispatcher.utter_message(text=str(i+1) +"- Barcode is " + product['code'])
                             if(product.get("image_url") is not None):
@@ -130,7 +254,10 @@ class getProductInfoByName(Action):
                                 dispatcher.utter_message(text="Nutrition score = " + product['nutriscore_data']['score'].__str__())
                             if(product.get("nutriscore_grade") is not None):
                                 dispatcher.utter_message(text="Nutrition grade = " + product['nutriscore_grade'])
-                        return []
+
+                        curr_product_cat_limit += 3       
+                        product_cat_limit[productName] = curr_product_cat_limit                            
+                        return [SlotSet("product_cat_limit", product_cat_limit), SlotSet("last_searched_product_name", productName)]
     
         dispatcher.utter_message(text="Sorry, I could not find that product!")   
         return []
@@ -369,7 +496,14 @@ class ActionConfirmPreference(Action):
         msg = f"Ok, got it! I've updated your {preferences[preference_type]} to: {', '.join(current_values)}. Is this correct?"
         dispatcher.utter_message(text=msg)
 
-        return [SlotSet(preference_type, current_values)] 
+        product_cat_limit = tracker.get_slot("product_cat_limit")        
+        if(product_cat_limit is not None):
+            for key, val in product_cat_limit.items():
+                print(key, val)
+                product_cat_limit[key] = 0
+                print(key, product_cat_limit[key])
+
+        return [SlotSet(preference_type, current_values),SlotSet("product_cat_limit", product_cat_limit)] 
 class ActionPrintPreferences(Action):
     def name(self) -> Text:
         return "action_print_preferences"
@@ -407,4 +541,3 @@ class ActionPrintPreferences(Action):
             dispatcher.utter_message(text="Your preferences are: " + msg)
         
         return []
-
