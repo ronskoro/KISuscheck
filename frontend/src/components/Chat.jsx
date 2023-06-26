@@ -127,7 +127,10 @@ const Chat = () => {
                           {user.msg}
                         </a>
                       )
-                    ) : user.buttons ? (
+                    ) : (
+                      user.msg
+                    )}
+                    {user.buttons && (
                       <div className="space-x-2">
                         {user.buttons.map((button, key) => (
                           <button
@@ -142,8 +145,6 @@ const Chat = () => {
                           </button>
                         ))}
                       </div>
-                    ) : (
-                      user.msg
                     )}
                   </h5>
                 </div>
