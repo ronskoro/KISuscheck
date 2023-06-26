@@ -219,7 +219,7 @@ class QueryEngine():
         # System message
         role_content = f"""
         Answer the user query using information from the knowledge based provided as chunks.
-        Limit your answer to {max_num_sentences} sentences and up to 20 words in length.
+        Limit your answer to {max_num_sentences} sentences and up to {max_num_words} words in length.
         """
 
         # Delimiter between the user message and the knowledge base. 
