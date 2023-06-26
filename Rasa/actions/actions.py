@@ -17,6 +17,7 @@ sys.path.append('C:/Users/maria/anaconda3/envs/KI-SusCheck-faq/Lib/site-packages
 import json
 import torch
 from sentence_transformers import SentenceTransformer
+from gpt_integration.processor import TextEmbedder, QueryEngine
 
 # sentence embedding selection
 sentence_transformer_select=True
@@ -429,6 +430,7 @@ class getProductAnimalFriendlinessInfo(Action):
             return []
         dispatcher.utter_message(text="Oh I could not find that product! Please recheck that you entered it correctly.")
         return []
+    
 class ActionConfirmPreference(Action):
     def name(self) -> Text:
         return "action_confirm_preference"
@@ -504,6 +506,7 @@ class ActionConfirmPreference(Action):
                 print(key, product_cat_limit[key])
 
         return [SlotSet(preference_type, current_values),SlotSet("product_cat_limit", product_cat_limit)] 
+    
 class ActionPrintPreferences(Action):
     def name(self) -> Text:
         return "action_print_preferences"
@@ -534,6 +537,28 @@ class ActionPrintPreferences(Action):
             msg += ", \n" + ', '.join(label_preference)
         if env_preference is not None:
             msg += ", \n" + ', '.join(env_preference)
+        
+        if msg == "\n":
+            dispatcher.utter_message(text="You haven't specified any preferences yet.")
+        else: 
+            dispatcher.utter_message(text="Your preferences are: " + msg)
+        
+        return []
+    
+class ActionScanReport(Action):
+    def name(self) -> Text:
+        return "action_scan_report"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+                  tracker: Tracker,
+                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+        msg = tracker.latest_message.text
+        # 2. Search the corresponding documents
+
+        # 2. call the query function in processor.py
+
+
         
         if msg == "\n":
             dispatcher.utter_message(text="You haven't specified any preferences yet.")

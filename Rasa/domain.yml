@@ -22,6 +22,7 @@ intents:
   - ask_about_product_property_by_name
   - ask_about_animal_friendliness_of_product
   - faq
+  - scan_sustainability_report
 
 entities:
   - user_name
@@ -134,6 +135,7 @@ actions:
   - action_get_product_animal_friendliness_info
   - utter_specify_question
   - action_faq_get_answer
+  - action_scan_report
 
 responses:
   # utter_greet: 

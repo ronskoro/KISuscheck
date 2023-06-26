@@ -18,7 +18,10 @@ rules:
   - intent: goodbye
   - action: utter_goodbye
 
-
+- rule: answer questions based on the sustainability report
+  steps: 
+  - intent: scan_sustainability_report
+  - action: action_scan_report
 
 - rule: Say 'I am a bot' anytime the user challenges
   steps:
@@ -26,4 +29,4 @@ rules:
   - action: utter_iamabot
 
 
-  
+
