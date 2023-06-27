@@ -17,6 +17,8 @@ from rasa_sdk import Tracker, FormValidationAction, Action
 from typing import Text, Dict, Any, List
 import pandas as pd
 import numpy as np
+from gpt_integration.processor import QueryEngine
+import os
 from sentence_transformers import SentenceTransformer
 import torch
 
@@ -39,11 +41,11 @@ class getProductAnimalFriendlinessInfo(Action):
         palm_oil = 0.5
 
         # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
-        if (barcode is not None):
+        if(barcode is not None):
             response = requests.get(
                 'https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
-            if (response.status_code == 200 and response.json().get('product') is not None):
-                if (response.json()['product'].get("ingredients_analysis_tags") is not None):
+            if(response.status_code == 200 and response.json().get('product') is not None):
+                if(response.json()['product'].get("ingredients_analysis_tags") is not None):
                     for ing in response.json()['product'].get('ingredients_analysis_tags'):
                         if ("vegan" in ing.lower()):
                             if (ing == "en:vegan"):
@@ -156,7 +158,7 @@ class ActionConfirmPreference(Action):
         current_values = tracker.get_slot(preference_type) or []
 
         # extend the previous values with the current values without duplicates.
-        if (previous_value is not None):
+        if(previous_value is not None):
             [current_values.append(x)
              for x in previous_value if x not in current_values]
 
@@ -167,7 +169,7 @@ class ActionConfirmPreference(Action):
         dispatcher.utter_message(text=msg)
 
         product_cat_limit = tracker.get_slot("product_cat_limit")
-        if (product_cat_limit is not None):
+        if(product_cat_limit is not None):
             for key, val in product_cat_limit.items():
                 print(key, val)
                 product_cat_limit[key] = 0
@@ -887,4 +889,31 @@ class answerAboutProductPropertyByBarcode(Action):
                         return []
 
         dispatcher.utter_message(text="Sorry, I did not get that property!")
+        return []
+class ActionScanReport(Action):
+    def name(self) -> Text:
+        return "action_scan_report"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+                  tracker: Tracker,
+                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        print("The tracker object is: ", tracker.latest_message)
+        query = tracker.latest_message['text']
+
+        print('The API key is:', os.environ.get('OPENAI_API_KEY'))
+
+        embeddings_file = 'gpt_integration/embeddings.csv'
+        K_DOCS = 5
+
+        queryEngine = QueryEngine()
+        # search and return the 5 most similar documents
+        res = queryEngine.search_chunks(
+            embeddings_file=embeddings_file, query=query, k=K_DOCS, pprint=False)
+        # query
+        gpt_response = queryEngine.query(res, query, 2, 20)
+        text = gpt_response.content
+
+        dispatcher.utter_message(text=text)
+
         return []

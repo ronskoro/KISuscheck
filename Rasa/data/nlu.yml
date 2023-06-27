@@ -465,6 +465,99 @@ nlu:
   examples: |
     - can you purchase this product for me?
     - can you order this for me?Please compare the products:
+    - Please compare the products: 
+
+- intent: scan_sustainability_report
+  examples: |
+    - What are the different sustainability models?
+    - How does the SAFA Guidelines define sustainability and what dimensions does it consider?
+    - Who developed the Sustainability Flower model and what dimensions does it include?
+    - What are the four dimensions of the WBAE sustainability model?
+    - What is the WBAE model?
+    - What are the advantages and disadvantages of the WBAE approach?
+    - How do the Sustainable Development Goals (SDGs) relate to the evaluation of individual products' sustainability impact?
+    - What considerations should be taken into account when assessing the environmental dimension at both the product and company levels?
+    - What are the criteria for environmental labels mentioned in the provided information?
+    - How does the WBAE approach address trade-offs in environmental labeling?
+    - What factors are considered in calculating the carbon footprint of groceries?
+    - How do cultivation methods or management forms affect the carbon footprint of food production?
+    - What role does packaging play in the carbon footprint of groceries?
+    - How does the water footprint indicator measure water consumption in different products?
+    - What are the environmental implications of phosphate usage in food production?
+    - How does the nitrogen footprint impact the environment and human health?
+    - What is the significance of land use/land take in evaluating the environmental footprint of agriculture?
+    - How does the WBAE approach consider animal welfare and biodiversity aspects in environmental labeling?
+    - How can agriculture contribute to the cultivation of renewable raw materials and the creation of CO2 sinks in moors and forests?
+    - What are the factors that favor country- and forestry land uses, and how do they affect biodiversity?
+    - In what situations does agriculture bear less than half of the burden on the entire life cycle, and what are the exceptions?
+    - What are the implications of transporting groceries by plane or using energy-intensive packaging in terms of environmental impact?
+    - What measures are recommended for sustainable development of the food system in terms of supply-side and consumption-side approaches?
+    - How do different levels of intensity in farming, such as intensive versus organic farming, impact land consumption and environmental impact?
+    - What are the causes of biodiversity loss in agriculture, and how does landscape structure affect fauna?
+    - How does organic farming contribute to biodiversity preservation compared to conventional farming?
+    - What are the concerns and opinions regarding the use of genetically modified organisms (GMOs) in agriculture?
+    - How does palm oil production pose challenges in terms of balancing economic development, social and environmental standards, and land use change?
+    - What are the four phases involved in the process described?
+    - According to WBAE, what challenges does agriculture face in conducting life cycle assessments?
+    - How does the PEF method differ from traditional life cycle assessment (LCA)?
+    - What is the principle of "Cradle to Cradle" and how does it differ from "cradle to grave"?
+    - What is the Eco-Score and how does it assess the environmental properties of a food product?
+    - What factors can affect the bonuses or penalties in the Eco-Score calculation?
+    - Why is there criticism regarding the use of life cycle analysis as a basis for the Eco-Score?
+    - What aspects are not directly captured by the Eco-Score but are increasingly important to consumers?
+    - How does the Eco-Score rating differ for the two different scores given to the same product?
+    - What is the Planet Score, and how does it differ from the Eco-Score in terms of the factors it considers?
+    - What is the Planet Score based on?
+    - How many product categories are listed in the Agribalyse database?
+    - What aspects are considered in the Mission from Pesticides?
+    - Besides soil carbon stocks, what else is taken into account in the Climate indicator?
+    - What factors are considered in the Biodiversity indicator?
+    - How does the Pro Planet label define sustainable production?
+    - What are the four topics that the Rainforest Alliance works on?
+    - Which organization supports sustainability communication in food retail?
+    - What does the Nutri-Score measure?
+    - What are the limitations of the Nutri Score when it comes to assessing environmental impact?
+    - What are the reasons for the increasing attractiveness of insects as a potential food source?
+    - What are the goals of the MSC seal and the ASC standard in relation to seafood certification?
+    - What are some criticisms of the MSC seal as a certification for wild fish?
+    - How does the Naturland certification represent a premium label for farmed fish?
+    - What are some of the social sustainability rating systems used to assess sustainability in various industries?
+    - How do living wage initiatives aim to improve the livelihoods of workers?
+    - Why is it often unclear whether minimum social standards are being met in certain industries?
+    - What is the We Care standard and how does it address social aspects within sustainability certification?
+    - How can substituting animal products with vegetables, nuts, and legumes contribute to health and environmental goals?
+    - Are regional products always sustainable? What factors should be considered when evaluating the sustainability of regional products?
+    - What are some examples of products that fall under the dimension of "Health"?
+    - How are the indicators/criteria within the dimension of "Health" weighted?
+    - What is the basis for evaluating the dimension of "Social"?
+    - Are there holistic company labels that cover all dimensions, including the social dimension?
+    - How are social standards recognized and rated within the evaluation?
+    - What labeling approaches are considered in the dimension of "Animal Welfare"?
+    - How is livestock farming evaluated within the dimension of "Animal Welfare"?
+    - What is the goal of the "Environment" dimension in terms of sustainable food production?
+    - What indicators/criteria are taken into account in assessing the environmental dimension?
+    - How are the dimensions of sustainability weighted depending on whether a product is from animal production or plant production?
+    - What factors increase the score in the Nutri-Score system?
+    - What factors decrease the score in the Nutri-Score system?
+    - How is the quality of the nutritional value profile determined based on the Nutri-Score?
+    - Is the first yogurt evaluated positively in terms of the health dimension? If so, what is its Nutri-Score?
+    - Is the second yogurt certified organic? What Nutri-Score does it receive?
+    - What is the source of milk for the third yogurt? Is it certified organic?
+    - Are there any additives in the third yogurt?
+    - How does the first pork cutlet score in terms of the health dimension? What is its Nutri-Score?
+    - Does the second pork cutlet have any additives?
+    - Is the rapeseed oil from Ölmühle Solling classified as a good choice in terms of health? What is its Nutri-Score?
+    - What is the main topic or subject covered in the provided information?
+    - Could you share some sources or references pertaining to nutrition and sustainable food practices mentioned in the content?
+    - Are there any resources discussing the sustainability of organic farming?
+    - Are there publications or sources available that discuss the environmental impact of products and services?
+    - Can you provide any references related to strategies for reducing food waste?
+    - Are there any organizations or initiatives mentioned that focus on promoting sustainable food practices?
+    - Is there any information available about certifications or labels associated with food products?
+    - Are there any sources or references discussing land use indicators or consumption-based land use?
+    - Can you provide any resources that explore the impact of food production on water resources?
+    - Are there any publications or organizations mentioned in the content that address fair trade or consumer protection?
+    
 - intent: faq
   examples: |
     - What does biodiversity mean?

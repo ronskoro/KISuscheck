@@ -1,0 +1,24 @@
+tributive Land Use Change (aLUC): A new method to account for land use and land changes in use in life cycle assessments, version 2.1 of ifeu paper 03/2018. ifeu - Institute for Energy and Environmental Research Schung Heidelberg, Heidelberg, Germany. 
+
+
+
+
+
+
+
+Source: Ifeu, 2020
+
+The table makes the range of fluctuation between the different products clear. Clearly also that favorable values in one indicator do not necessarily mean good values in the other indicators gates imply. Also the Degree the processing correlated not in everyone cases with unfavorable values.
+
+The example of butter and margarine shows the role played by the origin of the raw materials in CO 2 -, water and land footprint, ie whether the raw materials are of plant or animal origin. The herbal product performs significantly better in terms of footprints. Among other things, this is on a lesser land use in the crop production across from the livestock farming attributed.
+
+In addition, margarine and butter differ in their fatty acid composition. butter holds 60% saturated fat and 40% unsaturated fat. The former have a negative effect on the LDL cholesterol level, the latter have positive effects. The fatty acid composition of Marga- rine hangs against it essential from the in this included vegetable Oil and fats away. The Portion at saturated fat is around 25%. In addition, margarine is cholesterol-free. Basically should fats and oils not excessive consumed become. However acts it itself at margarine around no natural product (Nutritional advice Rhineland-Palatinate, 2021) and also the kind of their Packaging can as problem matic estimated become.
+
+
+
+3.1.2  assessment tools
+
+Life cycles Assessment (LCA)
+
+
+One approach to comparative ecological evaluation is the Life Cycle Assessment (LCA, Lebenszyk- lus analysis) or the product life cycle assessment (WBAE, 2020). In contrast to CO 2 and water footprint becomes at the LCA not

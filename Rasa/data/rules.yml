@@ -39,7 +39,10 @@ rules:
       - intent: start_product_comparison
       - action: action_compare_products_by_barcode
       - action: utter_stop_compare_or_know_more_about_the_result
-
+  - rule: answer questions based on the sustainability report
+    steps: 
+    - intent: scan_sustainability_report
+    - action: action_scan_report
   - rule: know more about the comparison result
     steps:
       - intent: know_more_about_comparison_result
