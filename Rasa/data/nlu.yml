@@ -126,8 +126,8 @@ nlu:
     - [7613035974685](barcode)
     - [3017620422003](barcode)
     - [5449000214911](barcode)
-    - [3168930009078](barcode)
-    - [3017620422003](barcode)
+    - scan [3168930009078](barcode)
+    - scan [3017620422003](barcode)
 - intent: get_top_product_info_by_name
   examples: |
     - I want to know info about [milk](food)
@@ -396,6 +396,7 @@ nlu:
     - Is [1234567890123](barcode) better or [1234567890123](barcode)?
     - Which one is better, [1234567890123](barcode) or [1234567890123](barcode)?
     - Please rank these products: [1234567890123](barcode), [1234567890123](barcode), [1234567890123](barcode), [1234567890123](barcode)
+    - compare [3168930009078](barcode) and [3017620422003](barcode)
     - compare [3168930009078](barcode) and [3017620422003](barcode)
 - intent: add_more_barcodes_to_comparison_list
   examples: |

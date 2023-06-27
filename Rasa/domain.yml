@@ -171,23 +171,26 @@ slots:
     initial_value: false
     mappings:
       - type: custom
+    influence_conversation: true
 forms:
   product_comparison_form:
     required_slots:
       - first_product_for_comparison
       - second_product_for_comparison
 actions:
+  - utter_did_that_help
+  - action_update_comparison_list_and_length
+  - action_stop_comparing_and_clear_compare_history
+  - action_get_product_info_by_barcode
+  - utter_happy
   - utter_more_products_or_compare
-  - utter_stop_compare_or_know_more_about_the_result
-  - action_fill_second_product_for_comparison
   - action_compare_products_by_barcode
   - utter_greet
-  - action_stop_comparing_and_clear_compare_history
-  - action_update_comparison_list_and_length
   - action_set_comparison_path_active_to_true
-  - utter_like_to_know_more
-  - action_get_product_info_by_barcode
+  - utter_stop_compare_or_know_more_about_the_result
   - action_show_product_comparison_list
+  - action_fill_second_product_for_comparison
+  - utter_like_to_know_more
   - utter_ask_first_product_for_comparison
   - action_greet
   - action_get_top_product_info_by_name
@@ -213,18 +216,15 @@ responses:
   utter_did_that_help:
     - text: Did that help you?
   utter_ask_first_product_for_comparison:
-    - text: Sure! Could you please provide me the barcode of the first product?
+    - text: Sure! Could you please provide me the barcode of the first product? Or you can also give me multiple barcodes.
   utter_ask_second_product_for_comparison:
-    - text: 1 product is currently in the comparison list. I need at least one more product's barcode to start comparison. Could you please provide me the barcode of the next product?
-      buttons:
-        - title: Show comarison list
-          payload: /show_product_comparison_list
+    - text: "{product_comparison_list_length} product is currently in the comparison list. I need at least one more product's barcode to start comparison. Could you please provide me the barcode of the next product?"
   utter_more_products_or_compare:
     - text: "{product_comparison_list_length} products are currently in the comparison list (at least 2 needed). You can add more products by giving barcodes."
       buttons:
         - title: Start compare
           payload: /start_product_comparison
-        - title: Show comarison list
+        - title: Show comparison list
           payload: /show_product_comparison_list
   utter_ask_for_product_barcode:
     - text: Could you please provide me the barcode of the next product?

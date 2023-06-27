@@ -4,24 +4,22 @@
 # See this guide on how to implement these action:
 # https://rasa.com/docs/rasa/custom-actions
 
-import torch
-from sentence_transformers import SentenceTransformer
-import numpy as np
-import pandas as pd
-from typing import Text, Dict, Any, List
-from rasa_sdk import Tracker, FormValidationAction, Action
-from rasa_sdk.executor import CollectingDispatcher
-from rasa_sdk.events import SlotSet
-from rasa_sdk.types import DomainDict
-from rasa_sdk.events import EventType
-import requests
 import json
+import requests
+from rasa_sdk.events import EventType
+from rasa_sdk.types import DomainDict
+from rasa_sdk.events import SlotSet
+from rasa_sdk.executor import CollectingDispatcher
+from rasa_sdk import Tracker, FormValidationAction, Action
+from typing import Text, Dict, Any, List
+import pandas as pd
+import numpy as np
+from sentence_transformers import SentenceTransformer
+import torch
 import sys
-# sys.path.append('C:/Users/maria/anaconda3/envs/rasa-faq/Lib/site-packages/torch/torch._C')
 sys.path.append(
     'C:/Users/maria/anaconda3/envs/KI-SusCheck-faq/Lib/site-packages')
-# sentence embedding selection
-sentence_transformer_select = True
+
 # Refer: https://github.com/UKPLab/sentence-transformers/blob/master/docs/pretrained-models/nli-models.md
 pretrained_model = 'bert-base-nli-mean-tokens'
 score_threshold = 0.70  # This confidence scores can be adjusted based on your need!!
@@ -34,25 +32,19 @@ class ActionGetFAQAnswer(Action):
         super(ActionGetFAQAnswer, self).__init__()
         self.faq_data = json.load(
             open("./data/faq.json", "rt", encoding="utf-8"))
-        self.sentence_embedding_choose(
-            sentence_transformer_select, pretrained_model)
+        self.sentence_embedding_choose(pretrained_model)
         self.standard_questions_encoder = np.load(
             "./data/standard_questions.npy")
         self.standard_questions_encoder_len = np.load(
             "./data/standard_questions_len.npy")
         print(self.standard_questions_encoder.shape)
 
-    def sentence_embedding_choose(self, sentence_transformer_select=True, pretrained_model='bert-base-nli-mean-tokens'):
-        self.sentence_transformer_select = sentence_transformer_select
-        if sentence_transformer_select:
-            self.bc = SentenceTransformer(pretrained_model)
+    def sentence_embedding_choose(self, pretrained_model='bert-base-nli-mean-tokens'):
+        self.bc = SentenceTransformer(pretrained_model)
 
     def get_most_similar_standard_question_id(self, query_question):
-        if self.sentence_transformer_select:
-            query_vector = torch.tensor(
-                self.bc.encode([query_question])[0]).numpy()
-        else:
-            query_vector = self.bc.encode([query_question])[0]
+        query_vector = torch.tensor(
+            self.bc.encode([query_question])[0]).numpy()
         print("Question received at action engineer")
         score = np.sum((self.standard_questions_encoder * query_vector), axis=1) / (
             self.standard_questions_encoder_len * (np.sum(query_vector * query_vector) ** 0.5))
@@ -101,23 +93,17 @@ class ActionGetFAQAnswer(Action):
         return []
 
 
-def encode_standard_question(sentence_transformer_select=True, pretrained_model='bert-base-nli-mean-tokens'):
+def encode_standard_question(pretrained_model='bert-base-nli-mean-tokens'):
     """
     This will encode all the questions available in question database into sentence embedding. The result will be stored into numpy array for comparision purpose.
     """
-    if sentence_transformer_select:
-        bc = SentenceTransformer(pretrained_model)
-    # else:
-    #     bc = BertClient(check_version=False)
+    bc = SentenceTransformer(pretrained_model)
     data = json.load(open("./data/faq.json", "rt", encoding="utf-8"))
     standard_questions = [each['q'] for each in data]
     print("Standard question size", len(standard_questions))
     print("Start to calculate encoder....")
-    if sentence_transformer_select:
-        standard_questions_encoder = torch.tensor(
-            bc.encode(standard_questions)).numpy()
-    # else:
-    #     standard_questions_encoder = bc.encode(standard_questions)
+    standard_questions_encoder = torch.tensor(
+        bc.encode(standard_questions)).numpy()
     np.save("./data/standard_questions", standard_questions_encoder)
     standard_questions_encoder_len = np.sqrt(
         np.sum(standard_questions_encoder * standard_questions_encoder, axis=1))
@@ -139,7 +125,7 @@ class getProductInfoByBarcode(Action):
         # Extract the barcode from the user input
         barcode = None
         entities = tracker.latest_message["entities"]
-        print(entities)
+        # print(entities)
 
         for entity in entities:
             if entity["entity"] == "barcode":
@@ -186,7 +172,7 @@ class getProductInfoByName(Action):
         productName = None
         gotProducts = False
         entities = tracker.latest_message["entities"]
-        print(entities)
+        # print(entities)
 
         for entity in entities:
             if entity["entity"] == "food":
@@ -319,9 +305,10 @@ class answerAboutProductPropertyByBarcode(Action):
                 barcode = entity["value"]
             elif entity["entity"] == "food_property":
                 property = entity["value"]
+                propertyFirst = property[0]
 
         # API endpoint
-        if (barcode is not None and property is not None):
+        if (barcode is not None and propertyFirst is not None):
             # "https://world.openfoodfacts.org/api/v2/search?labels_tags="+property+"&sort_by=popularity_key"
             url = 'https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json'
 
@@ -343,7 +330,7 @@ class answerAboutProductPropertyByBarcode(Action):
                         stripped_labels = [word.strip().lower()
                                            for word in labels]
 
-                        if (property.lower() in stripped_labels):
+                        if (propertyFirst.lower() in stripped_labels):
                             dispatcher.utter_message(
                                 text=product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
                             return []
@@ -353,7 +340,7 @@ class answerAboutProductPropertyByBarcode(Action):
                         stripped_labels = [word.strip().lower()
                                            for word in labels]
 
-                        if (property.lower() in stripped_labels):
+                        if (propertyFirst.lower() in stripped_labels):
                             dispatcher.utter_message(
                                 text=product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
                             return []
@@ -364,13 +351,13 @@ class answerAboutProductPropertyByBarcode(Action):
                                            for word in labels]
 
                         for label in stripped_labels:
-                            if (property.lower() in label and 'no' not in label):
+                            if (propertyFirst.lower() in label and ('no' not in label and 'free' not in label)):
                                 dispatcher.utter_message(
                                     text=product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
                                 return []
-                            elif (property.lower() in label and 'no' in label):
+                            elif (propertyFirst.lower() in label and ('no' in label or 'free' in label)):
                                 dispatcher.utter_message(
-                                    text=product_name + " ( barcode: " + barcode + " )" + " has no " + property + " ingredients")
+                                    text=product_name + " ( barcode: " + barcode + " )" + " has non-" + property + " ingredients")
                                 return []
                     if (product.get("ingredients_tags") is not None):
                         labels = product['ingredients_tags']
@@ -378,13 +365,13 @@ class answerAboutProductPropertyByBarcode(Action):
                                            for word in labels]
 
                         for label in stripped_labels:
-                            if (property.lower() in label and 'no' not in label):
+                            if (propertyFirst.lower() in label and ('no' not in label and 'free' not in label)):
                                 dispatcher.utter_message(
                                     text=product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
                                 return []
-                            elif (property.lower() in label and 'no' in label):
+                            elif (propertyFirst.lower() in label and ('no' in label or 'free' in label)):
                                 dispatcher.utter_message(
-                                    text=product_name + " ( barcode: " + barcode + " )" + " has no " + property + " ingredients")
+                                    text=product_name + " ( barcode: " + barcode + " )" + " has non-" + property + " ingredients")
                                 return []
 
                     if (product.get("traces_hierarchy") is not None):
@@ -393,13 +380,13 @@ class answerAboutProductPropertyByBarcode(Action):
                                            for word in labels]
 
                         for label in stripped_labels:
-                            if (property.lower() in label and 'no' not in label):
+                            if (propertyFirst.lower() in label and ('no' not in label and 'free' not in label)):
                                 dispatcher.utter_message(
                                     text=product_name + " ( barcode: " + barcode + " )" + " has " + property + " ingredients")
                                 return []
-                            elif (property.lower() in label and 'no' in label):
+                            elif (propertyFirst.lower() in label and ('no' in label or 'free' in label)):
                                 dispatcher.utter_message(
-                                    text=product_name + " ( barcode: " + barcode + " )" + " has no " + property + " ingredients")
+                                    text=product_name + " ( barcode: " + barcode + " )" + " has non" + property + " ingredients")
                                 return []
 
                         dispatcher.utter_message(text="Sorry, I don't know if " + product_name +
@@ -715,22 +702,22 @@ class ActionCompareProductsByBarcode(Action):
                             'product_name']] = openfood_response.json()['product']['product_name']
                         if "nutriscore_grade" in openfood_response.json()['product']:
                             product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
-                                'nutri_score']] == openfood_response.json()['product']['nutriscore_grade']
+                                'nutri_score']] = openfood_response.json()['product']['nutriscore_grade']
                         else:
                             product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
-                                'nutri_score']] == "unknown"
+                                'nutri_score']] = "unknown"
                         if "nova_group" in openfood_response.json()['product']:
                             product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
-                                'nova_score']] == openfood_response.json()['product']['nova_group']
+                                'nova_score']] = openfood_response.json()['product']['nova_group']
                         else:
                             product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
-                                'nova_score']] == "unknown"
+                                'nova_score']] = "unknown"
                         if "ecoscore_grade" in openfood_response.json()['product']:
                             product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
-                                'eco_score']] == openfood_response.json()['product']['ecoscore_grade']
+                                'eco_score']] = openfood_response.json()['product']['ecoscore_grade']
                         else:
                             product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
-                                'eco_score']] == "unknown"
+                                'eco_score']] = "unknown"
                         # product_comparison_df.loc[product_comparison_df['barcode'] == barcode, ['openfood_json']] = openfood_response.text
                         product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
                             'product_img_url']] = openfood_response.json()['product']['image_url']
@@ -748,22 +735,20 @@ class ActionCompareProductsByBarcode(Action):
                             product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
                                 'input_quality']] = susscore_response.json()['inputQuality']
                             product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
-                                'other_properties']] = susscore_response.json()['other_properties']
+                                'other_properties']] = str(susscore_response.json()['other_properties'])
                             product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
                                 'kisusscore_json']] = susscore_response.text
                         else:
-                            product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
-                                'kisusscore']] = "unknown"
                             dispatcher.utter_message(
                                 "Oops, I could not calculate the KISus-Score of this product ({}) 😞 If the barcode is correct, it might not be available in our dataset. Otherwise, there might be something wrong with our server, please try again.".format(barcode))
                     else:
-                        product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
-                            'kisusscore']] = "unknown"
                         dispatcher.utter_message(
                             "Oops, I could not calculate the KISus-Score of this product ({}) 😞 If the barcode is correct, it might not be available in our dataset. Otherwise, there might be something wrong with our server, please try again.".format(barcode))
             product_comparison_df.sort_values(
                 by=['kisusscore'], ascending=False, na_position='last', inplace=True)
             product_comparison_df.reset_index(inplace=True)
+            product_comparison_df.loc[product_comparison_df['kisusscore'].isnull(
+            ), 'kisusscore'] = "unknown"
             # with pd.option_context('display.max_rows', None,
             #                        'display.max_columns', None
             #                        ):
@@ -772,28 +757,30 @@ class ActionCompareProductsByBarcode(Action):
                 if (product_comparison_df.iloc[index]['product_name'] is not None):
                     if (product_comparison_df.iloc[index]['product_img_url'] is not None):
                         dispatcher.utter_message(
-                            text=str(index+1)+". "+product_comparison_df.iloc[index]['product_name']+" ("+product_comparison_df.iloc[index]['barcode']+")\n" +
-                            "   KISus-Score: " + str(product_comparison_df.iloc[index]['kisusscore'])+")\n" +
+                            text=str(index+1)+". "+product_comparison_df.iloc[index]['product_name']+" ("+product_comparison_df.iloc[index]['barcode']+") \n" +
+                            "   KISus-Score: " + str(product_comparison_df.iloc[index]['kisusscore'])+"\n" +
                             "   (Nutri-Score: " + str(product_comparison_df.iloc[index]['nutri_score']) +
                             ", Nova-Group: "+str(product_comparison_df.iloc[index]['nova_score']) +
-                            ", Eco-Score: "+str(product_comparison_df.iloc[index]['eco_score'])+")\n" +
+                            ", Eco-Score: "+str(product_comparison_df.iloc[index]['eco_score'])+") \n" +
                             "   Other properties: " +
                             str(product_comparison_df.iloc[index]
                                 ['other_properties']),
                             image=product_comparison_df.iloc[index]['product_img_url'])
                     else:
                         dispatcher.utter_message(
-                            text=str(index+1)+". "+product_comparison_df.iloc[index]['product_name']+" ("+product_comparison_df.iloc[index]['barcode']+")\n" +
-                            "   KISus-Score: " + str(product_comparison_df.iloc[index]['kisusscore'])+")\n" +
+                            text=str(index+1)+". "+product_comparison_df.iloc[index]['product_name']+" ("+product_comparison_df.iloc[index]['barcode']+") \n" +
+                            "   KISus-Score: " + str(product_comparison_df.iloc[index]['kisusscore'])+" \n" +
                             "   (Nutri-Score: " + str(product_comparison_df.iloc[index]['nutri_score']) +
                             ", Nova-Group: "+str(product_comparison_df.iloc[index]['nova_score']) +
-                            ", Eco-Score: "+str(product_comparison_df.iloc[index]['eco_score'])+")\n" +
+                            ", Eco-Score: "+str(product_comparison_df.iloc[index]['eco_score'])+") \n" +
                             "   Other properties: "+str(product_comparison_df.iloc[index]['other_properties']) +
-                            "\n   no image available")
+                            " \n   no image available")
                 else:
                     dispatcher.utter_message(
                         text=str(index+1)+". product with barcode "+product_comparison_df.iloc[index]['barcode']+" doesn't found in our database.")
-        return [SlotSet("product_comparison_result", product_comparison_df.to_json())]
+            if product_comparison_df is not None:
+                product_comparison_df = product_comparison_df.to_json()
+        return [SlotSet("product_comparison_result", product_comparison_df)]
 
 
 class ActionFillSecondProductForComparison(Action):

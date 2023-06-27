@@ -25,8 +25,8 @@ const Chat = () => {
 
     setTimeout(() => {
       var objDiv = document.getElementById("messageArea");
-      objDiv.lastChild.scrollIntoView({ behavior: 'smooth' });
-    },50)
+      objDiv.lastChild.scrollIntoView({ behavior: "smooth" });
+    }, 50);
   }, [chat]);
 
   const handleSubmit = (evt) => {
@@ -60,13 +60,14 @@ const Chat = () => {
         if (response) {
           const chatTemp = [];
 
-          for (const { recipient_id, text, image } of response) {
+          for (const { recipient_id, text, image, buttons } of response) {
             const msg = text || image || null;
 
             const response_temp = {
               sender: "bot",
               recipient_id,
               msg,
+              buttons,
             };
 
             chatTemp.push(response_temp);
@@ -74,10 +75,10 @@ const Chat = () => {
           setChat((chat) => [...chat, ...chatTemp]);
           setbotTyping(false);
         }
-      }).catch((error) => {
+      })
+      .catch((error) => {
         console.log(error);
-      }
-      );
+      });
   };
 
   return (
@@ -100,9 +101,10 @@ const Chat = () => {
             >
               {user.sender === "bot" ? (
                 <div
-                  className={ 
-                    key === 0 ? "flex items-center gap-x-2 bg-slate-300 px-3 pt-3 rounded-t-lg pb-3 rounded-b-lg":
-                    chat[key + 1]?.sender !== "bot"
+                  className={
+                    key === 0
+                      ? "flex items-center gap-x-2 bg-slate-300 px-3 pt-3 rounded-t-lg pb-3 rounded-b-lg"
+                      : chat[key + 1]?.sender !== "bot"
                       ? "flex items-center gap-x-2 bg-slate-300 px-3 pb-3 rounded-b-lg"
                       : "flex items-center gap-x-2 bg-slate-300 px-3 pb-3"
                   }
@@ -127,6 +129,22 @@ const Chat = () => {
                       )
                     ) : (
                       user.msg
+                    )}
+                    {user.buttons && (
+                      <div className="space-x-2">
+                        {user.buttons.map((button, key) => (
+                          <button
+                            key={key}
+                            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg"
+                            onClick={() => {
+                              setbotTyping(true);
+                              rasaAPI(name, button.payload);
+                            }}
+                          >
+                            {button.title}
+                          </button>
+                        ))}
+                      </div>
                     )}
                   </h5>
                 </div>

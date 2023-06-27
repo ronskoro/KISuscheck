@@ -57,3 +57,9 @@ rules:
       - action: action_deactivate_loop
       - active_loop: null
       - action: utter_greet
+
+  - rule: show comparison list
+    steps:
+      - intent: show_product_comparison_list
+      - action: action_show_product_comparison_list
+      - action: utter_more_products_or_compare
