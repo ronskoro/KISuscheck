@@ -126,7 +126,8 @@ nlu:
     - [7613035974685](barcode)
     - [3017620422003](barcode)
     - [5449000214911](barcode)
-    - [7613035974685](barcode)
+    - scan [3168930009078](barcode)
+    - scan [3017620422003](barcode)
 - intent: get_top_product_info_by_name
   examples: |
     - I want to know info about [milk](food)

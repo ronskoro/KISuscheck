@@ -125,7 +125,7 @@ class getProductInfoByBarcode(Action):
         # Extract the barcode from the user input
         barcode = None
         entities = tracker.latest_message["entities"]
-        print(entities)
+        # print(entities)
 
         for entity in entities:
             if entity["entity"] == "barcode":
@@ -172,7 +172,7 @@ class getProductInfoByName(Action):
         productName = None
         gotProducts = False
         entities = tracker.latest_message["entities"]
-        print(entities)
+        # print(entities)
 
         for entity in entities:
             if entity["entity"] == "food":

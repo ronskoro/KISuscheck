@@ -578,3 +578,90 @@ stories:
       - slot_was_set:
           - requested_slot: null
       - action: utter_greet
+  - story: interactive_story_scan_compare_scan
+    steps:
+      - intent: scan_barcode
+        entities:
+          - barcode: "3168930009078"
+          - slot_was_set:
+              - comparison_path_active: false
+      - slot_was_set:
+          - barcode: "3168930009078"
+      - slot_was_set:
+          - barcode_list:
+              - "3168930009078"
+      - action: action_get_product_info_by_barcode
+      - action: utter_did_that_help
+      - intent: affirm
+      - action: utter_happy
+      - intent: compare_products_with_barcode_given
+        entities:
+          - barcode: "3168930009078"
+          - barcode: "3017620422003"
+      - slot_was_set:
+          - barcode: "3017620422003"
+      - slot_was_set:
+          - barcode_list:
+              - "3168930009078"
+              - "3017620422003"
+      - action: action_set_comparison_path_active_to_true
+      - slot_was_set:
+          - comparison_path_active: true
+      - action: action_update_comparison_list_and_length
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+              - "3017620422003"
+      - slot_was_set:
+          - product_comparison_list_length: 2
+      - action: utter_more_products_or_compare
+      - intent: start_product_comparison
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+              - "3017620422003"
+      - slot_was_set:
+          - product_comparison_list_length: 2
+      - action: action_compare_products_by_barcode
+      - action: utter_stop_compare_or_know_more_about_the_result
+      - intent: stop_comparing_and_clear_comparison_history
+      - slot_was_set:
+          - product_comparison_list:
+              - "3168930009078"
+              - "3017620422003"
+      - slot_was_set:
+          - product_comparison_list_length: 2
+      - action: action_stop_comparing_and_clear_compare_history
+      - slot_was_set:
+          - product_comparison_list: null
+      - slot_was_set:
+          - product_comparison_list_length: 0
+      - slot_was_set:
+          - first_product_for_comparison: null
+      - slot_was_set:
+          - second_product_for_comparison: null
+      - slot_was_set:
+          - product_comparison_result: null
+      - slot_was_set:
+          - comparison_path_active: false
+      - slot_was_set:
+          - barcode_list: null
+      - action: action_deactivate_loop
+      - active_loop: null
+      - slot_was_set:
+          - requested_slot: null
+      - action: utter_greet
+      - intent: scan_barcode
+        entities:
+          - barcode: "3017620422003"
+      - slot_was_set:
+          - comparison_path_active: false
+      - slot_was_set:
+          - barcode: "3017620422003"
+      - slot_was_set:
+          - barcode_list:
+              - "3017620422003"
+      - action: action_get_product_info_by_barcode
+      - action: utter_did_that_help
+      - intent: affirm
+      - action: utter_happy
