@@ -1,17 +1,22 @@
 version: "3.1"
 intents:
+  - add_more_barcodes_to_comparison_list
   - affirm
+  - ask_about_animal_friendliness_of_product
   - ask_about_product_property_by_barcode
   - ask_about_product_property_by_name
   - ask_for_product_comparison
   - ask_preferences
   - bot_challenge
-  - compare_products_with_barcode
+  - compare_products_with_barcode_given
   - compare_products_with_name
+  - continue_comparison
   - deny
+  - faq
   - get_top_product_info_by_name
   - goodbye
   - greet
+  - know_more_about_comparison_result
   - mood_great
   - mood_unhappy
   - out_of_scope_intents
@@ -25,9 +30,7 @@ intents:
   - set_nutr_value_preference
   - show_product_comparison_list
   - start_product_comparison
-  - ask_about_animal_friendliness_of_product
-  - faq
-
+  - stop_comparing_and_clear_comparison_history
 entities:
   - barcode
   - user_name
@@ -61,6 +64,11 @@ slots:
     influence_conversation: false
   barcode:
     type: text
+    mappings:
+      - type: from_entity
+        entity: barcode
+  barcode_list:
+    type: list
     mappings:
       - type: from_entity
         entity: barcode
@@ -153,31 +161,42 @@ slots:
     mappings:
       - type: custom
         action: action_update_comparison_list_and_length
-    influence_conversation: false
+    influence_conversation: true
   product_comparison_result:
     type: any
     mappings:
       - type: custom
+  comparison_path_active:
+    type: bool
+    initial_value: false
+    mappings:
+      - type: custom
+    influence_conversation: true
 forms:
   product_comparison_form:
     required_slots:
       - first_product_for_comparison
       - second_product_for_comparison
 actions:
+  - utter_did_that_help
+  - action_update_comparison_list_and_length
+  - action_stop_comparing_and_clear_compare_history
+  - action_get_product_info_by_barcode
+  - utter_happy
   - utter_more_products_or_compare
   - action_compare_products_by_barcode
-  - action_show_product_comparison_list
-  - action_update_comparison_list_and_length
-  - action_fill_second_product_for_comparison
   - utter_greet
+  - action_set_comparison_path_active_to_true
+  - utter_stop_compare_or_know_more_about_the_result
+  - action_show_product_comparison_list
+  - action_fill_second_product_for_comparison
+  - utter_like_to_know_more
   - utter_ask_first_product_for_comparison
   - action_greet
-  - action_get_product_info_by_barcode
   - action_get_top_product_info_by_name
   - action_answer_about_product_property_by_barcode
   - action_confirm_preference
   - action_print_preferences
-  - utter_like_to_know_more
   - action_get_product_animal_friendliness_info
   - utter_specify_question
   - action_faq_get_answer
@@ -197,30 +216,33 @@ responses:
   utter_did_that_help:
     - text: Did that help you?
   utter_ask_first_product_for_comparison:
-    - text: Sure! Could you please provide me the barcode of the first product?
+    - text: Sure! Could you please provide me the barcode of the first product? Or you can also give me multiple barcodes.
   utter_ask_second_product_for_comparison:
-    - text: 1 product is currently in the comparison list. I need at least one more product's barcode to start comparison. Could you please provide me the barcode of the next product?
-      buttons:
-        - title: Show comarison list
-          payload: /show_product_comparison_list
+    - text: "{product_comparison_list_length} product is currently in the comparison list. I need at least one more product's barcode to start comparison. Could you please provide me the barcode of the next product?"
   utter_more_products_or_compare:
-    - text: "{product_comparison_list_length} products are currently in the comparison list. You can add more products by giving barcodes one by one."
+    - text: "{product_comparison_list_length} products are currently in the comparison list (at least 2 needed). You can add more products by giving barcodes."
       buttons:
-        - title: Compare
+        - title: Start compare
           payload: /start_product_comparison
-        - title: Show comarison list
+        - title: Show comparison list
           payload: /show_product_comparison_list
   utter_ask_for_product_barcode:
     - text: Could you please provide me the barcode of the next product?
+  utter_stop_compare_or_know_more_about_the_result:
+    - text: Would you like to stop the product comparison between {product_comparison_list} and clear this comparison history, or would you like to know more about this comparison result?
+      buttons:
+        - title: Stop and clear
+          payload: /stop_comparing_and_clear_comparison_history
+        - title: Know more about the result
+          payload: /know_more_about_comparison_result
+  utter_out_of_scope:
+    - text: Sorry, I can't handle that request.
   utter_like_to_know_more:
     - text: Would you like to know more?
-
   utter_specify_question:
     - text: Sure. What would you like to know?
-
   utter_ask_to_show_more_products:
     - text: Would you like to see more products?
-
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
