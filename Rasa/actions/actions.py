@@ -4,20 +4,21 @@
 # See this guide on how to implement these action:
 # https://rasa.com/docs/rasa/custom-actions
 
-import sys
-sys.path.append('C:/Users/maria/anaconda3/envs/KI-SusCheck-faq/Lib/site-packages')
-import torch
-from sentence_transformers import SentenceTransformer
-import numpy as np
-import pandas as pd
-from typing import Text, Dict, Any, List
-from rasa_sdk import Tracker, FormValidationAction, Action
-from rasa_sdk.executor import CollectingDispatcher
-from rasa_sdk.events import SlotSet
-from rasa_sdk.types import DomainDict
-from rasa_sdk.events import EventType
-import requests
 import json
+import requests
+from rasa_sdk.events import EventType
+from rasa_sdk.types import DomainDict
+from rasa_sdk.events import SlotSet
+from rasa_sdk.executor import CollectingDispatcher
+from rasa_sdk import Tracker, FormValidationAction, Action
+from typing import Text, Dict, Any, List
+import pandas as pd
+import numpy as np
+from sentence_transformers import SentenceTransformer
+import torch
+import sys
+sys.path.append(
+    'C:/Users/maria/anaconda3/envs/KI-SusCheck-faq/Lib/site-packages')
 
 # Refer: https://github.com/UKPLab/sentence-transformers/blob/master/docs/pretrained-models/nli-models.md
 pretrained_model = 'bert-base-nli-mean-tokens'
@@ -42,7 +43,8 @@ class ActionGetFAQAnswer(Action):
         self.bc = SentenceTransformer(pretrained_model)
 
     def get_most_similar_standard_question_id(self, query_question):
-        query_vector = torch.tensor(self.bc.encode([query_question])[0]).numpy()
+        query_vector = torch.tensor(
+            self.bc.encode([query_question])[0]).numpy()
         print("Question received at action engineer")
         score = np.sum((self.standard_questions_encoder * query_vector), axis=1) / (
             self.standard_questions_encoder_len * (np.sum(query_vector * query_vector) ** 0.5))
@@ -100,7 +102,8 @@ def encode_standard_question(pretrained_model='bert-base-nli-mean-tokens'):
     standard_questions = [each['q'] for each in data]
     print("Standard question size", len(standard_questions))
     print("Start to calculate encoder....")
-    standard_questions_encoder = torch.tensor(bc.encode(standard_questions)).numpy()
+    standard_questions_encoder = torch.tensor(
+        bc.encode(standard_questions)).numpy()
     np.save("./data/standard_questions", standard_questions_encoder)
     standard_questions_encoder_len = np.sqrt(
         np.sum(standard_questions_encoder * standard_questions_encoder, axis=1))
@@ -699,22 +702,22 @@ class ActionCompareProductsByBarcode(Action):
                             'product_name']] = openfood_response.json()['product']['product_name']
                         if "nutriscore_grade" in openfood_response.json()['product']:
                             product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
-                                'nutri_score']] == openfood_response.json()['product']['nutriscore_grade']
+                                'nutri_score']] = openfood_response.json()['product']['nutriscore_grade']
                         else:
                             product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
-                                'nutri_score']] == "unknown"
+                                'nutri_score']] = "unknown"
                         if "nova_group" in openfood_response.json()['product']:
                             product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
-                                'nova_score']] == openfood_response.json()['product']['nova_group']
+                                'nova_score']] = openfood_response.json()['product']['nova_group']
                         else:
                             product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
-                                'nova_score']] == "unknown"
+                                'nova_score']] = "unknown"
                         if "ecoscore_grade" in openfood_response.json()['product']:
                             product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
-                                'eco_score']] == openfood_response.json()['product']['ecoscore_grade']
+                                'eco_score']] = openfood_response.json()['product']['ecoscore_grade']
                         else:
                             product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
-                                'eco_score']] == "unknown"
+                                'eco_score']] = "unknown"
                         # product_comparison_df.loc[product_comparison_df['barcode'] == barcode, ['openfood_json']] = openfood_response.text
                         product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
                             'product_img_url']] = openfood_response.json()['product']['image_url']
@@ -732,22 +735,20 @@ class ActionCompareProductsByBarcode(Action):
                             product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
                                 'input_quality']] = susscore_response.json()['inputQuality']
                             product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
-                                'other_properties']] = susscore_response.json()['other_properties']
+                                'other_properties']] = str(susscore_response.json()['other_properties'])
                             product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
                                 'kisusscore_json']] = susscore_response.text
                         else:
-                            product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
-                                'kisusscore']] = "unknown"
                             dispatcher.utter_message(
                                 "Oops, I could not calculate the KISus-Score of this product ({}) 😞 If the barcode is correct, it might not be available in our dataset. Otherwise, there might be something wrong with our server, please try again.".format(barcode))
                     else:
-                        product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
-                            'kisusscore']] = "unknown"
                         dispatcher.utter_message(
                             "Oops, I could not calculate the KISus-Score of this product ({}) 😞 If the barcode is correct, it might not be available in our dataset. Otherwise, there might be something wrong with our server, please try again.".format(barcode))
             product_comparison_df.sort_values(
                 by=['kisusscore'], ascending=False, na_position='last', inplace=True)
             product_comparison_df.reset_index(inplace=True)
+            product_comparison_df.loc[product_comparison_df['kisusscore'].isnull(
+            ), 'kisusscore'] = "unknown"
             # with pd.option_context('display.max_rows', None,
             #                        'display.max_columns', None
             #                        ):
@@ -756,28 +757,30 @@ class ActionCompareProductsByBarcode(Action):
                 if (product_comparison_df.iloc[index]['product_name'] is not None):
                     if (product_comparison_df.iloc[index]['product_img_url'] is not None):
                         dispatcher.utter_message(
-                            text=str(index+1)+". "+product_comparison_df.iloc[index]['product_name']+" ("+product_comparison_df.iloc[index]['barcode']+")\n" +
-                            "   KISus-Score: " + str(product_comparison_df.iloc[index]['kisusscore'])+")\n" +
+                            text=str(index+1)+". "+product_comparison_df.iloc[index]['product_name']+" ("+product_comparison_df.iloc[index]['barcode']+") \n" +
+                            "   KISus-Score: " + str(product_comparison_df.iloc[index]['kisusscore'])+"\n" +
                             "   (Nutri-Score: " + str(product_comparison_df.iloc[index]['nutri_score']) +
                             ", Nova-Group: "+str(product_comparison_df.iloc[index]['nova_score']) +
-                            ", Eco-Score: "+str(product_comparison_df.iloc[index]['eco_score'])+")\n" +
+                            ", Eco-Score: "+str(product_comparison_df.iloc[index]['eco_score'])+") \n" +
                             "   Other properties: " +
                             str(product_comparison_df.iloc[index]
                                 ['other_properties']),
                             image=product_comparison_df.iloc[index]['product_img_url'])
                     else:
                         dispatcher.utter_message(
-                            text=str(index+1)+". "+product_comparison_df.iloc[index]['product_name']+" ("+product_comparison_df.iloc[index]['barcode']+")\n" +
-                            "   KISus-Score: " + str(product_comparison_df.iloc[index]['kisusscore'])+")\n" +
+                            text=str(index+1)+". "+product_comparison_df.iloc[index]['product_name']+" ("+product_comparison_df.iloc[index]['barcode']+") \n" +
+                            "   KISus-Score: " + str(product_comparison_df.iloc[index]['kisusscore'])+" \n" +
                             "   (Nutri-Score: " + str(product_comparison_df.iloc[index]['nutri_score']) +
                             ", Nova-Group: "+str(product_comparison_df.iloc[index]['nova_score']) +
-                            ", Eco-Score: "+str(product_comparison_df.iloc[index]['eco_score'])+")\n" +
+                            ", Eco-Score: "+str(product_comparison_df.iloc[index]['eco_score'])+") \n" +
                             "   Other properties: "+str(product_comparison_df.iloc[index]['other_properties']) +
-                            "\n   no image available")
+                            " \n   no image available")
                 else:
                     dispatcher.utter_message(
                         text=str(index+1)+". product with barcode "+product_comparison_df.iloc[index]['barcode']+" doesn't found in our database.")
-        return [SlotSet("product_comparison_result", product_comparison_df.to_json())]
+            if product_comparison_df is not None:
+                product_comparison_df = product_comparison_df.to_json()
+        return [SlotSet("product_comparison_result", product_comparison_df)]
 
 
 class ActionFillSecondProductForComparison(Action):
