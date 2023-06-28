@@ -1,0 +1,1953 @@
+
+
+
+
+
+
+
+
+
+
+
+"More sustainable shopping
+assistant"
+
+Performance one theoretical basic
+concept
+
+
+Axel wirz, Tanya Strobel bruise FiBL
+
+projects GmbH
+
+Frankfurt at the Main, the 6. December 2021
+
+answer from essential basic questions for a basic concept in the Research project “Sustainable shopping assistant for a healthierand more sustainable food consumption”
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+1. Introduction
+
+Aim of the research project “Sustainable shopping assistant for a healthier and more sustainable Food consumption" is to provide consumers with a digital decision-making aid for a sustainable gene shopping for groceries. This will develop a prototype for a digital service ckelt, which, in addition to consumer health protection, serves to inform consumers. In addition, the greatest possible transparency can be created in the food chain, the handling of food resources and their appreciation as well as improving purchasing behavior and conflicting goals and systems nergies between Health, sustainability and the complex Environment transparent make, or. con flicted represent. With to the "Sustainable shopping assistants” should a digital product develop, the AI Connects tools with blockchain-based data and natural language access to the information to via chatbot allows.
+
+For the Development this offer at the consumers should one basis for the Evaluation the products under consideration are created with regard to their environmental and health effects. For this a basic concept is required, which is used as the basis for the evaluation of the food become can.
+
+3 steps for a theoretical basic concept
+
+basis – determination on a sustainability approach
+
+Selection from tools to the Depiction the sustainability aspects in the different dimension to
+
+creation one own Scoring Model/Weighting the dimensions
+
+Included should the basic concept also a clear one have goal description , How the "sustainable shopping assistant tent" users a sound To know provide can and this included support, itself consciously for one healthier and more sustainable food choices to decide.
+
+
+
+2. basis – determination on a sustainability approach
+
+The basis for the Evaluation the sustainability from Groceries is the determination on a sustainability activity model that considers the various aspects of sustainability. These are now more than the three classic pillars of ecology, economy and social affairs. Meanwhile, in science Aspects such as health in the sense of a nutritional system (see WBAE 2020) are just as important How corporate management or the aspect animal welfare.
+
+Not only the resource efficiency , which is mostly in the form of an ecological balance (life cycle assessment – LCA or life cycle analysis) represents becomes, considered become, rather also the further Consistent- strategies such as sufficiency and consistency are taken into account. Sufficiency means the conscious limitation from finite raw materials and Materials, after to the motto "Fewer is more". As third strategy approach, consistency describes action in cycles, i.e. the use of old native technologies to create a cycle from production to use to recycling ability from product substances to guarantee. Only all three strategies together care for for one wholeness ing sustainability , both in the Pursue How also at the Product.
+
+Various sustainability models are briefly presented below, all of which are based on the agricultural and relate to the food sector.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Included is the Distinction to meet, consider I a whole Pursue or a single Product. At the Consideration one individual product is to take into account, that here the Danger one misinter pretation can take place, since an individual product received a positive sustainability rating can, what not means, that the entire Pursue as whole consistent operates.
+
+And as a second point of view, it should be taken into account that, especially when evaluating the product, very trade-offs often occur, i.e. a property of a product improves, but in time one other Characteristic worse. This he follows in particular, if only separate aspects straight in the dimension environment/ecology are considered and communicated. Here is just a note against ben, that a lower CO 2 value, the above the reference size unit of measure generated becomes, simultaneously one higher toxicity and eutrophication having as the comparison product.
+
+1) SAFA Guidelines
+
+SAFA stands for "Sustainability Assessment of Food and Agriculture Systems" or sustainability tion from agricultural and food systems. The guidelines define four dimensions the Sustainability: " Environmental Integrity ", " Economic Resilience ", " Social Wellbeing " and " Good Corporate führung ", which in turn is divided into 21 topics and a total of 58 sub-topics. For each of these sub-topics, concrete targets were formulated that make it possible to performances to evaluate. With this international acknowledged guidelines exists first time a more global Frame and one standardized Language for standardized, transparent and comparable sustainability reviews in the agricultural and Food sector (see Fig. 1.)
+
+
+Here, health and animal welfare are included in the social and environmental dimensions and the handling delve of producers in the focus placed. Not considered becomes the consumer behavior of individuals.
+
+This sustainability model is a holistic approach and is aimed at an operational / corporate men's rating. Here become the sustainability activities and her environmental impact one total ten company rated and not a single Product.
+
+
+
+
+
+
+
+
+
+
+2) sustainability flower
+
+The Sustainability Flower is a procedure to mark the sustainable development of an organization evaluate and communicate them. Each petal represents a significant part of this sustainable Development represent.
+
+The sustainability flower became 2009 from one international group from pioneers the organic movement, to the so-called "Belbis Desert club", developed. To the members to count under other the founder and Managing Director from easta, Sekem, Alnatura, tree of life, Rapunzel, FiBL, IFOAM, soil & More and the Soil Association. Their goal was to convey ecological and social values in an attention-grabbing, striking Model to unite. Result was the "Sustainability Flower" with your four ecological and three social dimensions that were defined using performance indicators from the GRI standard. This Model is working with seven dimensions (Company, economy, Climate, Water, Floor, biodivers sity and Individual). Also this Approach considered the actions of producer not however a a- zelnes Product.
+
+3) The WBAE model the sustainability
+
+A another Approach is the sustainability model of scientific Advisory Board for agricultural policy, nutritional tion and health consumer protection (WBAE) the federal government Germany.
+
+The WBAE approach consists out of four Dimensions: Environment, social, Health and animal welfare.
+
+Health: One health-promoting Nourishment, the to one higher Life expectancy, more healthy years of life and more wellbeing for all contributes.
+
+social: One Nourishment, the social minimum standards along from value chains ge guarantees.
+
+Environment: An environmentally friendly and climate-friendly diet that is part of the medium and long-term sustainability goals of Germany fits.
+
+Animal welfare: A diet that supports more animal welfare and thus the changing ethical s claims the Company just becomes.
+
+
+
+
+
+
+
+The dimensions were set up for the sustainable action of the individual/consumer and from view one healthy Nourishment. The individual rating levels are however not simply combinable, In some cases, conflicting goals can also arise between individual levels – but synergies can also arise. To the WBAE approach lacks the economic dimension and the dimension of corporate management/management delve , ie a (sustainable) Act of producers/companies becomes not taken into account.
+
+
+In the individual dimensions, the WBAE defined it itself none sustainability criteriareport describes subject areas that are considered, but Are , the measurable are.
+
+
+Example social: Existing approaches were described, but not critical rated.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Advantages and disadvantages of this approach: Dietary behavior and health issues are considered intensively, but there are weaknesses, e.g. in the environmental dimension, since production on processes not sufficiently rated become.
+
+
+SDGs
+
+At the political level, all UN members adopted the 2030 Agenda for Sustainable Development in 2015. lung. In it, 17 general sustainability goals , so-called Sustainable Development Goals, called SDGs for short. These goals are to be adopted by all developing, emerging and industrial rie states reached become, are indivisible and conditional each other.
+
+The SDGs encompass three dimensions of sustainability: social, economic and environmental. Also are the Sustainable Development goal five core messages as action-guiding principles prefixed: People, Planet, Prosperity, Peace and Partnership . Economic growth should be ecological be compatible. Ecological sustainability is meant to be natural through considerate use Resources such as promoting sustainable agriculture and consumption that protects the planet and the environment. This is how a world without hunger and poverty should come about People long term a fair, peaceful and healthy Life allows.
+
+The SDGs are overarching sustainability goals; only the degree of implementation for each can be measured here Country. However, they are not directly suitable for assessing the sustainability impact of individual products. evaluate.
+
+Recommendations for action and specific criteria can be developed from the SDGs that measurability help can. So flow eg single targets in the WBAE approach.
+
+
+
+
+
+
+
+3. Consideration the individual dimensions
+
+By determining the use of sustainability dimensions (environment, health, animal welfare, Social) according to the WBAE model, assessment approaches and assessment tools are selected and developed their advantages and disadvantages considered.
+
+Around one holistic Statement to the sustainability one product make to can, should several dimensions are considered and then the individual results are combined into a comprehensive information mation for the consumers summarized become.
+
+3.1	Environment
+
+On Product level:
+
+The basis should be a standardized procedure such as the Life Cycle Assessment (LCA) be, with at least one system boundary along the entire value chain,
+
+i.e. from the manufacture of the operating and production resources, via the production (from animal and plant products) to processing, packaging and retail. However, in a classic LCA, aspects such as biodiversity, land use as well as the animal welfare and the consumption side Not or only barely considered.
+
+On Company level:
+
+The basis should be the whole company with the entire production chain Products/services, his entire entrepreneurial activity, dealing with Delivery, employees as well as his social Responsibility.
+
+In principle, product-related environmental labels must be correct, verifiable and relevant be must and they may not mislead (WBAE, 2020).
+
+
+
+It should taken into account become, if and which trade offs exist. This meets e.g. to, if only separate criteria are considered, e.g. a lower CO 2 footprint implies an intensification of pro- production, How approximately at Milk, tied together with lesser environmental pollution. A concrete Example might clearly, that a more differentiated View on the connections necessary is: One 10,000 l Cow has a CO 2 footprint of 1.0 kg CO 2 eq./kg milk, with 2.7 lactations, vs. a 6,000 l organic cow, with approx. 1.0 to 1.2 kg CO 2 eq./kg milk and 4.7 lactations (cf. FiBL, 2017). The increase in the annual yield of a cow reduces the "required number of animals on the farm" and thus the accumulation of greenhouse gases (TGH) such as than and nitrous oxide (Brade, 2014). At the same time it turns out that the higher the milk yield, the lower one possible saving effect of TGH potential (Antony, 2021). Simultaneously goes one increase the ecological cal milk production is accompanied by disadvantages in terms of energy expenditure and land use (Antony, 2021). Animal welfare and biodiversity aspects would also have to be taken into account at this point. terms 1 . As well the Theme generation and marketing from the Beef.
+
+
+
+3.1.1  individual indicators
+
+carbon footprint _
+
+
+The carbon footprint _ (engl. carbon footprint) becomes also as carbon footprint _ or greenhouse gas balance designated not. He gives at, How many carbon dioxide emissions direct and indirect through one activity caused become or arise over the life stages of a product. Besides carbon dioxide (CO 2 ) flow often other greenhouse gases such as methane or nitrogen monoxide also contribute to the CO 2 footprint by CO 2 equivalents (short CO 2 eq.) be converted (nu3, 2021).
+
+A study by the Institute for Energy and Environmental Research (Ifeu) makes it clear that it is not just “the There is a "footprint" of a food, as this depends on numerous boundary conditions. The published Data to the carbon footprints _ from groceries soft partially clearly from each other the away. This deviations result itself often out of the respective question. So might it for example makes a big difference whether only domestic production is considered or whether imports are included and thus the annual average for food sold in Germany is included in the calculation. The situation is different again when it comes to a specific product such as regional and seasonal strawberries goes. In addition, CO 2 emissions from land use and land use change in many Studies not included (Ifeu, 2020). Not only the production is decisive for the ecological physical footprint, but also the type of transport, packaging and preservation of the food. Out of environmental view should for example on flown in Products waived become (ibid.). Simultaneously puts the WBAE report represent, that "one regional generation out of one sustainability perspective is not always the first choice, and reusable packaging is not (always) environmentally cher as disposable packaging are" (WBAE, 2020).
+
+That also the food choices a Influence has, shows itself at the accounting from ready to eat dishes. Small recipe changes, such as substituting plant-based products for animal products, can decisive for be the overall balance and therewith offer savings potential.
+
+Selected factors the one Influence on the carbon footprints _ from groceries have:
+
+cultivation methods or. management forms
+
+formulations (e.g fat content)
+
+The comparison of the two forms of production (organic and conventional) showed that with increasing milk yield, the emissions out of digestion and fertilizer storage lose weight, for this the greenhouse gas emissions at the generation energetic greedy feed increases. A reduction in greenhouse gas emissions is possible through a balanced humus and nutrient balance in forage production, improved longevity and milk yield of the cows as well as an efficient heifer rearing possible at one simultaneously further waiver on import feed (Soy) possible (brade, 2014).
+
+
+
+
+processing grades
+
+seasonal or. non-seasonal production
+
+import or. In-house production, Mode of Transport
+
+packaging variants
+
+fresh produce vs. frozen goods
+
+A few examples with different initial situations and their CO 2 footprint are given below. pressure, based on that presented by the Institute for Energy and Environmental Research (Ifeu (2019). In addition to the greenhouse gases, other ecological footprints also play a role. Therefore, in the study of the Ifeu additionally water, surface and phosphate footprints as well as the energy requirements for approx. 30 Le- food calculated.
+
+
+Table 1: Different CO2 values after the calculation method of Ifeu
+
+
+Source: IFEU 2020
+
+However shows straight the Example beef production the Before- and Disadvantages one pure resource efficiency efficiency up. Due to the longer fattening period - which is specified, for example, in the organic
+
+
+
+
+sector - and the stronger feeding with roughage, cuts one extensive Agriculture, How ecological cattle farming in this
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+viewing worse. However, the aspect of animal welfare is forgotten in this approach as well as a feeding without imported goods. However, this is an important one, for example from the point of view of the consumer Sales argument, because a "turbo mast" is not desired, also with regard to sustainability. It is also forgotten here that in certain geographic regions with a high proportion of permanent grassland only a ruminant husbandry as a source of food with meat and dairy products is possible. Another point that is not taken into account by a carbon footprint is the quality of the meat . cal, such as flavor, veining, or marbling of the meat due to a particular beef breed race or one longer grazing time on a species-rich Pasture.
+
+water footprint
+
+
+Another individual indicator is the water footprint. The water footprint is a Indicator for the use of water as a resource. The water footprint takes into account the so-called virtual water - and illustrates the human influence on water as a resource. Any product claims virtual water. That means it has a water footprint. And this one is mostly far greater than the visible amount of water consumed. According to the Federal Environment Agency, “more than half of the water for the required products and goods not from Germany” (UBA, 2021). Meat, Coffee and tea to count to the so-called thirsty goods – so products, the particularly What- serene intensive in of their manufacturing as well as her import are (p. Cape. 3.1.1.6). regional and seasonal Products reduce the consumption of virtual water, among other things, by avoiding imports (Swiss, 2020). concrete examples are in the study of Ifeu (Ifeu, 2020) as well as above the Water footprint network 2 to find.
+
+The water footprint makes it possible to compare the water consumption of different products (cf. 
+
+and offers the possibility of examining the influence of individual consumption on the global Present and compare water resources. For the calculation of the water footprint is done loud Ifeu one "Weighting the different consumed amounts of water after the Water scarcity, prevailing in each country where the consumption takes place” (Ifeu, 2020). The basis is the A WARE method after Boulay, 2018 3 (ibid.).
+
+phosphate footprint
+
+
+Rock phosphate is mined outside of Germany. Contributes to the phosphate footprint of food primarily the phosphate at, the as fertilizer for the agricultural production needed becomes. Added to this are phosphates, which are processed foods (e.g. fast food, ready meals, lemonades) added become. The Recording from phosphates above the food takes to and can maybe to healthy- cause serious damage. The phosphate values for the foods given in are “in Grams of phosphate rock equivalents given. This will increase the mass of phosphate-bearing rock referred to, which is consumed for 1 kilogram of the food" (cf. Ifeu, 2020). More information to delivers the report of Ifeu to the "Fixation of indicator for the accounting the resource phosphate in environmental assessments (Ifeu, 2019).
+
+nitrogen footprint
+
+
+Also Nitrogen becomes as fertilizer deployed and leaves therewith a nitrogen footprint with Environment-and health effects (e.g about the groundwater). excess nitrogen in of agriculture ancestral
+
+
+
+Water footprint network (2021): https://www.waterfootprint.org/en/resources/interactive-tools/product-gallery/ 
+
+Boulay, AT THE., cash, J, benini, L, Berger, M, Lathuillière, M J, Manzardo, A, Margni, M, motoshita, M, Nunez, M, Pastor, A v, ridoutt, B. ok, T, wore, S, Pfister, S (2018): the WULCA consensus characterization model for water scarcity footprints: assessing impacts of water consumption based on available water remaining (AWARE). The Inter national Journal of lifecycle Assessment, Vol. 23, No.2, pp. 368-378
+
+
+
+
+
+
+
+
+men from both land use and animal husbandry. At the same time, the societal (i.e. the domestic direct) Costs of use of nitrogen very high. This indirect Costs develop eg through the cleaning tion of water at one to high N content, caused through over-fertilization. As well the cleaning costs at pesticide residues in the groundwater.
+
+Evaluation the land use / land take – area foot print
+
+
+The agricultural sector contributes significantly to Germany-wide nitrous oxide and methane emissions (N 2 O 79%, CH 4 63% (UBA2021)). But it can also be crucial to solving this problem contribute, e.g. through the cultivation of renewable raw materials and the creation of biological ones CO 2 sinks in moors and forests.
+
+However favor the country- and forestry land uses also the persistent biodivers sity (WBAE, 2020). With regard to the entire life cycle, the further production, Transport and trade levels, individually and together, average less than half of the burden on agriculture. However, there are exceptions, such as when transporting groceries by plane or in the case of very energy-intensive packaging. On the consumption side, too, there are look, it to take into account is applicable, see below (ibid.).
+
+“Particularly problematic indirect land use effects result from the use of primary forests (primeval forests) or previous Protected areas such as moors. One Sustainable development of the food system therefore requires a combination of supply-side measures (both agricultural and economic de-intensification as well as ecological intensification) on the one hand and on the consumption side Measures on the other hand, especially reducing the consumption of animal products and food food losses” (WBAE, 2020).
+
+In addition to intensively managed farms with a very high use of operating resources and narrow fruit extensively farmed conventional farms with varied crop rotation or more extensively follow Grassland use by suckler cows or extensive breeds. These different levels of intensity are also practiced in organic farming. In addition, in organic farming, the sluggish are (significantly) lower. Which in turn leads to a higher land consumption and larger environmental impact leads. Becomes e.g. at the production from milk more milk performance feed (esp out of soy) is used, the environmental impact also worsens (Antony, 2021). Since the topics use and -consumption always stronger at Meaning win, becomes itself future also the organic farming with the subjects "vertical farming" and aquaponics deal with must. Both can a Contribution to the urban Agriculture afford and to one reduction of land use contribute.
+
+Intensification and specialization in agriculture, the (intensive) use of fertilizers and plant protection agents and an increase in field sizes with a simultaneous decrease in field edge streaks fen are essential Causes, the to one Loss at biodiversity to lead. But also the "landscape structure has a significant impact on biodiversity, particularly in fauna” (WBAE, 2020). However, various studies come to the conclusion that organically farmed land in many cases have a higher biodiversity. The WBAE report therefore recommends that land use systems teme to be evaluated in a region-specific and company-type-specific manner, since this has a considerable influence on the characteristics of the results (WBAE, 2020). A positive contribution to the preservation of the cultural landscape and biodiversity, for example, the care and valorization of regional products (e.g. orchards) afford. Also the credit this surfaces on the eco account from Pursue in the Frame from Substitute-or compensation payments were conceivable.
+
+State funds are currently being used to limit soybean cultivation in Germany (about 1% of the import quantities) to advance. The result of this is that soybean cultivation, which is comparatively low-yield here (approx. 3.5 t/ha) a high-yield Wheat- (8th t/ha) or grain maize cultivation (10 t/ha) repressed and so a indirect land-use change elsewhere on the World promoted (WBAE, 2020).
+
+
+
+
+
+
+
+
+
+
+
+At this point, the topics of “ green genetic engineering ” and the use of genetically modified tered organisms (GMO) should be mentioned. This, as well as green genetic engineering in general, will be seen from afar rejected by parts of the German population. It is feared that the use of GMOs will have high environmental and has health consequences. GMO-free products are considered more sustainable. However, the WBAE is of the opinion that this "is not justified according to the current state of scientific knowledge" (cf. WBAE, 2020). GMO feed (esp Soy) become in huge amounts imported and in the livestock farming deployed. However, they do not have to be labeled as GMOs. The same applies to additives or auxiliaries that be produced using white genetic engineering. However, there are more and more foods associated with the seal "without genetic engineering" marked are.
+
+digression Palm oil production : Also here exists a "Tense relationship from more economical development lung in the producing countries and production systems, the out of the perspective western Social- and environmental standards are considered problematic. Simple solutions like general import bans help no further here either. The oil palm provides a higher oil yield per hectare than any other crop. plant, so that a simple substitution of palm oil with other vegetable oils creates additional land use tongue change would entail. Instead, comprehensive and verifiable sustainability efforts of agricultural trade and processors, which are being strengthened by political pressure should” (WBAE, 2020).
+
+
+At the calculation of land footprint "he follows one weighting the different required surfaces after of their respective distance to one natural state 4 . The result values for the in selected foods are given in square meter years of natural area occupancy. For that which all differently used areas of a life cycle (such as for agriculture, roads, domestic industrial areas) in equivalents complete sealed surfaces converted, the for the respective food be taken for a year" (Ifeu, 2020). Further information on the area footprint also provides the report of the Federal Environment Agency Germany (UBA) on the "Development of consumer ted land use indicators” (UBA, 2017).
+
+
+
+ecological footprints
+
+
+The the following Table puts the ecological footprints selected Groceries represents:
+
+Table 2: ecological footprints selected Groceries
+
+
+
+For details see: Fehrenbach, H., Keller, H., Abdalla, N., Rettenmaier, N. (2020): Attributive land use (aLU) and Attributive Land Use Change (aLUC): A new method to account for land use and land changes in use in life cycle assessments, version 2.1 of ifeu paper 03/2018. ifeu - Institute for Energy and Environmental Research Schung Heidelberg, Heidelberg, Germany. 
+
+
+
+
+
+
+
+Source: Ifeu, 2020
+
+The table makes the range of fluctuation between the different products clear. Clearly also that favorable values in one indicator do not necessarily mean good values in the other indicators gates imply. Also the Degree the processing correlated not in everyone cases with unfavorable values.
+
+The example of butter and margarine shows the role played by the origin of the raw materials in CO 2 -, water and land footprint, ie whether the raw materials are of plant or animal origin. The herbal product performs significantly better in terms of footprints. Among other things, this is on a lesser land use in the crop production across from the livestock farming attributed.
+
+In addition, margarine and butter differ in their fatty acid composition. butter holds 60% saturated fat and 40% unsaturated fat. The former have a negative effect on the LDL cholesterol level, the latter have positive effects. The fatty acid composition of Marga- rine hangs against it essential from the in this included vegetable Oil and fats away. The Portion at saturated fat is around 25%. In addition, margarine is cholesterol-free. Basically should fats and oils not excessive consumed become. However acts it itself at margarine around no natural product (Nutritional advice Rhineland-Palatinate, 2021) and also the kind of their Packaging can as problem matic estimated become.
+
+
+
+3.1.2  assessment tools
+
+Life cycles Assessment (LCA)
+
+
+One approach to comparative ecological evaluation is the Life Cycle Assessment (LCA, Lebenszyk- lus analysis) or the product life cycle assessment (WBAE, 2020). In contrast to CO 2 and water footprint becomes at the LCA not only one environmental dimension considered. In one LCA becomes tried, "possibly all Environmental impacts of different functionally equivalent products or product groups in systematic table shape along of entire manufacturing process (ie of product life cycle, "cradle to grave" approach) to record and evaluate" (ibid.). This analysis should enable companies to to optimize processes. However, assumptions have to be made in some places. Besides that become social and economic aspects not taken into account.
+
+The principles and rules for conducting LCAs have been defined in various ISO standards. placed. LCAs comprise the four elements: (1) definition of goal and scope of investigation , (2) the Inventory analysis
+
+(3) the impact assessment and (4) the evaluation or interpretation (see ).
+
+In phase 1 become the system limits Are defined, so which concrete process steps from the manufacturing should be taken into account until a product is consumed. The Ifeu considered in his study from to the Year 2020 e.g. the system limits "Supermarket checkout" - from the production Incl. upstream Per- process, processing, packaging and distribution and "ready prepared on the plate": the purchasing drive for ready meals as well as cold storage, preparation and rinsing (Ifeu, 2020). In addition, in the In the first phase, the functional unit is determined, ie to which product unit the effects relate become – e.g. B. per kilogram of product or 100 calories. This makes the comparability of variants possible. In the Rule becomes at groceries the Weight as functional unit chosen. je after product under consideration, e.g. milk, it can also make sense for a life cycle assessment to include several on units to use (cf. Antony, 2021), such as
+
+
+
+
+
+
+
+
+
+
+
+In the second phase he follows one inventory the inputs and outputs everyone Step (inventory analysis). The inputs include energy, water or land use. Outputs are products but also waste and emissions. Under circumstances must data collection take place. Also “Attribution Rules” and
+
+"Cut-off criteria" (for ancillary processes or by-products) must be specified (cf. WBAE, 2020).
+
+In phase 3, the effects are summarized in environmental categories (life cycle assessment) and units of action converted. These categories include, for example, climate change, water or land use tongue. Also Effects on the human permit itself model.
+
+In phase 4, a sensitivity analysis is performed, conclusions are drawn and recommendations are made derived (interpretation phase).
+
+According to WBAE puts "the Agriculture however one special Challenge represent, there the definition of the system boundaries and the acquisition of data due to the differences between the companies and the terogenicity the primary production difficult are" (WBAE, 2020). The is called, the Agriculture or. the Country- use is through one height variability shaped. Besides that gives it for different production process Data gaps that can only be filled with estimates. This makes the challenge gene and complexity one LCA clearly.
+
+product Environment footprints (PEF)
+
+
+A more comparable Approach for the LCA is the PEF method (product Environment footprint). The PEF is a multi-criteria method for life-cycle-based modeling and assessment of environmental effects, the through occurring Material- and energy flows (inputs) as well as the associated emissions
+
+
+
+
+
+and waste streams (outputs) in the manufacture of products and the provision of services, arise hen” (Finkbeiner, 2018). [Note: Products are not just about food]. The difference to the LCA is the target group of the approach: The PEF is not only used for internal project and process optimization, but is also “oriented towards communication, business-to-business (B2B) or business-to-consumer (B2C) (ibid.). Full development and Assessment of PEFs as political or independent instruments in the transition phase. From this Ground becomes not closer responded to.
+
+cradle to cradle
+
+
+The principle of "Cradle to cradle (C2C)” strives thereafter, a positive footprint to leave behind. This principle follows to the Approach one continuous and consistent circular economy (in the contrast to "cradle to grave"). This means that the cradle to cradle approach evaluates the entire life cycle of a product ducts. This cycle "From the cradle to the cradle" describes "the secure and potentially infinite zir cultion of materials and nutrients in cycles. All ingredients are harmless and executable. Garbage in today's sense, as created by the "take-make-waste" model, does not exist more, but only usable nutrients” (EPEA, 2021). Cradle to cradle " promotes diversity and supports regional approaches . In the meantime gives it also a C2C product standard the also social standards taken into account" (ibid.).
+
+Eco score
+
+
+The calculation of eco score, one more comprehensive assessment tool, based on the life cycle analysis sen (LCA) for 2,500 product categories by the French state agency for ecological transition (Ademe) together with the French Research Institute of Agriculture, Food and Environment (Inrae) in the Agribalyse database. However, only standard ted CO 2 production data (plus bonuses or. less penalties) used. At the Eco score acts it This is a so-called Front of Pack (FOP) label , an identification on the front of packaged food.
+
+The Eco-Score evaluates the environmental properties of a food, ie it records which environmental world footprint a product has. So gives it 16 categories, the at the Evaluation of product one role play:
+
+climate change
+
+
+
+
+
+
+
+
+
+ozone depletion
+
+For the People poisonous: carcinogenic
+
+For the People poisonous: non-carcinogenic
+
+particulate matter
+
+ionizing radiation
+
+photochemical Education from ozone
+
+acidification
+
+terrestrial eutrophication
+
+aquatic eutrophication the seas
+
+aquatic eutrophication from Freshwater
+
+ecotoxicity
+
+land use
+
+water use
+
+use fossil fuels
+
+Raw material consumption: minerals and metals
+
+The rating scale contains five stages from A until E A Groceries with the Evaluation A has one low low impact on the environment and a product rated E has a high impact on the environment. In addition, plus or minus points can be awarded through certain other criteria. be collected. For example, with sustainability labels such as "Demeter" and "Bio" plus points or through one not sustainable Packaging minuses to be collected.
+
+the fact that life cycle analyzes are used as a basis causes criticism . life cycle analysis According to one accusation, people prefer products from intensive agriculture. In addition the imported Groceries at the Eco score not worse away as local produced (food news, 2021).
+
+Besides that recorded the Eco score subjects How Biodiversity, animal welfare or Mission from crop protection teln (PSM) not directly. However, these aspects are increasingly being viewed by consumers as information to the Evaluation the sustainability one product desired.
+
+
+Product Comparisons with different results
+
+Below is an example of a different Eco-Score rating with one and the same- ben product shown. Data for the indicators of the Eco-Score is mainly provided by the manufacturers of the Products. For this reason the data is not always complete. Received in the following example a and the same thing product two different scores, once the Eco score D and once the Value C
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+A component of Eco score is, How described, one Life Cycle Analysis. This includes the phases (p.
+
+Illustration):
+
+Agriculture
+
+processing
+
+kind the Packaging
+
+transport
+
+distribution
+
+consumption
+
+The life cycle assessment of both products is 54 out of 100. The PEF (environmental footprint) 0.13, the Effects on the climate change (CO 2 footprint): 1.49 kg CO 2 .eq/kg Product. Additional bonuses and penalties can the products in the following areas receive:
+
+production method eg organic, fair traded Etc.
+
+Origin the Ingredients, environmental policy and transport
+
+threatened species
+
+kind the Packaging
+
+Both products get deductions in environmental policy (-5 points) and in the type of packaging (- 15 points). The product on the right gets 15 points for production according to the EU organic regulation. This Points are offset against the life cycle assessment. Since the production method for the product on the left (out of unknown Found) not taken into account became, cuts be Eco score worse away – at otherwise same score. With it is missing for a and same product one clear assessment statement.
+
+Around the weaknesses of Eco score to clarify become in the following two different Products considered with the same result for the Eco-Score. Again, no full calculation could be made of Eco scores take place. Therewith receive both Products a bad Eco score. In both cases became
+
+
+
+
+
+
+
+the production method not taken into account, What but out of view one holistic point of view emergency would be necessary, since aspects such as biodiversity or animal welfare were not taken into account. Also show Dien von Antony (2021) that in extensive dairy cow farming this is possible with a complete LCA nope good cut off How in an intensive mode of production.
+
+In order to make a correct statement as to how the Eco-Score differentiates between different production methods, EU organic, association organic or additional aspects such as fair and regional or not, For example, would it make sense to compare the following dairy products that cover these different aspects content: Upländer farm dairy, Arla organic pasture milk and Hamfelder Hof fresh milk. All three Dairy products became biological produced.
+
+uplander Milk: certified fair milk after Bioland standard
+
+Arla: organic pasture milk after EU organic regulation
+
+Hamfelder court organic fresh milk – after Bioland standard
+
+Production or animal welfare/animal husbandry: Arla advertises grazing. Should the milk actually come from nemark, grazing for the animals would be (more or less) obligatory - also because of of the organic logo. Pasture husbandry can also be used for Upländer milk and organic fresh milk Animals went out become. This is according to Bioland standard required. Simultaneously is the Expression
+
+"Pasture milk" not defined or protected under food law (Lower Saxony Consumer Advice Centre, 2021). How the study of Federal Environment Agency (UBA) shows, hang the environmental impacts one pasture (e.g. GHG pollution) including with the regional conditions (possibilities for the feed building and for grazing) and the others feeding together (Antony, 2021).
+
+Processing: Both Upländer and Arla milk were processed in this way (including heat is) that they have a longer shelf life (so-called ESL milk). The organic fresh milk from the Hamfelder Hof became at the least processed.
+
+Packaging: All three dairy products are packaged in a Tetrapak whose environmental impact gene considered controversial become.
+
+Transport: Arla milk may have to travel a long way. This depends on where the milk comes from. At the Hamfelder court fresh milk acts it itself around one local produced Milk. The carbon footprint _ in Relation on the transportation is so very different.
+
+
+
+
+
+Marketing: Upländer Milch is mainly marketed regionally (Hesse), Arla is nationally so far marketed and Hamfelder court fresh milk becomes expected rather local marketed.
+
+social: Behind the Upländer milk stands one Cooperative. Besides that is she as fair marked draws. The Hamfelder Hof also stands for a smaller production company. Whether and in which Scope social criteria at Arla a role play, becomes not apparent.
+
+
+planet score
+
+
+A news Approach is the 2021 in France developed planet score (Protillapro.com, 2021). This based based on an LCA approach, but also takes into account the use of plants in food production zen protection agents, climate effects, biodiversity and animal welfare . The label considers differences not only within one product category (e.g apples different Sorts) and different production on methods, but also differences between product categories (e.g. meat vs. apples). The data of the Planet Score are based on the Agribalyse database. Here are at least 2,500 product categories listed. As described, the Planet Score considers some indicators that are not or only rarely included in the LCA recorded become.
+
+Mission from Pesticides: Here becomes also the Effect on the human and plans- tare Health considered as well as the presence from crop protection products in groceries.
+
+Climate: Next to soil carbon stocks become also greenhouse gas emissions taken into account.
+
+
+
+
+
+
+
+
+Biodiversity: Takes into account effects associated with the use of pesticides, but also the Size from agricultural punches and the To be available from landscape elements ment How eg hedges.
+
+animal welfare: consideration different animal welfare standards
+
+Next to the Depiction the four individually evaluated indicators becomes a overall value issued.
+
+Large qualitative studies that have already been carried out should show that this logo ment at the Choice more sustainable Products supports (Foodnavigator.com, 2021). 16 organizations want the Support Planet Score (ibid.).
+
+
+Further seal and approaches
+
+
+In the following become further seal and approaches short described. On it becomes not closer received out of and G. Found. These seals become at the rating only limited consideration.
+
+The Pro Planet label as a private label “stands at REWE, Penny, Nahkauf and Toom-Bau-market for products that have been produced in a more ecologically and socially sustainable manner or meet the highest animal welfare standards” (PRO PLANET, 2021). The "quite demanding" pro- Planet Program identifies problem areas (“hot spots”) to fix or mend However, there are doubts about this concept ("the company certifies itself self") (cf. Winterer, 2017).
+
+The rain forest Alliance is after own Declarations "worldwide leading in the sustainability certification fication” (Rainforest Alliance, 2021). She works on the four topics of forests, climate, living conditions and human rights. The aspects of certification, landscape management, advocacy and supply chain services. "UTZ certified" is also part of the Rainforest Alliance. The certified products include coffee, cocoa, tea, bananas, palm oil and coconut oil. However, the requirements of the seal fall far short of the organic and fair trade seal return.
+
+WWF: The nature conservation organization WWF (World Wide Fund For Nature) supports the Sustainability communication in food retail, for example together with EDEKA. This also leads to the throw, the bandage stand to close at the Industry 5 .
+
+
+
+
+Source: Nach-haltig-thought.de (2022):  
+
+
+
+
+
+
+Blue Angel: The label is mainly used for non-food items and environmentally friendly products services, and is a federal government eco-label. Excellent become etc climate friendly sales markets such as Tegut markets.
+
+
+A ecopoints model is a possible Approach, around the ecosystem services in the Frame the agra- fresh land use to capture and state to honor. This labels could for the a the food medium processors and -dealers of their Purchasing Policy help, for the others the consumer ment at the Choice of their Groceries (unprocessed Products but also processed Products).
+
+Food waste : No known label indicates whether and to what extent the men food waste or avoidance of food waste throughout the production tion must be taken into account. According to the WWF, 1.3 billion tons of edible food are consumed worldwide every Year thrown away (WWF, 2021). This has not only ecological, but also social Effects.
+
+
+
+3.2	Health
+
+3.2.1  Nutri Score
+
+The Nutri-Score is suitable as a tool for evaluating the health aspect of a sustainable Nourishment. However, he makes no statements about the effects of nutrition on the resource consumption . The Nutri-Score is a five-point scale with a combination of book and rods from A until E and Colors, the at one Traffic light ajar are (dark green, light green, yellow, orange and red). The Labelling gives one overall rating on the basis one calculation algorithm at, the show should, How more or fewer advantageous the nutrient profile one food is. The consumption chers should be easier and more transparent when shopping for health-promoting food choices. And manufacturers should also be encouraged to use healthier nutrition substance composition of the products (DLG, 2021). Small recipe tweaks, about one Fat or salt reduction can the Nutri Score essential change.
+
+The Nutri-Score is a voluntary label. The national introduction of enhanced nutritional identification is not mandatory under current EU law. Seen across Europe, the Nutri- score a possibility the extended nutritional labeling.
+
+The calculation of Nutri scores he follows on 100 gram basis one product:
+
+Included receive as positive rated nutrient and ingredients (Protein, fiber, Fruit, Vegetables, Nuts) negative points.
+
+As negative rated nutrient (Energy, saturated fatty acids, Sugar, Salt) receive positive tive points.
+
+Both are offset against each other: the lower the total number of points, the higher the overall rating tion .
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Criticism : However, no assessment approaches for micronutrients (vitamins and minerals) or Secondary plant compounds (flavonoids, phenolic acids, etc.) are also recorded. Likewise, certain material Characteristics not included. A essential Disadvantage, if the Nutri Score alone considered becomes, is also, that the environmental impact at the manufacturing of product not taken into account who- the. here can it even to one deception come (e.g. rice cake).
+
+
+The corn/rice cakes have a class A Nutri-Score. However, they have a pure Nutri-Score no environmental impacts of the two raw materials have been taken. According to the product labeling, this is not the case clarified, if it itself at the rice cultivation around wet rice or dry rice acts. The carbon footprint _ from Wet-rice is 6.1 kg CO 2 /kg rice, that of dry rice 4.3 kg CO 2 / kg rice. In comparison, 1 kg Pork has a footprint of 3.26 kg CO 2 / kg and 1 kg of potatoes has a footprint of 0.62 kg CO2 / kg Potatoes.
+
+
+
+
+
+
+
+3.2.2  NOVA system
+
+The NOVA system gives the Degree the processing from groceries at:
+
+This system does not take into account energy and nutrient content, but food quality and degree of processing . This system results from the recommendation that foods should be largely unprocessed processed and untreated (i.e. natural) to eat. At the same time, processed, i.e. industrially asked groceries one higher carbon footprint .
+
+3.2.3  food safety
+
+The Theme food safety becomes here not treated, also if the Freedom from individual return standing How crop protection products and microplastics already on packagings offered become and so- with indirect on sustainable / environmentally oriented modes of production conclusions give should. simultaneous This is an important topic for many consumers, and the claim that organic qualities does not appear to be resolved, although stricter controls take place here (keyword: missing Trust the consumers in organic, see. 6 ).
+
+
+
+3.3	animal welfare
+
+The various help here labeling approaches - with their different characteristics, from Initiative Tierwohl (ITW), the state animal welfare label to trade labels . they say However, nothing about animal welfare (animal behavior, condition, etc.) as a whole, as with the approaches often only the forms of husbandry (e.g. substantial amount of space/m² and activity material) are described. However, not every (existing) label takes into account important indicators such as animal health or use of medication. The topics of animal husbandry, transport and slaughter are also discussed not or only hardly taken into account.
+
+Marktforschung.de (2022): 
+
+
+
+
+
+At the Selection the forms of identification should observed become, which legal Requirements already exist or will come. It should also be noted which measures are taken by companies of the food retail trade, e.g. delisting of products with a certain husbandry stage, sale of eggs without killing chicks, implementation of 5xD (birth, rearing, fattening, slaughter, Dismantling/Processing in Germany).
+
+In the future, the production and consumption of in vitro meat will also be activity effects to be viewed as must.
+
+3.3.1  animal welfare in ecologically and conventional economizing farms
+
+Basically, there are only a few comparative studies on animal welfare in organically or conventionally farmed operating companies. Existing studies mainly relate to individual effects and milk cows. With regard to animal health, the evaluated studies on all livestock species and production no clear picture in all directions . Management seems to matter more than the question ecological or conventional. Regarding animal behavior and emotional state, the few show studies advantages of ecological livestock farming (WBAE, 2020).
+
+3.3.2  animal welfare and climate protection
+
+From the point of view of climate protection, the productivity of livestock farming for pigs or give high priority. However, very rapid growth and very high performance are often possible associated with animal welfare problems. To some extent, improved postural environments can and breeding for functional traits relevant to animal welfare mitigate conflicting goals, however this Approach also limits. Out of animal welfare perspective is for the most livestock in the today's internal sive attitude a “ de-intensification ” necessary (WBAE, 2020).
+
+greenhouse gas emissions from products animal Origin lay as well as based on the Unit energy as also on the Unit protein across from vegetable Sources around a multiple higher – based on effects in Attitude, Feeding, further processing Etc. One reduction of share from groceries animal Origin at the total consumption would to positive climate protection effects to lead – whereby Trade off to take into account are.
+
+3.3.3  Wild, fish and insects
+
+The rearing or husbandry and consumption of game, fish and insects should also be sustainable activity evaluation taken into account become.
+
+Game meat comes in many cases from species-appropriate living animals. If the game from the region stems from is venison aside from that through short Transport routes marked.
+
+fish : Under sustainable fishing understands man, that the used fishing methods and her To whom- tion keep the fish stocks at a stock-maintaining level and do not destroy them in their reproductive ability is restricted. Furthermore, sustainable fishing aims to reduce the impact on the Minimize marine ecology and unwanted catches as much as possible. All of these goals are in the common fisheries policy of the EU (CFP) committed. Current exist two Seal:
+
+MSC seal : The marine stewardship Council (MSC) is one independent, non-profit inter national organization to the certification from fisheries after environmental impact criteria. In a lengthy process, certifiers check whether the fisheries meet the standards of the MSC speak. However, the MSC has some shortcomings, e.g. it no longer corresponds to the current current state of the art and the best available methods. The WWF is looking at that MSC seal as a minimum standard for wild fish. Requirements for sustainable production are however higher (WWF, 2021a).
+
+
+
+
+
+
+The ASC standard (Aquaculture stewardship Council) puts itself for more environmentally friendly aquaculture doors. Arctic char, oysters, tilapia, pangasius, salmon, shrimp, Trout and mussels available with the ASC seal. There is criticism of the use of fishmeal and oil or from GMO soy (ibid.).
+
+
+A premium label for farmed fish puts e.g. the Naturland certification represent.
+
+Insects : Reasons for the increasing attractiveness of insects as so-called Novel Food are the high yield nutritional value (high protein content, rich in vitamins and nutrients) and the cost- and resource-resource-friendly rearing. Already 50% of the 14 to 29 year old German population can imagine the Imagine the consumption of insects as a measure to be able to feed the growing population in the future (forsa Nutrition Report 2019/2020). According to Meticulous Research (via Bloomberg, 2019), this will change market volume in Europe until for the Years 2023 with 218.5 % in the Comparison to 2018 quadrupled have (Euro fins Germany, 2020). Europe-wide are valid food insects and insectic Groceries as novelty le food. In 2021, the larva of the yellow mealworm (lat. Tenebrio molitor) became part of the family the black beetle as novelty Groceries authorized (ibid.).
+
+Naturland was the first organic association to issue guidelines for sustainable insect production and so on the market importance from insects reacted.
+
+
+
+3.4	social
+
+It consist different sustainability rating systems for social Criteria:
+
+Decent work: a concept recognized worldwide, developed by the competent UN organization ILO, basis for many sustainability assessments
+
+SAFA the FAO, also basis many sustainability assessments
+
+Fair trade: familiar labels in the trade (please refer: GEPA - the Fair Trade company)
+
+Global CAP GRASP: directs itself not at consumers, rather at the Trade, focus is the food safety
+
+COROS: from IFOAM for the organic farming
+
+DLG Sustainability standard: in Germany developed system for agricultural loading drove
+
+Rain Forest Alliance (p. Environment, Chapter 
+
+Living wagers: The so-called Living Wage Initiatives step "for one substantial increase from minimum wages a. The idea of living dare go from the right on a Salary out of, the
+
+
+
+
+
+
+
+
+not only the physical Reproduction, rather also one social and cultural participation at the Company enabled" (see. 7 ).
+
+we Care: under private law default for sustainable management systems in the Groceries-industry (see below)
+
+About it out gives it isolated private logos the Pursue eg from Rapunzel health food (Hand in Hand, Organic Rapunzel fair trade).
+
+
+parent Goals the labels/ certifications are:
+
+more appropriate livelihood
+
+labor rights / working conditions
+
+equal rights
+
+Security and Health
+
+cultural diversity
+
+social aspects the manager regarding
+
+social concerns
+
+The most known evaluation and labeling approaches capture however only separate aspects the After-durability dimensions. Essential aspects are human rights, working conditions (health and political Activities) and livelihood wages (significant for the People in the global South). aspects How gender ratio, health care or Continuing education capture the least system theme/label (p. fair trade or Rain Forest Alliance and transition periods at living dares).
+
+Only a few approaches also consider the fair aspect for the Global North or Germany. At- by way of play are the current milk prices not cost-covering and make possible at one low Per- production level (e.g 6,000 l Cow) no operational Further development/livelihood reward the farmers.
+
+It is therefore often not clear whether minimum social standards are being met. The social footprint will often only insufficiently recorded and is not or only hardly recognizable for consumers. Besides that becomes e.g. not taken into account, How country acquired becomes or if it. for the country grabbing - one often illegal appropriation from land area comes.
+
+In addition to these criteria, there are other criteria and further approaches. One of these approaches is the Common Good Economy . This concept also includes social criteria such as human dignity, solidarity darity and justice as well as transparency and co-decision.
+
+
+social aspects within from Pursue become also through a LCA not recorded. This should through the We Care standard are taken into account. This is a “management standard for the implementation and certification of sustainability requirements at company locations and in supply chain management for companies in the food industry worldwide” (We care, 2021). The four Fields of action of the We Care standard are:
+
+corporate governance
+
+supply chain management
+
+employee responsibility
+
+
+WSI (2022):  
+
+
+
+
+
+environmental management
+
+Management systems that already exist in companies are treated with We care during certification considers.
+
+3.5	digression: vegetable  meat substitutes
+
+Substituting animal products with vegetables, nuts and legumes results in systems nergies with health and environmental goals (e.g. reduction of diet-related diseases or reduction of emissions). The use of domestic legumes should also make a contribution to national protein plant strategy or. -care and with it to the reduction from (critical) Soy- contribute imports. At the same time, the questions a) where are the vegetables, nuts and the legumes cultivated – acts it itself around a (bio-)regional vs. national Cultivation?
+
+who- that other crops are supplanting or are additional areas required? c) how extensive or time-consuming is the manufacturing process of meat substitute products? Goal of a balanced healthy diet nourishment is it too, little processed products consume.
+
+3.6	digression: Regional products
+
+Regional products are very popular - but are they also sustainable? The WBAE is approaching this Theme about the four sustainability dimensions.
+
+sustainability dimension health : unprocessed "natural" Groceries are not automatically health-promoting. The same applies to products from organic farming. However, some taste good Products eg tomatoes out of regional and seasonal cultivation better (Conflict of objectives yield / Taste).
+
+Sustainability dimensions Environment and animal welfare: Positive effects on the environment and animal welfare can at one ecological food production develop - must but not. more decisive are the aspects How a Groceries otherwise produced / processed / stored becomes, to the consumers reached and whether the products are seasonal. In addition, smaller companies do not produce more public services as size establishments. Positive effects in this dimensions are according to WBAE "we- nig clearly".
+
+Social sustainability dimension : Aspects here are higher added value for producers, higher Wages, Strengthening rural rooms Etc. This rated the WBAE too rather critical.
+
+
+
+
+
+
+
+
+
+
+
+4. weighting the indicators and dimensions
+
+creation one own Scoring Model/Weighting the dimensions
+
+Around one comprehensive sustainability statement to meet, the itself on the Base of chosen sustainability activity model (3-, 4-, 5-dimensional model of sustainability), must a) be defined with which transparency is to be evaluated (i.e. which criteria are taken into account) b) with which weight the single ones Dimensions/Criteria proven become.
+
+When deciding on the sustainability model of the WBAE, the aspect of health - say something is for consumers a health-promoting and consistent produced product - in the focus stand. Thus, a high weighting should be placed on the dimension of health, then on the form of environmental friendly production (Dimension Environment).
+
+The aim of the information is a change towards a more sustainable diet, both for the individuals as also for the environment.
+
+It should be noted that within the dimensions, individual criteria are also weighted is working become must, with it important aspects How eg biodiversity not forget become.
+
+The basis for the weighting is the determination of the WBAE approach with its four sustainability dimensions Environment, social affairs, health and animal welfare.
+
+The four dimensions include:
+
+Health: One health-promoting Nourishment, the to one higher Life expectancy, more healthy years of life and more wellbeing for all contributes.
+
+social: One Nourishment, the social minimum standards along from value chains ge guarantees.
+
+Environment : A diet respectful of the environment and climate, which contributes to the medium and long term sustainability goals of Germany fits.
+
+Animal welfare: A diet that supports more animal welfare and thus the changing ethical s claims the Company just becomes.
+
+
+Within the 4 dimensions become different indicators to the Evaluation used.
+
+In the first step, a -- ie the Ask, if all four dimensions on the product hold true.
+
+4.1	overall rating the dimensions
+
+If all 4 dimensions apply to a product, these are usually products with raw materials from the animal production (mono-products such as meat/sausage products, milk, cheese, fish, seafood, insect or composite products with raw materials from animal production, such as salami pizza, pizza with Cheese, Etc.) he follows one equal overall weighting (see table 3)
+
+If only 3 dimensions apply to a product, these are usually products with raw materials only from the plant production (mono-products such as fruit, vegetables, cereals, soy, etc., composite pro- products How Bread, meat substitutes, oat milk, vegetarian. spreads, Etc.) he follows one equal parts overall weighting on this 3 dimensions .
+
+
+
+
+
+
+
+
+
+
+
+
+Table 3: weight table all dimensions
+
+Source: own Depiction
+
+
+
+4.2	weights within one dimension
+
+Various indicators/criteria are selected within a dimension, which are classified according to their tion for this dimension and the information needs of the user is weighted. In doing so, existing scores that work with classes, such as Nutri-Score or Eco-Score, the individual classes one score forgive.
+
+
+Table 4: general scoring classes
+
+Source: own Depiction
+
+4.2.1  dimension Health
+
+The basis is the Nutri-Score, in addition the areas additives, trace elements, secondary botanicals, vitamins, omega-3 fatty acids, Etc. rated. The rating key for the Nutri Score is equivalent to to the general Evaluation key, see Table 4.
+
+The degree of processing can above the NOVA system classified become (p. Chapter ). The evaluation key for the 4 degrees of processing provides the following Table represents:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Table 5: rating key NOVA system
+
+
+
+
+Step
+
+
+
+rating key (Points)
+
+
+
+100
+
+75
+
+50
+
+425
+
+Source: own Depiction
+
+
+Table 6: weighting factors dimension Health
+
+
+
+
+
+total
+
+
+
+100%
+
+
+
+Source: own Depiction
+
+
+
+4.2.2  dimension social
+
+The main indicator for this dimension is the observance from acknowledged social standards along the entire supply chain, this includes all legal requirements, e.g. with regard to human rights, labor right or Occupational safety (ILO core labor standards).
+
+basis is a Seal comparison to Theme fairness /Fair trade, eg How the comparison portal the ver consumer centre to fair groceries ( https:  .
+
+Below becomes one Overview from common acknowledged social standards on product level shown. The weighting he follows based the criteria external or internal certified, international social standards, Standards with statements on minimum price, ban on child labor, health and safety at work, ILO core labor standards and quantity accounting (Rod. 6)
+
+In addition to the product labels, there are also holistic company labels that cover all dimensions, including the Includes social dimension. These holistic approaches are often also about labeling at the product communicates. Included is the Pre-condition to the recognition of standards one neutral/ex Internal certification of the company and the certification cycle. The proof of the observance the social standards along the supply chain and in the own Pursue in addition.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Table 7: recognition from holistic standards with the dimension social
+
+Source: own Depiction
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Table 8th: recognized social standards and rating key
+
+
+Source: own Depiction
+
+
+
+
+
+
+
+Statements about brands, such as retail brands, can also be taken into account, but these are not nope external certification process subject. This Testify should then lump sum with to the Point- value from 40 proven become. Below are some examples:
+
+For the Evaluation the dimension social become the following Points at one product used:
+
+Table 9: Weighting Summary dimension social
+
+Source: own Depiction
+
+4.2.3  dimension animal welfare
+
+The dimension is based on the following labeling approaches, all of which are based on the husbandry shape aim:
+
+livestock farming (beef, Pig, Poultry, Sheep, Etc.)
+
+Labelling egg/producer code (4 levels)
+
+initiative animal welfare (1 levels)
+
+forms of husbandry of LEH (4 levels)
+
+animal welfare label of Animal Welfare Association (2 levels)
+
+animal welfare label Four paws (2 levels)
+
+organic seal EU
+
+Association Bio (Eng. association mark organic country, natural land, demeter, Etc.)
+
+uncharted territory
+
+Fish and Seafood, including aquaculture
+
+organic
+
+
+
+
+MSC
+
+ASC
+
+A notice: Should a by law mandatory Animal Welfare Sign introduced become, then is this Sign basis for the rating the dimension animal welfare.
+
+rating table livestock farming
+
+The Evaluation orients itself at the Requirements of the various standard carriers. One Overview offer eg the labels of the BMEL ( ).
+
+The mentioned Labels/Standards become after the following criteria rated:
+
+
+Table 10: evaluation criteria livestock farming
+
+
+Source: BMEL (https:// 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Table 11: rating table livestock farming
+
+
+
+
+Source: own Depiction
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4.2.4  dimension Environment
+
+According to the WBAE 2020, the goal of the environment dimension is an environmentally and climate-friendly to establish sustainable food production that contributes to the medium and long-term sustainability activity goals of Germany fits. Measured becomes this through different indicators, How
+
+eg climate balance as part of a life cycle assessment, but also the topics of eutrophication and toxicity should be taken into account, as should sustainable farming production method (conventional or ecological Agriculture), Measures to the organic diversity, Height of use of pesticides, water consumption, Origin the forage middle, genetic engineering and Circular thinking/regional supply chains.
+
+To the complexity of an assessment of a sustainable environmentally and climate-friendly To do justice to food production, at least the following indicators/criteria should be Product (in a first step only mono products and products with low processing grade) taken into account become:
+
+Standardized Values one life cycle assessment (LCA) from product categories (e.g created on Base the data from agribalysis)
+
+production form
+
+biodiversity
+
+use of pesticides
+
+GMO free
+
+feed origin (at animal products, spec. Origin from soy)
+
+regionality
+
+
+The following evaluation keys are used for the individual indicators (p. Table 13):
+
+The Evaluation the life cycle assessment he follows on Base from classes (A – E, s. above), eg analogous to the Eco score or Planet Score.
+
+Conventional and ecological production methods are generally used as a form of production differentiated, with organic farming receiving the full number of points, the con- conventional no. judged becomes this through the Labelling with to the EU organic logo or additionally with one organic association mark.
+
+If the topic of biodiversity is communicated, the evaluation is based on corresponding ing labels. Included becomes current one full score only at the Bioland label forgive, there this Association expressly one own mandatory Biodiversity Policy created.
+
+use can only be generalized based on the two conventional production forms and organic recorded become.
+
+GMO-free status is confirmed by the presence of a VLOG seal on conventional products or through the Labelling as organic product rated.
+
+
+Basiskonzept Nachhaltiger Einkaufsassistent
+
+FiBL Projekte GmbH
+
+35
+
+
+
+At animal products can additionally one Statement to the feed origin positive be evaluates become.
+
+He follows one Offer of a reward the Origin one product (regionality claim), so becomes the product positive rated.
+
+
+Table 13: rating key for the dimension Environment
+
+Source: own Depiction
+
+Based the reached score he follows the overall rating with the subsequent sex weight factors.
+
+
+
+
+Basiskonzept Nachhaltiger Einkaufsassistent
+
+FiBL Projekte GmbH
+
+36
+
+
+
+
+
+Table 14: weighting factors for the dimension Environment
+
+Source: own Depiction
+
+
+
+5. outlook
+
+
+Based on the above considerations is recommended to adhere to the four sustainability dimensions of the WBAE orientate.
+
+Depending on whether it is a product with raw materials from animal production or vegetable production acts, are all four or. only three dimensions (without animal welfare) to consider and to weight.
+
+As described, the social, animal welfare and health dimensions can clear and concrete labels/standards, indicators and their characteristics and weights covered become.
+
+
+
+Basiskonzept Nachhaltiger Einkaufsassistent
+
+FiBL Projekte GmbH
+
+37
+
+
+
+In the environmental dimension, the two aspects "product" and "company" should company” must be considered separately. The one based on a standardized LCA Eco-Score can be a good starting point for evaluating the "product" aspect (see. Cape. ). However should he around the following points added become:
+
+farming method or. production form (eco/conventional)
+
+Mission from crop protection products and fertilizers
+
+biodiversity (receipt and Protection)
+
+GMO-free
+
+feed origin (at animal products, spec. Origin from Soy)
+
+regionality
+
+intense and extensive economy e.g. B. Livestock farming?
+
+For the points GMO-free and regionality, reference is made to the information in the corresponding the heels in the Chapter (area footprint) or. (Regional Products) referred senior
+
+
+
+6. Valuation examples
+
+Below become after the above criteria and the proposed weight development factors for the 4 dimensions (3 dimensions at vegetable products) three ver matched pairs rated. Comparisons are made with one conventional and one ecological Groceries, a) yogurt nature, b) rapeseed oil and c) pork schnitzel. All Per- products are current in the common grocery stores listed.
+
+
+product comparison yogurt
+
+The following three Products become compared:
+
+organic yogurt, Berchtesgadener Country, demeter
+
+Yogurt, Berchtesgadener country
+
+organic yogurt, andechser, organic country, Glass
+
+
+product comparison pork cutlet
+
+REWE organic pork cutlet
+
+W Brandenburger pork cutlet
+
+
+product comparison oil
+
+
+
+Basiskonzept Nachhaltiger Einkaufsassistent
+
+FiBL Projekte GmbH
+
+38
+
+
+
+organic rapeseed oil, oil mill Sollinger
+
+SB oil, Tommy/Nestle
+
+
+The Nurti Score was calculated on the basis of the product information and with the help of the Nutri Score calculator from LADR food ( vice/calculator/nutriscore).
+
+Notice to the Calculation: Energy, total sugar, saturated fatty acids and Salt (above natural rium) increases the score. Protein, dietary fiber and the proportion of fruits, vegetables and Nuts decreases the score. The lower the Nutri-Score, the higher the quality of the nutritional value profile.
+
+6.1	product comparison	yogurt
+
+yogurt 1:
+
+Organic yoghurt Berchtesgadener Land, Demeter : Is this yoghurt evaluated with regard to the dimension Health receives he
+
+one positive Evaluation at the Nutri Score (A). Points according to owner Calculation: -1
+
+one positive Evaluation at the additives (except E numbers)
+
+
+Basiskonzept Nachhaltiger Einkaufsassistent
+
+FiBL Projekte GmbH
+
+39
+
+
+
+Testify to vitamins result itself out of to the BLS
+
+according to BLS 60mg/ 100 g edible Portion Omega-3 fatty acids
+
+no secondary botanicals
+
+The degree of processing becomes according to NOVA system with 1 specified
+
+In addition, the organic yoghurt is certified by Berchtesgadener Land Demeter. The Milk for the yoghurt comes from the region (Berchtesgadener Land, Chiemgau, Isarwin- Kel, Salzburger Land, Tölzer Land, Oberland, Werdenfelser Land). The production status location is piding Packed up is he as two-component cup. The "For more Animal Welfare”-labels indicates that an average of 27 cows are kept. The Animal Welfare Program Dairy “ensures more exercise and animal health. As a natural, species-appropriate base receive especially the cows Grass".
+
+
+yogurt 2:
+
+yogurt Berchtesgadener Country : Rated man this yogurt regarding the dimension Health receives he
+
+one positive Evaluation at the Nutri Score (A). Points according to owner Calculation: 0
+
+
+Basiskonzept Nachhaltiger Einkaufsassistent
+
+FiBL Projekte GmbH
+
+40
+
+
+
+one positive Evaluation at the additives (except E numbers)
+
+Testify to vitamins result itself out of to the BLS
+
+according to BLS 60mg/ 100 g edible Portion Omega-3 fatty acids
+
+no secondary botanicals
+
+The degree of processing becomes according to NOVA system with 1 specified
+
+This yoghurt from the Berchtesgadener Land dairy achieves a comparable result the assessment of the health dimension. However, the Nutri-Score differs. He receives according to our own calculation 0 points and thus a B. The milk for this yoghurt too comes from the region. However, it is not certified organic. He is with the "without gene technology” logo Mistake.
+
+
+yogurt 3:
+
+organic yogurt, andechser, Glass: Rated man this yogurt regarding the dimension Health receives he
+
+one positive Evaluation at the Nutri Score (A). Points according to owner Calculation: 0
+
+one positive Evaluation at the additives (except E numbers)
+
+Testify to vitamins result itself out of to the BLS
+
+according to BLS 60mg/ 100 g edible Portion Omega-3 fatty acids
+
+no secondary botanicals
+
+
+Basiskonzept Nachhaltiger Einkaufsassistent
+
+FiBL Projekte GmbH
+
+41
+
+
+
+The degree of processing becomes according to NOVA system with 1 specified
+
+
+The Bioland yoghurt, 3.8%, gets a B in the Nutri-Score. calculation 0 points. Otherwise, this yoghurt also achieves a comparable result the assessment of the health dimension. According to the product information, the milk comes from to the Alpine foothills and the Alpine region. Packed up is the yogurt in the 500 G returnable glass.
+
+labels of yogurts are:
+
+
+Below the Evaluation the three Products after the predetermined criteria.
+
+
+
+
+
+
+
+
+Basiskonzept Nachhaltiger Einkaufsassistent
+
+FiBL Projekte GmbH
+
+42
+
+
+
+Table 15: rating table yogurt
+
+
+Source: own Depiction
+
+FiBL Projekte GmbH
+
+basic concept more sustainable Shopping assistant	43
+
+
+
+
+FiBL Projekte GmbH
+
+
+
+
+6.2	product comparison	pork cutlet
+
+
+Cutlet 1:
+
+REWE organic pork cutlet
+
+Origin: Germany. Otherwise achieved also this Cutlet a comparable Result when evaluating the health dimension. The Nutri-Score is according to the owner calculation also on -3 or A
+
+Rated man this Cutlet regarding the dimension Health receives it
+
+one good Evaluation at the Nutri Score (A), Points according to own Calculation: -3
+
+no Evaluation at the additives (except E numbers)
+
+Testify to vitamins result itself out of to the BLS
+
+according to BLS 29mg / 100 g edible Portion Omega-3 fatty acids
+
+no secondary botanicals
+
+The degree of processing becomes according to NOVA system with 1 specified
+
+
+
+
+Basiskonzept Nachhaltiger Einkaufsassistent
+
+FiBL Projekte GmbH
+
+44
+
+
+
+
+
+
+
+
+
+Cutlet 2:
+
+Wilhelm Brandenburg, pork cutlet
+
+Rated man this Cutlet regarding the dimension Health receives it
+
+one good Evaluation at the Nutri Score (A), Points according to own Calculation: -3
+
+no Evaluation at the additives (except E numbers)
+
+Testify to vitamins result itself out of to the BLS
+
+according to BLS 29mg / 100 g edible Portion Omega-3 fatty acids
+
+no secondary botanicals
+
+The degree of processing becomes according to NOVA system with 1 specified
+
+
+
+Below the Evaluation the three Products after the predetermined Criteria.
+
+
+
+
+
+
+
+
+
+
+Basiskonzept Nachhaltiger Einkaufsassistent
+
+FiBL Projekte GmbH
+
+45
+
+
+
+Table 16: rating table pork cutlet
+
+
+Source: own Depiction
+
+6.3	product comparison cooking oil
+
+A notice: According to own calculation receive the oils at classification in the product type Food generally has a higher score or a worse Nutri-Score (D) than when classifying in the genus fats, oils, butter, cream. Received at this rating the oils 0 Points or one cheap Nutri Score (B).
+
+In the following calculation of the Nurti score, we only consider the rating in genus fats, oils, butter, cream.
+
+
+
+
+
+
+
+Basiskonzept Nachhaltiger Einkaufsassistent
+
+FiBL Projekte GmbH
+
+46
+
+
+
+rapeseed oil 1:
+
+organic rapeseed oil, oil mill Solling
+
+The rapeseed oil from Ölmühle Solling gets a B in the Nutri-Score. The rapeseed oil comes from controlled biological cultivation (EU organic) out of the Region, ie out of to the Weser Uplands and adjacent states (Hesse, North Rhine-Westphalia).
+
+There is no information on rapeseed oil in the Federal Food Code (BLS). Thus the statements on the health dimension are limited to the information on the product site. According to our own calculations, the rapeseed oil received 12 points in the Nutri-Score with it a D according to product type Groceries generally or. 0 Points and a B in the genus Fats, oils, butter, cream.
+
+Rated man rapeseed oil regarding the dimension Health receives it:
+
+according to own calculation 0 Points (b) in the genus fats, oils, Butter, cream (at the classification in the genus Groceries generally 11 (D))
+
+no Evaluation at the additives (except E numbers)
+
+Testify to vitamins result itself out of to the BLS (Vitamin E!)
+
+according to BLS 178mg/ 100 g edible Portion Omega-3 fatty acids
+
+no secondary botanicals
+
+The degree of processing becomes according to NOVA system with 2 specified
+
+
+
+
+Basiskonzept Nachhaltiger Einkaufsassistent
+
+FiBL Projekte GmbH
+
+47
+
+
+
+
+
+sunflowers oil 2:
+
+SB oil, tommy
+
+At the sunflower oil from Thomas become no Declarations to the Origin the sunflowers made.
+
+Rated man this sunflower oil regarding the dimension Health receives it
+
+an average rating for the Nutri-Score (C) according to our own calculation 0 Points (b) in the genus fats, oils, Butter, cream and 11 Points in the genus Groceries generally (D)
+
+no Evaluation at the additives (except E numbers)
+
+Testify to vitamins result itself out of to the BLS (Vitamin E)
+
+according to BLS 178mg/ 100 g edible Portion Omega-3 fatty acids
+
+no secondary botanicals
+
+The degree of processing becomes according to NOVA system with 2 specified
+
+Below the Evaluation the three Products after the predetermined criteria.
+
+
+
+
+
+Basiskonzept Nachhaltiger Einkaufsassistent
+
+FiBL Projekte GmbH
+
+48
+
+
+
+Table 17: rating table cooking oil
+
+
+Source: own Depiction
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Basiskonzept Nachhaltiger Einkaufsassistent
+
+FiBL Projekte GmbH
+
+49
+
+
+
+7. literature
+
+antony F, etc al. (2021): visualization hidden environmental costs the Agriculture at the Example of milk production systems, UBA texts 129/2021
+
+Bcorporation.de (2021): 
+
+Brade W. (2014): 
+
+IFEU (2020): Ecological footprints of food and dishes in Germany, https: ww 
+
+EPEA (2021): 
+
+DLG (2021):  
+
+Nutritional advice Rhineland-Palatinate (2021): https: ww
+
+bal/themen.nsf/5114c8cbdbf9d76ac12570d70050af77/abf901fd48026a8ec1257ac50054ffd4
+
+Nutrition Umschau (2021):  
+
+Eurofins Germany (2021): 
+
+FiBL (2017): Organic farming and sustainability - life cycle assessment of organic food finklegs M,
+
+etc al. (2018): Environment Footprint: The environmental footprint from products and Services, https: ww onen/2019-01-17_texte_76-2018_environmental-footprint_1.pdf Food news
+
+(2021): 
+
+Foodnavigator.com (2021):  
+
+Ifeu (2019): Definition of the indicator for the accounting of the resource phosphate in environmental ratings https://www.ifeu.de/fileadmin/uploads/ifeu-paper-1-2019-final.pdf 
+
+Ifeu (2020): ITAB (2021):
+
+
+
+Food Association Germany (2021): Marktforschung.de
+
+(2022): Nach-haltig-
+
+thought.de (2022):  
+
+Nu3 (2021): Reduce Openfoodfacts.org (2021):
+
+
+
+ 
+
+Protillapro.com (2021): 
+
+Rainforest Alliance (2021): 
+
+Swiss S (2020): https: ww 
+
+Lower Saxony consumer center (2021): 
+
+ UBA (2017): Development of consumption-based land use indicators https://www.umwelt-
+
+bundesamt.de/sites/default/files/medien/1410/publikationen/2017-09-06_texte_81-2017_synthesebericht.pdf _
+
+
+
+
+Basiskonzept Nachhaltiger Einkaufsassistent
+
+FiBL Projekte GmbH
+
+50
+
+
+
+UBA (2021): 
+
+Water Foodprint Network (2021): tools/product-gallery/
+
+WBAE (2020): Opinion of the Scientific Advisory Board on Agricultural Policy, Nutrition and Health uniform consumer protection (WBAE), BMEL
+
+we care (2021): 
+
+Winterer A. (2017): Fairtrade chocolate: the most important seals, 
+
+WSI (2022):  
+
+WWF (2021a): WWF
+
+(2021): 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Basiskonzept Nachhaltiger Einkaufsassistent
+
+FiBL Projekte GmbH
+
+51

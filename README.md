@@ -21,3 +21,27 @@
 
 3- run "npm start" command in the terminal
 ```
+
+## Activate virtual env on VM
+
+1. activate `eduVPN`.
+
+2.
+
+```
+ssh -i your/path/to/kisuscheck-rasa-key.txt ubuntu@10.195.4.92
+```
+
+3.
+
+```
+source ~/.venv/bin/activate
+```
+
+4.
+
+```
+cd Rasa
+```
+
+Then use `rasa` command normaly.

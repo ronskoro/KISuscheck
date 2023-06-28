@@ -1,31 +1,41 @@
 version: "3.1"
-
 intents:
-  - greet
-  - goodbye
+  - add_more_barcodes_to_comparison_list
   - affirm
-  - deny
-  - mood_great
-  - mood_unhappy
-  - bot_challenge
-  - scan_barcode
-  - compare_products
-  - set_ingredient_preference
-  - set_nutr_value_preference
-  - set_food_processing_preference
-  - set_allergen_preference
-  - set_label_preference
-  - set_env_preference
-  - ask_preferences
-  - get_top_product_info_by_name
+  - ask_about_animal_friendliness_of_product
   - ask_about_product_property_by_barcode
   - ask_about_product_property_by_name
-  - ask_about_animal_friendliness_of_product
-  - ask_about_product
+  - ask_for_product_comparison
+  - ask_preferences
+  - bot_challenge
+  - compare_products_with_barcode_given
+  - compare_products_with_name
+  - continue_comparison
+  - deny
+  - faq
+  - get_top_product_info_by_name
+  - goodbye
+  - greet
+  - know_more_about_comparison_result
+  - mood_great
+  - mood_unhappy
+  - out_of_scope_intents
+  - provide_multiple_barcodes
+  - scan_barcode
+  - set_allergen_preference
+  - set_env_preference
+  - set_food_processing_preference
+  - set_ingredient_preference
+  - set_label_preference
+  - set_nutr_value_preference
+  - show_product_comparison_list
+  - start_product_comparison
+  - stop_comparing_and_clear_comparison_history
+  - scan_sustainability_report
 
 entities:
-  - user_name
   - barcode
+  - user_name
   - food
   - food_property
   - preference_type
@@ -35,7 +45,6 @@ entities:
   - food_processing_preference
   - label_preference
   - env_preference
-
 slots:
   user_name:
     type: text
@@ -44,30 +53,28 @@ slots:
         entity: user_name
         initial_value: ""
     influence_conversation: false
+  product_cat_limit:
+    type: any
+    mappings:
+      - type: custom
+        initial_value: {}
+  last_searched_product_name:
+    type: any
+    mappings:
+      - type: custom
+        initial_value: {}
+    influence_conversation: false
   barcode:
     type: text
     mappings:
       - type: from_entity
         entity: barcode
+  barcode_list:
+    type: list
+    mappings:
+      - type: from_entity
+        entity: barcode
     influence_conversation: false
-  product_vegan:
-    type: text
-    initial_value: "0.5"
-    mappings:
-      - type: custom
-    influence_conversation: true
-  product_palm_oil:
-    type: text
-    initial_value: "0.5"
-    mappings:
-      - type: custom
-    influence_conversation: true
-  product_vegetarian:
-    type: text
-    initial_value: "0.5"
-    mappings:
-      - type: custom
-    influence_conversation: true
   food:
     type: text
     mappings:
@@ -128,58 +135,118 @@ slots:
         entity: env_preference
         intent: set_env_preference
     influence_conversation: false
-
+  first_product_for_comparison:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: barcode
+        conditions:
+          - active_loop: product_comparison_form
+            requested_slot: first_product_for_comparison
+    influence_conversation: true
+  second_product_for_comparison:
+    type: text
+    mappings:
+      - type: custom
+        action: action_fill_second_product_for_comparison
+    influence_conversation: true
+  product_comparison_list:
+    type: list
+    mappings:
+      - type: custom
+        action: action_update_comparison_list_and_length
+    influence_conversation: true
+  product_comparison_list_length:
+    type: float
+    min_value: 0
+    initial_value: 0
+    mappings:
+      - type: custom
+        action: action_update_comparison_list_and_length
+    influence_conversation: true
+  product_comparison_result:
+    type: any
+    mappings:
+      - type: custom
+  comparison_path_active:
+    type: bool
+    initial_value: false
+    mappings:
+      - type: custom
+    influence_conversation: true
+forms:
+  product_comparison_form:
+    required_slots:
+      - first_product_for_comparison
+      - second_product_for_comparison
 actions:
-  # - action_set_slot_from_user_input
-  - action_greet
+  - utter_did_that_help
+  - action_update_comparison_list_and_length
+  - action_stop_comparing_and_clear_compare_history
   - action_get_product_info_by_barcode
+  - utter_happy
+  - utter_more_products_or_compare
+  - action_compare_products_by_barcode
+  - utter_greet
+  - action_set_comparison_path_active_to_true
+  - utter_stop_compare_or_know_more_about_the_result
+  - action_show_product_comparison_list
+  - action_fill_second_product_for_comparison
+  - utter_like_to_know_more
+  - utter_ask_first_product_for_comparison
+  - action_greet
   - action_get_top_product_info_by_name
   - action_answer_about_product_property_by_barcode
   - action_confirm_preference
   - action_print_preferences
-  - utter_like_to_know_more
   - action_get_product_animal_friendliness_info
-  - action_check_animal_friendly_alternative
   - utter_specify_question
-  - suggest_animal_friendly_alternative
+  - action_faq_get_answer
+  - validate_product_comparison_form
+  - action_scan_report
 
 responses:
-  # utter_greet:
-  # - text: "Hey {user_name}! How are you?"
-  # - text: "Hey {user_name}! What's up?"
-  # - text: "Hey! How are you?"
-  # - text: "Hey! What's up?"
   utter_greet:
-    - text: "Hi, I'm Eco! 👋 I'm a sustainable nutritional bot. 🌿 Can I assist you by providing information about a product or giving you recommendations for food? 👀"
-
+    - text: Hi, I'm Eco! 👋 I'm a sustainable nutritional bot. 🌿 Can I assist you by providing information about a product or giving you recommendations for food? 👀
   utter_cheer_up:
     - text: "Here is something to cheer you up:"
-      image: "https://i.imgur.com/nGF1K8f.jpg"
-
-  utter_did_that_help:
-    - text: "Did that help you?"
-
+      image: https://i.imgur.com/nGF1K8f.jpg
   utter_happy:
-    - text: "Great, carry on!"
-
+    - text: Great, carry on!
   utter_goodbye:
-    - text: "Bye"
-
+    - text: Bye
   utter_iamabot:
-    - text: "I am a bot, powered by Rasa."
-
+    - text: I am a bot, powered by Rasa.
+  utter_did_that_help:
+    - text: Did that help you?
+  utter_ask_first_product_for_comparison:
+    - text: Sure! Could you please provide me the barcode of the first product? Or you can also give me multiple barcodes.
+  utter_ask_second_product_for_comparison:
+    - text: "{product_comparison_list_length} product is currently in the comparison list. I need at least one more product's barcode to start comparison. Could you please provide me the barcode of the next product?"
+  utter_more_products_or_compare:
+    - text: "{product_comparison_list_length} products are currently in the comparison list (at least 2 needed). You can add more products by giving barcodes."
+      buttons:
+        - title: Start compare
+          payload: /start_product_comparison
+        - title: Show comparison list
+          payload: /show_product_comparison_list
+  utter_ask_for_product_barcode:
+    - text: Could you please provide me the barcode of the next product?
+  utter_stop_compare_or_know_more_about_the_result:
+    - text: Would you like to stop the product comparison between {product_comparison_list} and clear this comparison history, or would you like to know more about this comparison result?
+      buttons:
+        - title: Stop and clear
+          payload: /stop_comparing_and_clear_comparison_history
+        - title: Know more about the result
+          payload: /know_more_about_comparison_result
+  utter_out_of_scope:
+    - text: Sorry, I can't handle that request.
   utter_like_to_know_more:
     - text: Would you like to know more?
-
   utter_specify_question:
     - text: Sure. What would you like to know?
-
-  utter_give_me_product_barcode_or_name:
-    - text: Sure! Could you provide me with the product barcode or name?
-
-  utter_alternative_suggestion:
-    - text: Here you go!
-
+  utter_ask_to_show_more_products:
+    - text: Would you like to see more products?
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
