@@ -235,10 +235,13 @@ class QueryEngine():
         
         print('The user content: ', user_message + delimiter + concatenated_kb)
 
-        response = openai.ChatCompletion.create(
+        response_message = openaiChatCompletion(messages)
+        return response_message
+
+def openaiChatCompletion(messages):
+    response = openai.ChatCompletion.create(
             model = GPT_MODEL, 
             messages=messages
         )
-
-        response_message = response["choices"][0]["message"]
-        return response_message
+    response_message = response["choices"][0]["message"]
+    return response_message
