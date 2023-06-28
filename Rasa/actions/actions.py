@@ -17,11 +17,10 @@ from rasa_sdk import Tracker, FormValidationAction, Action
 from typing import Text, Dict, Any, List
 import pandas as pd
 import numpy as np
-from gpt_integration.processor import QueryEngine
+from gpt_integration.processor import QueryEngine, openaiChatCompletion
 import os
 from sentence_transformers import SentenceTransformer
 import torch
-
 
 class getProductAnimalFriendlinessInfo(Action):
     def name(self) -> Text:
@@ -620,6 +619,7 @@ class getProductInfoByBarcode(Action):
         # Extract the barcode from the user input
         barcode = None
         entities = tracker.latest_message["entities"]
+        openaiContent = ""
         # print(entities)
 
         for entity in entities:
@@ -637,17 +637,25 @@ class getProductInfoByBarcode(Action):
                 if (resProduct.get("image_url") is not None):
                     dispatcher.utter_message(image=resProduct['image_url'])
                 if (resProduct.get("product_name_en") is not None):
-                    dispatcher.utter_message(
-                        text="Product Name is " + resProduct['product_name_en'])
+                    openaiContent+= "Product Name is " + resProduct['product_name_en'] + "\n"
+                    # dispatcher.utter_message(
+                    #     text="Product Name is " + resProduct['product_name_en'])
                 if (resProduct.get("labels") is not None):
-                    dispatcher.utter_message(
-                        text="Product Labels: " + resProduct['labels'])
+                    openaiContent+= "Product Labels: " + resProduct['labels'] + "\n"
+                    # dispatcher.utter_message(
+                    #     text="Product Labels: " + resProduct['labels'])
                 if (resProduct.get("nutriscore_data") is not None and resProduct['nutriscore_data'].get("score") is not None):
-                    dispatcher.utter_message(
-                        text="Nutrition score = " + resProduct['nutriscore_data']['score'].__str__())
+                    openaiContent+= "Nutrition score = " + resProduct['nutriscore_data']['score'].__str__() + "\n"
+                    # dispatcher.utter_message(
+                    #     text="Nutrition score = " + resProduct['nutriscore_data']['score'].__str__())
                 if (resProduct.get("nutriscore_grade") is not None):
-                    dispatcher.utter_message(
-                        text="Nutrition grade = " + resProduct['nutriscore_grade'])
+                    openaiContent+= "Nutrition grade = " + resProduct['nutriscore_grade'] + "\n"
+                    # dispatcher.utter_message(
+                    #     text="Nutrition grade = " + resProduct['nutriscore_grade'])
+                messages = [{"role": "system", "content": "summarize the following information in a nice way"},
+                {"role": "user", "content": openaiContent}]
+                x= openaiChatCompletion(messages)
+                dispatcher.utter_message(x['content'])
                 return []
 
             dispatcher.utter_message(text="Sorry, I can't find the product.")
@@ -708,27 +716,38 @@ class getProductInfoByName(Action):
 
                 if (len(products) > 0 and curr_product_cat_limit < len(products)):
                     for i in range(curr_product_cat_limit, curr_product_cat_limit+3):
+                        # openaiContent = ""
                         # i, product in enumerate(products):
                         if (i < len(products)):
                             product = products[i]
                         if (product.get("code") is not None):
+                            # openaiContent+= str(i+1) + "- Barcode is " + product['code'] + "\n"
                             dispatcher.utter_message(
                                 text=str(i+1) + "- Barcode is " + product['code'])
                         if (product.get("image_url") is not None):
                             dispatcher.utter_message(
                                 image=product['image_url'])
                         if (product.get("product_name") is not None):
+                            # openaiContent+= "Product Name is " + product['product_name'] + "\n"
                             dispatcher.utter_message(
                                 text="Product Name is " + product['product_name'])
                         if (product.get("labels") is not None):
+                            # openaiContent+= "Product Labels: " + product['labels'] + "\n"
                             dispatcher.utter_message(
                                 text="Product Labels: " + product['labels'])
                         if (product.get("nutriscore_data") is not None and product['nutriscore_data'].get("score") is not None):
+                            # openaiContent+= "Nutrition score = " + product['nutriscore_data']['score'].__str__() + "\n"
                             dispatcher.utter_message(
                                 text="Nutrition score = " + product['nutriscore_data']['score'].__str__())
                         if (product.get("nutriscore_grade") is not None):
+                            # openaiContent+= "Nutrition grade = " + product['nutriscore_grade'] + "\n"
                             dispatcher.utter_message(
                                 text="Nutrition grade = " + product['nutriscore_grade'])
+                        # messages = [{"role": "system", "content": "summarize the following information in a nice way"},
+                        # {"role": "user", "content": openaiContent}]
+                        # x= openaiChatCompletion(messages)
+                        # print(x)
+                        # dispatcher.utter_message(x['content'])    
                     gotProducts = True
 
                     curr_product_cat_limit += 3
@@ -752,27 +771,38 @@ class getProductInfoByName(Action):
 
                     if (len(products) > 0 and curr_product_cat_limit < len(products)):
                         for i in range(curr_product_cat_limit, curr_product_cat_limit+3):
+                            # openaiContent = ""
                             # i, product in enumerate(products):
                             if (i < len(products)):
                                 product = products[i]
                             if (product.get("code") is not None):
+                                # openaiContent+= str(i+1) + "- Barcode is " + product['code'] + "\n"
                                 dispatcher.utter_message(
                                     text=str(i+1) + "- Barcode is " + product['code'])
                             if (product.get("image_url") is not None):
                                 dispatcher.utter_message(
                                     image=product['image_url'])
                             if (product.get("product_name") is not None):
+                                # openaiContent+= "Product Name is " + product['product_name'] + "\n"
                                 dispatcher.utter_message(
                                     text="Product Name is " + product['product_name'])
                             if (product.get("labels") is not None):
+                                # openaiContent+= "Product Labels: " + product['labels'] + "\n"
                                 dispatcher.utter_message(
                                     text="Product Labels: " + product['labels'])
                             if (product.get("nutriscore_data") is not None and product['nutriscore_data'].get("score") is not None):
+                                # openaiContent+= "Nutrition score = " + product['nutriscore_data']['score'].__str__() + "\n"
                                 dispatcher.utter_message(
                                     text="Nutrition score = " + product['nutriscore_data']['score'].__str__())
                             if (product.get("nutriscore_grade") is not None):
+                                # openaiContent+= "Nutrition grade = " + product['nutriscore_grade'] + "\n"
                                 dispatcher.utter_message(
                                     text="Nutrition grade = " + product['nutriscore_grade'])
+                            # messages = [{"role": "system", "content": "summarize the following information in a nice way"},
+                            # {"role": "user", "content": openaiContent}]
+                            # x= openaiChatCompletion(messages)
+                            # print(x)
+                            # dispatcher.utter_message(x['content'])
 
                         curr_product_cat_limit += 3
                         product_cat_limit[productName] = curr_product_cat_limit
