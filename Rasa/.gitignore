@@ -1,1 +1,4 @@
 .rasa
+models
+actions/__pycache__
+story_graph.dot

@@ -3,13 +3,15 @@
 ## Run Rasa
 
 ```
-1- cd Rasa directory folder
+1- open .env file and add this key "OPENAI_API_KEY='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'"
 
-2- Open 2 Anaconda Prompts
+2- cd Rasa directory folder
 
-3- Run “rasa run --cors "*" --enable-api” command in the first terminal
+3- Open 2 Anaconda Prompts
 
-4- Run “rasa run actions” command in the second terminal
+4- Run “rasa run --cors "*" --enable-api” command in the first terminal
+
+5- Run “rasa run actions” command in the second terminal
 ```
 
 ## Run Frontend

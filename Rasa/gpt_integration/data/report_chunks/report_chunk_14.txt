@@ -1,0 +1,19 @@
+ only one environmental dimension considered. In one LCA becomes tried, "possibly all Environmental impacts of different functionally equivalent products or product groups in systematic table shape along of entire manufacturing process (ie of product life cycle, "cradle to grave" approach) to record and evaluate" (ibid.). This analysis should enable companies to to optimize processes. However, assumptions have to be made in some places. Besides that become social and economic aspects not taken into account.
+
+The principles and rules for conducting LCAs have been defined in various ISO standards. placed. LCAs comprise the four elements: (1) definition of goal and scope of investigation , (2) the Inventory analysis
+
+(3) the impact assessment and (4) the evaluation or interpretation (see ).
+
+In phase 1 become the system limits Are defined, so which concrete process steps from the manufacturing should be taken into account until a product is consumed. The Ifeu considered in his study from to the Year 2020 e.g. the system limits "Supermarket checkout" - from the production Incl. upstream Per- process, processing, packaging and distribution and "ready prepared on the plate": the purchasing drive for ready meals as well as cold storage, preparation and rinsing (Ifeu, 2020). In addition, in the In the first phase, the functional unit is determined, ie to which product unit the effects relate become – e.g. B. per kilogram of product or 100 calories. This makes the comparability of variants possible. In the Rule becomes at groceries the Weight as functional unit chosen. je after product under consideration, e.g. milk, it can also make sense for a life cycle assessment to include several on units to use (cf. Antony, 2021), such as
+
+
+
+
+
+
+
+
+
+
+
+In the second phase he follows one inventory the inputs and outputs everyone Step (inventory analysis). The inputs include energy, water or land use. Outputs are products but also waste and emissions. Under circumstances must data collection take place. Also “Attrib

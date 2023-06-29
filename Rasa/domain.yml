@@ -31,6 +31,8 @@ intents:
   - show_product_comparison_list
   - start_product_comparison
   - stop_comparing_and_clear_comparison_history
+  - scan_sustainability_report
+
 entities:
   - barcode
   - user_name
@@ -201,6 +203,8 @@ actions:
   - utter_specify_question
   - action_faq_get_answer
   - validate_product_comparison_form
+  - action_scan_report
+
 responses:
   utter_greet:
     - text: Hi, I'm Eco! 👋 I'm a sustainable nutritional bot. 🌿 Can I assist you by providing information about a product or giving you recommendations for food? 👀

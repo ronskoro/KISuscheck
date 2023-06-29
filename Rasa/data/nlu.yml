@@ -1,914 +1,1007 @@
 version: "3.1"
 nlu:
-- intent: greet
-  examples: |
-    - hey
-    - hello
-    - hi
-    - hello there
-    - good morning
-    - good evening
-    - moin
-    - hey there
-    - let's go
-    - hey dude
-    - goodmorning
-    - goodevening
-    - good afternoon
-    - hello I am [John](user_name)
-    - hi I am [Mary](user_name)
-- intent: goodbye
-  examples: |
-    - cu
-    - good by
-    - cee you later
-    - good night
-    - bye
-    - goodbye
-    - have a nice day
-    - see you around
-    - bye bye
-    - see you later
-- intent: affirm
-  examples: |
-    - yes
-    - y
-    - indeed
-    - of course
-    - that sounds good
-    - correct
-- intent: deny
-  examples: |
-    - no
-    - n
-    - never
-    - I don't think so
-    - don't like that
-    - no way
-    - not really
-- intent: mood_great
-  examples: |
-    - perfect
-    - great
-    - amazing
-    - feeling like a king
-    - wonderful
-    - I am feeling very good
-    - I am great
-    - I am amazing
-    - I am going to save the world
-    - super stoked
-    - extremely good
-    - so so perfect
-    - so good
-    - so perfect
-- intent: mood_unhappy
-  examples: |
-    - my day was horrible
-    - I am sad
-    - I don't feel very well
-    - I am disappointed
-    - super sad
-    - I'm so sad
-    - sad
-    - very sad
-    - unhappy
-    - not good
-    - not very good
-    - extremly sad
-    - so saad
-    - so sad
-- intent: bot_challenge
-  examples: |
-    - are you a bot?
-    - are you a human?
-    - am I talking to a bot?
-    - am I talking to a human?
-- intent: scan_barcode
-  examples: |
-    - scan barcode [1234567890123] (barcode)
-    - scan barcode [1234567890123] (barcode) please
-    - scan barco [1234567890123] (barcode)
-    - scan barcod [1234567890123] (barcode)
-    - scan this barcode [1234567890123] (barcode)
-    - [1234567890123] (barcode)
-    - barcode [1234567890123] (barcode)
-    - barcode is [1234567890123] (barcode)
-    - barcode "[1234567890123] (barcode)"
-    - barcode: "[1234567890123] (barcode)"
-    - barcode: [1234567890123] (barcode)
-    - The barcode is [1234567890123] (barcode)
-    - The barcode: "[1234567890123] (barcode)"
-    - product barcode [1234567890123] (barcode)
-    - scan barcode [1234567890123](barcode)
-    - scan barcode [1234567890123](barcode) please
-    - scan barco [1234567890123](barcode)
-    - scan barcod [1234567890123](barcode)
-    - scan this barcode [1234567890123](barcode)
-    - what do you know about this product [1234567890123](barcode)
-    - I want to know info about [1234567890123](barcode)
-    - I need to know details about [1234567890123](barcode)
-    - I want to know info about [1234567890123](barcode) please
-    - I need to know details about [1234567890123](barcode) please
-    - Can you provide the nutritional information for [1234567890123](barcode)?
-    - Tell me more about [1234567890123](barcode).
-    - [1234567890123](barcode) details please
-    - [1234567890123](barcode) info please
-    - [1234567890123](barcode) information
-    - [1234567890123](barcode)
-    - [7613035974685][{"entity": "barcode"}, {"entity": "barcode"}]
-    - [3168930009078][{"entity": "barcode"}, {"entity": "barcode"}]
-    - [1234567890123][{"entity": "barcode"}, {"entity": "barcode"}]
-    - [987654321012][{"entity": "barcode"}, {"entity": "barcode"}]
-    - [234567890123][{"entity": "barcode"}, {"entity": "barcode"}]
-    - [3017620422003][{"entity": "barcode"}, {"entity": "barcode"}]
-    - [3168930009078](barcode)
-    - [7613035974685](barcode)
-    - [3017620422003](barcode)
-    - [5449000214911](barcode)
-    - scan [3168930009078](barcode)
-    - scan [3017620422003](barcode)
-- intent: get_top_product_info_by_name
-  examples: |
-    - I want to know info about [milk](food)
-    - I need to know details about [yogurt](food)
-    - I want to know info about [chocolate](food) please
-    - I need to know details about [rice](food) please
-    - I want to know info about [butter](food) please
-    - Can you provide the nutritional information for [eggs](food)?
-    - Tell me more about [orange](food).
-    - [pasta](food) details please
-    - [oranges](food) info please
-    - [nutella](food) information
-    - what do you know about [milk](food)
-    - what info do you know about [yogurt](food)
-    - what details do you know about [chocolate](food)
-    - [nutella](food)
-    - [chocolate](food)
-    - Please provide information about [bread](food).
-    - I would like to know the details about [cheese](food).
-    - Can you give me information about [apples](food), please?
-    - I'm curious to know more about [bananas](food).
-    - What can you tell me about [broccoli](food)?
-    - I need details about [salmon](food), please.
-    - Please provide nutritional information for [chicken](food).
-    - Tell me more about [tomatoes](food), please.
-    - I'm interested in learning about [potatoes](food).
-    - Can you provide information about [carrots](food)?
-    - What do you know about [spinach](food)?
-    - What information do you have about [avocado](food)?
-    - What details do you know about [grapes](food)?
-    - Tell me more about [strawberries](food).
-    - I'm curious about [watermelon](food).
-- intent: ask_about_product_property_by_name
-  examples: |
-    - Is [cereal](food) suitable for [vegetarians](food_property)?
-    - Does [pasta](food) contain [gluten](food_property)?
-    - Any information on the [fat](food_property) content in [fish](food)?
-    - does [honey](food) contain [palm oil](food_property)?
-    - does [bread](food) contain [nuts](food_property)?
-    - does [chips](food) contain [soy](food_property)?
-    - Is [nuts](food) suitable for [vegan](food_property)?
-    - Is [banana](food) high in [salt](food_property)?
-    - Is [nuts](food) low in [salt](food_property)?
-    - Is [cake](food) high in [sugar](food_property)?
-    - Is [cereal](food) low in [sugar](food_property)?
-    - does [pasta](food) contain [milk](food_property)?
-    - does [lasagna](food) has [additives](food_property)?
-    - what is [nutella](food) [eco score](food_property)?
-    - what is [chocolate](food) [nutri score](food_property)?
-    - what is [meat](food) [nutrition score](food_property)?
-    - what is [chicken](food) [nova score](food_property)?
-    - is [cheese](food) [organic](food_property)?
-- intent: ask_about_product_property_by_barcode
-  examples: |
-    - Is [1234567890123](barcode) suitable for [vegetarians](food_property)?
-    - Does [1234567890123](barcode) contain [gluten](food_property)?
-    - Any information on the [fat](food_property) content in [1234567890123](barcode)?
-    - does [1234567890123](barcode) contain [palm oil](food_property)?
-    - does [1234567890123](barcode) contain [nuts](food_property)?
-    - does [1234567890123](barcode) contain [soy](food_property)?
-    - Is [1234567890123](barcode) suitable for [vegan](food_property)?
-    - Is [1234567890123](barcode) high in [salt](food_property)?
-    - Is [1234567890123](barcode) low in [salt](food_property)?
-    - Is [1234567890123](barcode) high in [sugar](food_property)?
-    - Is [1234567890123](barcode) low in [sugar](food_property)?
-    - does [1234567890123](barcode) contain [milk](food_property)?
-    - does [1234567890123](barcode) has [additives](food_property)?
-    - what is [1234567890123](barcode) [eco score](food_property)?
-    - what is [1234567890123](barcode) [nutri score](food_property)?
-    - what is [1234567890123](barcode) [nutrition score](food_property)?
-    - what is [1234567890123](barcode) [nova score](food_property)?
-    - is [1234567890123](barcode) [organic](food_property)?
-    - Is [9876543210987](barcode) suitable for [gluten-free](food_property) diets?
-    - Does [9876543210987](barcode) contain [dairy products](food_property)?
-    - Does [9876543210987](barcode) contain [shellfish](food_property)?
-    - Does [9876543210987](barcode) contain [wheat](food_property)?
-    - Is [9876543210987](barcode) suitable for [pescatarian](food_property) diets?
-    - Is [9876543210987](barcode) [high in fiber](food_property)?
-    - Is [9876543210987](barcode) [low in saturated fat](food_property)?
-    - Is [9876543210987](barcode) [high in carbohydrates](food_property)?
-    - Does [9876543210987](barcode) contain [soybeans](food_property)?
-    - Does [9876543210987](barcode) have [preservatives](food_property)?
-    - Is [9876543210987](barcode) certified [organic](food_property)?
-- intent: ask_about_animal_friendliness_of_product
-  examples: |
-    - Is this product tested on animals?
-    - Is this product animal friendly?
-    - Could you provide information about the animal friendliness of it?
-    - Could you provide information about the animal friendliness of this product?
-    - Are the ingredients used in this product derived from animals?
-    - Does this product contain any animal by-products?
-    - Can you provide information on the ethical sourcing of animal-derived ingredients in this product?
-    - Has this product been certified as cruelty-free by any recognized organizations?
-    - Are any animal testing methods employed during the manufacturing process of this product?
-    - Can you confirm if this product is vegan-friendly?
-    - Is it vegan?
-    - is it animal friendly?
-    - What steps has the company taken to ensure the animal-friendliness of this product?
-    - Are the animal-derived ingredients in this product obtained through sustainable and humane practices?
-    - Has this product been tested on animals at any stage of its development?
-    - Can you provide details about the company's animal testing policies?
-    - Are there any alternative testing methods used for this product instead of animal testing?
-    - Has the company conducted any studies or research to validate the animal-friendliness of this product?
-    - Can you provide information on the environmental impact of this product in relation to animal habitats?
-    - Does the company support any animal welfare organizations or initiatives?
-    - Is the packaging of this product environmentally friendly and designed with animal welfare in mind?
-    - Has this product undergone any animal-free safety assessments or trials?
-    - Can you provide evidence of the company's commitment to animal welfare throughout its supply chain?
-    - Are there any plans in place to further improve the animal-friendliness of this product?
-    - Has this product received any awards or certifications related to its animal-friendliness?
-- intent: set_ingredient_preference
-  examples: |
-    - I am [vegan](ingredient_preference).
-    - I am [vegetarian](ingredient_preference).
-    - I would like [Palm-oil free](ingredient_preference) choices.
-    - Give choices that have no [palm oil](ingredient_preference).
-    - Give choices that are [palm oil free](ingredient_preference).
-    - Give choices that are [vegan](ingredient_preference).
-- intent: set_allergen_preference
-  examples: |
-    - I am allergic to [milk](allergen_preference).
-    - I am can't eat [eggs](allergen_preference).
-    - Give me choices that are [gluten-free](allergen_preference).
-    - Give me food that is [gluten-free](allergen_preference).
-    - I have an allergy to [peanuts](allergen_preference).
-- intent: set_nutr_value_preference
-  examples: |
-    - Please give me choices that are [low in salt](nutr_val_preference).
-    - Set my food preferences to include [low sugar](nutr_val_preference).
-    - I want food low in [fat](nutr_val_preference).
-    - I want [low sugar](nutr_val_preference) choices.
-    - I want [low saturated fat](nutr_val_preference) choices.
-    - Please provide me with choices that are [low in sodium](nutr_val_preference).
-    - Include options that are [low sugar](nutr_val_preference) in my food preferences.
-    - I prefer food that is [low in fat](nutr_val_preference).
-    - Find me choices with [low sugar](nutr_val_preference) content.
-    - I want choices that are [low in saturated fat](nutr_val_preference).
-    - Set my food preferences to include options that are [low in sodium](nutr_val_preference).
-    - Give me choices that are [low in salt](nutr_val_preference).
-    - I want food options that are [low sugar](nutr_val_preference).
-    - Provide me with choices that are [low in fat](nutr_val_preference).
-    - I prefer choices that are [low in sodium](nutr_val_preference).
-    - Include options with [low sugar](nutr_val_preference) content in my preferences.
-    - Set my preferences to prioritize choices that are [low in saturated fat](nutr_val_preference).
-    - I want choices that are [low in sugar](nutr_val_preference).
-    - Find me food options that are [low in fat](nutr_val_preference).
-    - Set my preferences to include choices that are [low in sugar](nutr_val_preference).
-    - I prefer choices that are [low in saturated fat](nutr_val_preference).
-    - Please provide me with options that are [low in sodium](nutr_val_preference).
-    - Include choices that are [low sugar](nutr_val_preference) in my food preferences.
-    - I want food that is [low in fat](nutr_val_preference).
-- intent: set_food_processing_preference
-  examples: |
-    - I want my food to have no [food processing](food_processing_preference).
-    - Give me choicees with no [processing](food_processing_preference).
-    - I want my food to have no or [little food processing](food_processing_preference).
-    - Give me choices with [no processing](food_processing_preference).
-    - Include options that are [free from additives](food_processing_preference).
-    - Set my preferences to prioritize choices with [no or few additives](food_processing_preference).
-    - Find me choices that are [low in food processing](food_processing_preference).
-    - I prefer food with [minimal processing](food_processing_preference).
-    - Please give me options that are free from [additives](food_processing_preference).
-    - Include choices that have [limited food processing](food_processing_preference).
-    - Set my preferences to prioritize options with few [additives](food_processing_preference).
-    - I want choices with not a lot of [additives](food_processing_preference).
-    - Please provide me with choices that have [limited food processing](food_processing_preference).
-    - Include options that are [minimally processed](food_processing_preference) in my preferences.
-    - Set my preferences to prioritize choices with [few additives](food_processing_preference).
-    - I want choices that have [limited food processing](food_processing_preference).
-    - Please give me options with [minimal processing](food_processing_preference).
-    - Include choices that are free from [additives](food_processing_preference).
-    - Set my preferences to prioritize options with [no or few additives](food_processing_preference).
-    - I want choices with [minimal food processing](food_processing_preference).
-    - Please provide me with options that have [limited additives](food_processing_preference).
-    - Include choices that are [minimally processed](food_processing_preference) in my preferences.
-- intent: set_label_preference
-  examples: |
-    - I want [organic](label_preference) choices.
-    - I want choices that come from [organic](label_preference) farming.
-    - Please provide me with [organic](label_preference) options.
-    - Set my preferences to prioritize choices that are [organic](label_preference).
-    - I prefer choices that are [fair trade](label_preference).
-    - Include options that come from [fair trade](label_preference) sources in my preferences.
-    - Please give me choices that are [organically produced](label_preference).
-    - Set my preferences to include choices that are [fairly traded](label_preference).
-    - I want choices that are produced using [organic farming](label_preference).
-    - Please provide me with options that are [fairly sourced](label_preference).
-    - Set my preferences to prioritize choices that are [organically](label_preference) grown.
-    - I want choices that are certified [organic](label_preference).
-    - Include options that are [fair trade](label_preference) certified in my preferences.
-    - Please give me choices that are [organically cultivated](label_preference).
-    - I want choices that are [grown organically](label_preference).
-    - Please provide me with options that are [ethically sourced](label_preference).
-    - Set my preferences to prioritize choices that are [organically farmed](label_preference).
-    - I want choices that are [produced sustainably](label_preference).
-    - Include options that are [fair trade](label_preference) verified in my preferences.
-    - Please give me choices that are [organically harvested](label_preference).
-- intent: set_env_preference
-  examples: |
-    - I want food that has a [low carbon footprint](env_preference).
-    - Give me choices that are [eco-friendly](env_preference).
-    - I want food choices that have [low environmental impact](env_preference).
-    - Please provide me with choices that are [eco-friendly](env_preference).
-    - Set my preferences to prioritize options with [low forest footprint](env_preference).
-    - I prefer choices that have a [high eco-score](env_preference).
-    - Include choices that are [eco-friendly](env_preference) in my preferences.
-    - Please give me choices that have [low environmental impact](env_preference).
-    - Set my preferences to include options with [low forest footprint](env_preference).
-    - I want food choices that are [eco-friendly](env_preference).
-    - Please provide me with choices that have a [low carbon footprint](env_preference).
-    - Set my preferences to prioritize options with [low environmental impact](env_preference).
-    - I prefer choices that have [low forest footprint](env_preference).
-    - Include choices that have a high [eco-score](env_preference) in my preferences.
-    - Please give me choices that are [eco-friendly](env_preference).
-    - Set my preferences to prioritize options with [low carbon footprint](env_preference).
-    - I prefer choices that have [low environmental impact](env_preference).
-    - Include choices that have a [high eco-score](env_preference) in my preferences.
-- intent: ask_preferences
-  examples: |
-    - What are my preferences?
-    - List my preferences.
-    - Show me preferences.
-    - Show preferences.
-    - List preferences.
-    - Say preferences.
-    - Preferences.
-- intent: ask_for_product_comparison
-  examples: |
-    - Can you please compare two products?
-    - Can you compare two products?
-    - Can you compare some products?
-    - Can you compare?
-    - Can you compare products?
-    - Please compare these products:
-    - Can you please compare some products?
-    - Can you tell me which one is the best?
-    - Can you tell me which product is better?
-    - Compare them please.
-    - Help me choose a good product.
-    - Which one is the best?
-    - I want to know the best product of these products.
-    - I want to choose the best product.
-    - I want to choose a good product.
-    - I want to pick the best product.
-    - I want to pick a good product.
-    - I want to compare.
-    - Which one is better?
-    - compare
-    - Compare please
-    - Please compare
-    - can you compare products?
-    - Start new comparison please
-    - New comparison
-    - New compare
-- intent: compare_products_with_name
-  examples: |
-    - Can you please compare [nutella](food) and [chocolate](food)?
-    - Please compare [cow milk](food), [bio cow milk](food) and [soya milk](food).
-- intent: compare_products_with_barcode_given
-  examples: |
-    - Can you please compare [1234567890123](barcode) and [1234567890123](barcode)?
-    - Can you compare [1234567890123](barcode) and [1234567890123](barcode)?
-    - Please compare [1234567890123](barcode), [1234567890123](barcode) and [1234567890123](barcode).
-    - Compare [1234567890123](barcode) and [1234567890123](barcode).
-    - Compare [1234567890123](barcode), [1234567890123](barcode), [1234567890123](barcode) and [1234567890123](barcode).
-    - Is [1234567890123](barcode) better or [1234567890123](barcode)?
-    - Which one is better, [1234567890123](barcode) or [1234567890123](barcode)?
-    - Please rank these products: [1234567890123](barcode), [1234567890123](barcode), [1234567890123](barcode), [1234567890123](barcode)
-    - compare [3168930009078](barcode) and [3017620422003](barcode)
-    - compare [3168930009078](barcode) and [3017620422003](barcode)
-- intent: add_more_barcodes_to_comparison_list
-  examples: |
-    - Add following products to comparison list: [1234567890123](barcode), [1234567890123](barcode), [1234567890123](barcode) and [1234567890123](barcode)
-    - Add [1234567890123](barcode) to list
-    - add [1234567890123](barcode), [1234567890123](barcode), [1234567890123](barcode) to compare list
-    - add [1234567890123](barcode) and [1234567890123](barcode) to list
-    - please put [1234567890123](barcode), [1234567890123](barcode), [1234567890123](barcode) in comparison list
-    - put [1234567890123](barcode) and [1234567890123](barcode) in list
-    - put [1234567890123](barcode) in comparison list
-- intent: start_product_comparison
-  examples: |
-    - Please start the comparison.
-    - Please start compare.
-    - Start comparison.
-    - Start compare.
-- intent: show_product_comparison_list
-  examples: |
-    - Please show me the comparison list.
-    - Show the comparison list.
-    - What is in the comparison list?
-    - show comparison list
-    - show compare list
-- intent: provide_multiple_barcodes
-  examples: |
-    - [1234567890123](barcode), [1234567890123](barcode) and [1234567890123](barcode).
-    - [1234567890123](barcode), [1234567890123](barcode) and [1234567890123](barcode)
-    - [1234567890123](barcode), [1234567890123](barcode), [1234567890123](barcode).
-    - [1234567890123](barcode), [1234567890123](barcode), [1234567890123](barcode)
-    - [1234567890123](barcode), [1234567890123](barcode), [1234567890123](barcode), [1234567890123](barcode)
-    - [1234567890123](barcode) [1234567890123](barcode) [1234567890123](barcode)
-    - [1234567890123](barcode) [1234567890123](barcode) [1234567890123](barcode) [1234567890123](barcode)
-    - [1234567890123](barcode) [1234567890123](barcode)
-    - [1234567890123](barcode), [1234567890123](barcode)
-    - [1234567890123](barcode) and [1234567890123](barcode)
-    - [3168930009078](barcode), [7613035974685](barcode), [3017620422003](barcode)
-- intent: stop_comparing_and_clear_comparison_history
-  examples: |
-    - Stop compare.
-    - Stop and clear.
-    - Stop this comparison please.
-    - I don't want to compare anymore.
-    - Stop comparing and clear the history.
-    - Stop comparing and clear the comparison history.
-    - Stop comparison
-    - Delete this comparison
-    - Delete compare history
-    - Clear compare history
-    - Stop current comparison
-- intent: know_more_about_comparison_result
-  examples: |
-    - I want to know more about comparison result
-    - Know more about compare result
-    - Know more about result
-    - Inform about compare result
-    - Tell me more about this result
-    - Tell me more about comparison result
-    - Know more
-- intent: continue_comparison
-  examples: |
-    - Continue compare
-    - Continue comparison
-    - I want to continue.
-    - Continue
-- intent: out_of_scope_intents
-  examples: |
-    - can you purchase this product for me?
-    - can you order this for me?Please compare the products:
-- intent: faq
-  examples: |
-    - What does biodiversity mean?
-    - How is biodiversity defined?
-    - What does biodiversity include?
-    - What does biodiversity have to do with nutrition?
-    - Does our diet depend on biodiversity?
-    - What protects the biodiversity of our food?
-    - Is there a decline in biodiversity?
-    - Causes of biodiversity loss. What is the extent of biodiversity loss?
-    - What leads to biodiversity loss?
-    - Does biodiversity affect all people?
-    - International biological diversity.
-    - Protecting biodiversity.
-    - What measures are being taken to protect biodiversity?
-    - What is Germany doing to preserve biodiversity?
-    - How can biodiversity loss be stopped?
-    - What can I do to contribute to biodiversity conservation?
-    - Why are bees important for biodiversity conservation?
-    - Does bee decline affect biodiversity preservation?
-    - How can bees promote biodiversity?
-    - Which plants promote biodiversity?
-    - Does organic farming support biodiversity in land use?
-    - Which plant varieties in the food sector promote biodiversity?
-    - How important is organic farming for biodiversity conservation?
-    - Does organic farming contribute to biodiversity preservation?
-    - What does organic farming contribute to biodiversity?
-    - Is there a biodiversity footprint for food consumption?
-    - Does our diet have a negative impact on biodiversity?
-    - Are there environmental impacts due to our diet?
-    - What does biodiversity footprint mean?
-    - What factors are considered in assessing the biodiversity footprint?
-    - What are aroma substances?
-    - What do aroma substances do?
-    - How are aroma substances defined?
-    - Definition of aroma substances
-    - What are aroma substances used for?
-    - Aroma substances
-    - Where are the aroma substances listed?
-    - How do I recognize foods with aroma substances?
-    - Which foods have aroma substances?
-    - Where can I see the aroma substances of a food?
-    - What are additives?
-    - What do additives do?
-    - How are additives defined?
-    - Definition of food additives
-    - What are auxiliary substances used for?
-    - Additives?
-    - Where are the additives listed?
-    - How can I see the additives of a food?
-    - How do I recognize foods with additives?
-    - Which foods have additives?
-    - How do I recognize products with a good price-performance ratio in terms of health and sustainability?
-    - How do you recognize healthy foods with a good price-performance ratio?
-    - Is there a seal/sign/label for healthy products with a good price-performance ratio?
-    - How to find healthy products with a good price-performance ratio?
-    - Healthy products with a good price?
-    - Nutrient-poor foods
-    - What are nutrient-poor foods?
-    - How do I recognize nutrient-poor foods?
-    - How do I avoid nutrient-poor foods?
-    - How do you recognize healthy foods?
-    - When are foods considered healthy?
-    - Are healthy foods labeled?
-    - How to recognize healthy food?
-    - How do you recognize healthy products?
-    - Sugar in general
-    - Sugar
-    - What is sugar?
-    - Definition of sugar
-    - Sugar information
-    - How much sugar can you eat per day?
-    - What is the maximum daily amount of sugar?
-    - What is the limit for sugar per day?
-    - How much sugar is allowed to be eaten?
-    - How many grams of sugar per day are okay?
-    - Is sugar harmful?
-    - Is sugar generally harmful?
-    - How harmful is sugar?
-    - Is sugar detrimental to health?
-    - Does sugar harm your health?
-    - Dangers of consuming too much sugar?
-    - Is salt harmful to health?
-    - How much salt is harmful to health?
-    - From how many grams is salt harmful?
-    - Is salt bad?
-    - Is salt healthy?
-    - Is salt harmful?
-    - How much salt can you eat per day?
-    - How much salt can you take per day?
-    - How much salt can you consume per day?
-    - I would like to learn more about salt in food
-    - Are organic apples healthier than conventional apples?
-    - Are organic apples healthier than regular apples?
-    - Which is healthier, organic apples or regular apples?
-    - Are organic apples healthier?
-    - Is an organic apple healthier than a regular apple?
-    - A tomato from southern Spain has traveled a long way. Is it better for the environment if I buy local tomatoes, even if they come from the greenhouse?
-    - Are tomatoes from Spain more climate-friendly in winter than tomatoes from the region with a greenhouse?
-    - Tomatoes from the region or from southern Spain?
-    - What is more sustainable in winter? Tomatoes from the region and from the greenhouse or from Spain?
-    - Which is better for the environment: local tomatoes or tomatoes from southern Spain?
-    - How can I tell that a food is more sustainable than a comparable product?
-    - How do you recognize sustainable food?
-    - How do you know which food is more sustainable?
-    - How do you tell which of two foods is more sustainable?
-    - How do I compare the sustainability of food?
-    - Is there a label/signet/seal/stamp/list for sustainability on food?
-    - Which products are sustainable?
-    - How do I recognize sustainable products?
-    - Shop sustainably
-    - How can I tell if a product is sustainable?
-    - How do I find out if something is sustainable?
-    - How do I recognize regional foods?
-    - Is there a seal for regional food?
-    - How do you recognize regional foods?
-    - Recognize regional foods
-    - Shop local
-    - Which regional seals are trustworthy?
-    - How is regionality defined in the food trade?
-    - What does 'regional' mean for food?
-    - How is regional food defined?
-    - Are regional foods really from the region?
-    - How do I recognize products that offer good value for money in terms of health and sustainability?
-    - How do you recognize sustainable food with a good price-performance ratio?
-    - Is there a seal/sign/signet/label/quality mark for sustainable products with a good price-performance ratio?
-    - How to find sustainable products with a good price-performance ratio?
-    - Recognize sustainable products with a good price
-    - I don't want to pay more than necessary for healthy and socially sustainable products. How do I know that the higher price really benefits the producers/farmers and climate protection?
-    - Does the higher price of sustainable products really benefit the producers?
-    - How can I determine whether the higher price of sustainable products really reaches the producers?
-    - Are there seals/labels/marks/signets/quality marks that guarantee that the higher price of sustainable products benefits the producers?
-    - Does the high price of sustainable products benefit climate protection / the producers / the farmers?
-    - How is food waste tried to be avoided?
-    - Measures against food waste?
-    - What do you do against food waste?
-    - Avoid food waste
-    - How to avoid throwing away food?
-    - Don't throw away food
-    - Don't waste food
-    - Life cycle assessments of food (Eco-Score)
-    - How do you recognize the life cycle assessment of food?
-    - Where is the life cycle assessment of food?
-    - Where does it say how sustainable a food is?
-    - What is Eco Score?
-    - How does Eco Score work?
-    - Find out about the sustainability of food
-    - Explain Eco Score
-    - How can I protect the climate despite food consumption?
-    - How can I protect the climate with my diet?
-    - How can I feed myself in such a way that I do something for the climate?
-    - How do we manage to stop climate change in the best possible way?
-    - What can I do for the climate while eating?
-    - stop climate change
-    - What can I do to stop climate change?
-    - How do you stop climate change?
-    - How do you stop the climate crisis?
-    - How can I become active for the climate?
-    - Make a contribution to change
-    - How can I tell that social standards/human rights are being observed for a food product?
-    - Which social/fair trade seals for food are recommended?
-    - Social/fair trade seal for food
-    - Where does it say whether a food has been produced according to social standards?
-    - How does my money get to the producer?
-    - For which foods are the prices passed on fairly to the producers?
-    - With which foods do I support fair production?
-    - How do I recognize foods where the price is fairly passed on to the producer?
-    - Pay food manufacturers/producers/producers fairly
-    - Fair payment groceries
-    - How can I support food producers in a socially fair way?
-    - Which labels make it easy for me to identify socially responsible food, for example in the value chain?
-    - Which labels show that a food has been produced according to social standards?
-    - Does the higher price of healthy and socially sustainable food really benefit producers?
-    - How can I determine whether the higher price of healthy and socially sustainable food really reaches the producers?
-    - Are there seals/labels/marks/signets/quality marks that guarantee that the higher price of healthy, socially responsible and sustainable products benefits the producers/farmers?
-    - In the case of healthy, socially and sustainable food, does the higher price benefit the producers/farmers?
-    - How do sustainability and social issues go together?
-    - How can sustainability and social standards be combined?
-    - How does the topic of sustainability relate to the topic of social issues?
-    - People should receive an adequate wage.
-    - What wages do you get in the production of food?
-    - How Much Do You Earn Producing Food?
-    - What salary do you get in agriculture / in the food industry?
-    - Are harvest workers / farmers paid fairly / well / badly / appropriately?
-    - Which food categories are Fairtrade products? Why isn't there the Fairtrade seal in all categories?
-    - What does fair trade mean?
-    - How is Fairtrade defined?
-    - Which foods can call themselves fair trade?
-    - What does the Fairtrade seal mean?
-    - Which products are fair trade?
-    - Understand Fair Trade.
-    - How to explain fair trade?
-    - How are the working conditions in food production worldwide and in the EU?
-    - Working conditions in food production
-    - Working conditions in agriculture internationally and in the EU?
-    - exploitation in agriculture
-    - Are you exploited in agriculture?
-    - Which standards were observed during the manufacture of the product?
-    - What standards apply to food production?
-    - Production standards in the food industry / in agriculture
-    - How safe is food?
-    - quality of food
-    - Employment/working conditions in agriculture in Germany.
-    - How are the working conditions in agriculture in Germany.
-    - Working conditions in agriculture?
-    - How much do harvest workers earn in Germany?
-    - Do seasonal workers have social insurance, health insurance, pension insurance, unemployment insurance, accident insurance?
-    - Organic food seal
-    - Differences organic seal
-    - German organic seal
-    - EU organic seal
-    - The best eco-seals for food
-    - Seal for sustainable food
-    - Which seals identify sustainable food?
-    - Which eco-association seals are there?
-    - Association seal for organic food in Germany
-    - Healthy Food Seal
-    - Which seals show me that a food is good for my health?
-    - Which seals confirm that food has a positive effect on my health?
-    - Which regional organic seals are there?
-    - Are regional organic seals better?
-    - Why are regional organic seals awarded?
-    - What seals exist for regionally produced food (conventional farming)?
-    - What seals exist for sustainability in the company?
-    - What seals exist for sustainability in production?
-    - What seal exists for sustainability in supply chain management?
-    - What seals exist confirming transparency?
-    - Seals that take social standards into account
-    - Which seals show fair working conditions in the production of food?
-    - Seals that confirm no child labor for the production of food
-    - Seal good for the environment
-    - Eco-label for food
-    - What seals are there for fishery products?
-    - Seal for sustainable fishing and seafood
-    - How can I know if a fish species comes from sustainable fishing?
-    - Animal Welfare Seal
-    - Which labels show that the animals were doing well?
-    - Which labels indicate species-appropriate animal husbandry?
-    - How do I know if a meat product is factory farmed?
-    - How can you tell if meat is factory farmed?
-    - How do you recognize factory farming?
-    - How do you avoid factory farmed meat?
-    - recognize factory farming
-    - Which animal welfare seals are there?
-    - Which label/seal/symbol/signet/label stand for animal welfare?
-    - How do you recognize foods with a high level of animal welfare?
-    - How do I recognize foods with a high level of animal welfare?
-    - Recognize animal welfare in food
-    - How do I recognize animal welfare?
-    - How do I find food with a high level of animal welfare in the supermarket?
-    - How do I recognize foods that are made with animal welfare in mind?
-    - Are there seals for animal welfare?
-    - Recognize producers of food with a high level of animal welfare
-    - Food from animal-friendly production
-    - husbandry conditions
-    - What are the housing conditions?
-    - housing conditions in animals
-    - forms of animal husbandry
-    - What are the husbandry conditions for chickens?
-    - Egg husbandry conditions
-    - chicken husbandry conditions
-    - What do the different husbandry levels mean for meat?
-    - What are the husbandry levels for meat?
-    - Explain rearing stages for meat
-    - Animal husbandry levels in meat definition
-    - How far did the packaged meat travel from the fattening farm to the slaughterhouse?
-    - How long does it take to transport animals from the fattening farm to slaughter?
-    - Route fattening operation slaughterhouse
-    - Animal transport distances km or hours
-    - How far are animals transported to the slaughterhouse?
-    - Animal transport slaughterhouse how long does the journey take?
-    - Assess labels correctly: Where are the animals really doing better?
-    - Which animal welfare labels are recommended?
-    - Which animal welfare labels are good?
-    - Which animal welfare labels are bad?
-    - Which animal welfare seals do you trust?
-    - Which seals for animal welfare?
-    - Which animal welfare seals are animals really better off with?
-    - What is the Bruderhahn Initiative?
-    - What is the Brother Animal Initiative?
-    - How do I recognize food from species-appropriate animal husbandry?
-    - Which food seals show species-appropriate animal husbandry?
-    - How do I find groceries from species-appropriate animal husbandry?
-    - What does the code on the egg mean?
-    - How do I read the code on the egg?
-    - What does the number code on eggs say?
-    - Does packaging endanger health?
-    - Is food packaging harmful to health?
-    - Which packaging is dangerous?
-    - Is plastic packaging bad for my health?
-    - Will I get sick from eating food wrapped in plastic?
-    - Why is food packaged?
-    - Why does food have to be packed?
-    - Is packaging absolutely necessary?
-    - Why are peppers wrapped in plastic and not offered as a loose product?
-    - Why are cucumbers and tomatoes wrapped in plastic?
-    - What packaging is allowed for food?
-    - packaging categories
-    - packaging materials for food
-    - What is food packaging made of?
-    - type of food packaging
-    - Is reusable food packaging more sustainable than single-use packaging?
-    - Why is disposable packaging used and not reusable packaging?
-    - Why is disposable packaging still used?
-    - Is disposable packaging better for the environment than reusable packaging?
-    - Which is better, disposable or reusable?
-    - How do I recognize sustainable packaging?
-    - How can I know if a type of packaging is sustainable?
-    - Where can I find out more about sustainable types of packaging?
-    - How do I find out whether the packaging is environmentally friendly?
-    - What alternatives are there for plastic packaging?
-    - Avoid plastic packaging
-    - Avoid packaging
-    - Is plastic used as packaging material?
-    - How much plastic packaging is produced in Germany every year?
-    - How much plastic is used in Germany every year?
-    - How can I avoid packaging waste?
-    - How can I buy groceries loose?
-    - Where can I buy loose?
-    - Avoid waste, how does that work?
-    - Is reusable packaging more ecological than disposable packaging?
-    - Which is better, reusable or disposable?
-    - What is ecological reusable packaging or disposable packaging?
-    - Why disposable packaging?
-    - What is true cost of groceries?
-    - What are true costs?
-    - What are hidden costs?
-    - Are the prices I pay for groceries fair prices?
-    - Are the prices I pay for groceries the true prices?
-    - Is the price I pay for meat in the supermarket a fair price?
-    - Are the prices in the supermarket real prices?
-    - Do I pay the true price of the groceries at the weekly market?
-    - Are the actual prices of groceries displayed at the supermarket checkout?
-    - Is the price of Fair trade products really the fair price?
-    - How do I know if I'm paying the true price for potatoes?
-    - What costs are included in the true cost calculation?
-    - Do food prices reflect the true cost?
-    - Do the price tags in the supermarket reflect the real prices?
-    - Are the prices in the supermarket the actual prices of the groceries?
-    - Can true costs be represented?
-    - When we buy groceries, do we pay for ecological damage?
-    - Are the follow-up costs currently included in food prices?
-    - Does true cost include a sustainability assessment?
-    - What is the true cost for?
-    - Do companies know the true cost of the food they produce?
-    - What does true cost say about a business?
-    - Are dumping prices a problem when it comes to real costs?
-    - Are dumping prices banned in the EU?
-    - How are dumping prices for food in Germany avoided?
-    - Pricing environmental impacts from agriculture and food, what can the consumer do?
-    - How do I know if a food has a high environmental impact?
-    - What damage does agriculture cause?
-    - What environmental damage does food production cause?
-    - What environmental damage does agriculture cause?
-    - When I buy a product, do I pay for the environmental damage caused by food production?
-    - Are true costs included in current grocery prices?
-- lookup: ingredient_preference
-  examples: |
-    - vegan
-    - Vegan
-    - Vegetarian
-    - vegetarian
-    - palm oil
-    - palm-oil free
-    - palm oil free
-- lookup: allergen_preference
-  examples: |
-    - Gluten
-    - gluten-free
-    - gluten
-    - Milk
-    - milk
-    - Eggs
-    - eggs
-    - Nuts
-    - nuts
-    - Peanuts
-    - peanuts
-    - Sesame Seeds
-    - sesame seeds
-    - sesame
-    - Soybeans
-    - soy
-    - soybeans
-    - Celery
-    - celery
-    - Mustard
-    - mustard
-    - Lupin
-    - lupin
-    - Fish
-    - fish
-    - Crustaceans
-    - crustaceans
-    - Molluscs
-    - molluscs
-    - Sulphur dioxide and sulphites
-    - sulphur dioxide
-    - sulphites
-    - sulphur dioxide and sulphites
-- lookup: nutr_val_preference
-  examples: |
-    - low in salt
-    - low in sodium
-    - low sugar
-    - Low sugar
-    - Low Fat
-    - Low fat
-    - low saturated fat
-    - Low saturated fat
-- lookup: food_processing_preference
-  examples: |
-    - no or little food processing
-    - no or few additives
-    - additives
-    - processing
-    - Processing
-    - Additives
-    - Little food processing
-    - Few additives
-    - few additives
-    - not a lot of additives
-    - food processing
-    - Food processing
-- lookup: label_preference
-  examples: |
-    - organic farming
-    - Organic farming
-    - organic
-    - Fair trade
-    - Fair Trade
-    - fair trade
-- lookup: env_preference
-  examples: |
-    - low environmental impact
-    - eco-friendly
-    - low forest footprint
-    - high eco-score
-    - Eco-friendly
-    - Eco friendly
-    - eco friendly
-    - Low environmental impact
-    - Low forest footprint
-    - Low carbon footprint
-    - low carbon footprint
-    - high eco score
-    - High eco-score
+  - intent: greet
+    examples: |
+      - hey
+      - hello
+      - hi
+      - hello there
+      - good morning
+      - good evening
+      - moin
+      - hey there
+      - let's go
+      - hey dude
+      - goodmorning
+      - goodevening
+      - good afternoon
+      - hello I am [John](user_name)
+      - hi I am [Mary](user_name)
+  - intent: goodbye
+    examples: |
+      - cu
+      - good by
+      - cee you later
+      - good night
+      - bye
+      - goodbye
+      - have a nice day
+      - see you around
+      - bye bye
+      - see you later
+  - intent: affirm
+    examples: |
+      - yes
+      - y
+      - indeed
+      - of course
+      - that sounds good
+      - correct
+  - intent: deny
+    examples: |
+      - no
+      - n
+      - never
+      - I don't think so
+      - don't like that
+      - no way
+      - not really
+  - intent: mood_great
+    examples: |
+      - perfect
+      - great
+      - amazing
+      - feeling like a king
+      - wonderful
+      - I am feeling very good
+      - I am great
+      - I am amazing
+      - I am going to save the world
+      - super stoked
+      - extremely good
+      - so so perfect
+      - so good
+      - so perfect
+  - intent: mood_unhappy
+    examples: |
+      - my day was horrible
+      - I am sad
+      - I don't feel very well
+      - I am disappointed
+      - super sad
+      - I'm so sad
+      - sad
+      - very sad
+      - unhappy
+      - not good
+      - not very good
+      - extremly sad
+      - so saad
+      - so sad
+  - intent: bot_challenge
+    examples: |
+      - are you a bot?
+      - are you a human?
+      - am I talking to a bot?
+      - am I talking to a human?
+  - intent: scan_barcode
+    examples: |
+      - scan barcode [1234567890123] (barcode)
+      - scan barcode [1234567890123] (barcode) please
+      - scan barco [1234567890123] (barcode)
+      - scan barcod [1234567890123] (barcode)
+      - scan this barcode [1234567890123] (barcode)
+      - [1234567890123] (barcode)
+      - barcode [1234567890123] (barcode)
+      - barcode is [1234567890123] (barcode)
+      - barcode "[1234567890123] (barcode)"
+      - barcode: "[1234567890123] (barcode)"
+      - barcode: [1234567890123] (barcode)
+      - The barcode is [1234567890123] (barcode)
+      - The barcode: "[1234567890123] (barcode)"
+      - product barcode [1234567890123] (barcode)
+      - scan barcode [1234567890123](barcode)
+      - scan barcode [1234567890123](barcode) please
+      - scan barco [1234567890123](barcode)
+      - scan barcod [1234567890123](barcode)
+      - scan this barcode [1234567890123](barcode)
+      - what do you know about this product [1234567890123](barcode)
+      - I want to know info about [1234567890123](barcode)
+      - I need to know details about [1234567890123](barcode)
+      - I want to know info about [1234567890123](barcode) please
+      - I need to know details about [1234567890123](barcode) please
+      - Can you provide the nutritional information for [1234567890123](barcode)?
+      - Tell me more about [1234567890123](barcode).
+      - [1234567890123](barcode) details please
+      - [1234567890123](barcode) info please
+      - [1234567890123](barcode) information
+      - [1234567890123](barcode)
+      - [7613035974685][{"entity": "barcode"}, {"entity": "barcode"}]
+      - [3168930009078][{"entity": "barcode"}, {"entity": "barcode"}]
+      - [1234567890123][{"entity": "barcode"}, {"entity": "barcode"}]
+      - [987654321012][{"entity": "barcode"}, {"entity": "barcode"}]
+      - [234567890123][{"entity": "barcode"}, {"entity": "barcode"}]
+      - [3017620422003][{"entity": "barcode"}, {"entity": "barcode"}]
+      - [3168930009078](barcode)
+      - [7613035974685](barcode)
+      - [3017620422003](barcode)
+      - [5449000214911](barcode)
+      - scan [3168930009078](barcode)
+      - scan [3017620422003](barcode)
+  - intent: get_top_product_info_by_name
+    examples: |
+      - I want to know info about [milk](food)
+      - I need to know details about [yogurt](food)
+      - I want to know info about [chocolate](food) please
+      - I need to know details about [rice](food) please
+      - I want to know info about [butter](food) please
+      - Can you provide the nutritional information for [eggs](food)?
+      - Tell me more about [orange](food).
+      - [pasta](food) details please
+      - [oranges](food) info please
+      - [nutella](food) information
+      - what do you know about [milk](food)
+      - what info do you know about [yogurt](food)
+      - what details do you know about [chocolate](food)
+      - [nutella](food)
+      - [chocolate](food)
+      - Please provide information about [bread](food).
+      - I would like to know the details about [cheese](food).
+      - Can you give me information about [apples](food), please?
+      - I'm curious to know more about [bananas](food).
+      - What can you tell me about [broccoli](food)?
+      - I need details about [salmon](food), please.
+      - Please provide nutritional information for [chicken](food).
+      - Tell me more about [tomatoes](food), please.
+      - I'm interested in learning about [potatoes](food).
+      - Can you provide information about [carrots](food)?
+      - What do you know about [spinach](food)?
+      - What information do you have about [avocado](food)?
+      - What details do you know about [grapes](food)?
+      - Tell me more about [strawberries](food).
+      - I'm curious about [watermelon](food).
+  - intent: ask_about_product_property_by_name
+    examples: |
+      - Is [cereal](food) suitable for [vegetarians](food_property)?
+      - Does [pasta](food) contain [gluten](food_property)?
+      - Any information on the [fat](food_property) content in [fish](food)?
+      - does [honey](food) contain [palm oil](food_property)?
+      - does [bread](food) contain [nuts](food_property)?
+      - does [chips](food) contain [soy](food_property)?
+      - Is [nuts](food) suitable for [vegan](food_property)?
+      - Is [banana](food) high in [salt](food_property)?
+      - Is [nuts](food) low in [salt](food_property)?
+      - Is [cake](food) high in [sugar](food_property)?
+      - Is [cereal](food) low in [sugar](food_property)?
+      - does [pasta](food) contain [milk](food_property)?
+      - does [lasagna](food) has [additives](food_property)?
+      - what is [nutella](food) [eco score](food_property)?
+      - what is [chocolate](food) [nutri score](food_property)?
+      - what is [meat](food) [nutrition score](food_property)?
+      - what is [chicken](food) [nova score](food_property)?
+      - is [cheese](food) [organic](food_property)?
+  - intent: ask_about_product_property_by_barcode
+    examples: |
+      - Is [1234567890123](barcode) suitable for [vegetarians](food_property)?
+      - Does [1234567890123](barcode) contain [gluten](food_property)?
+      - Any information on the [fat](food_property) content in [1234567890123](barcode)?
+      - does [1234567890123](barcode) contain [palm oil](food_property)?
+      - does [1234567890123](barcode) contain [nuts](food_property)?
+      - does [1234567890123](barcode) contain [soy](food_property)?
+      - Is [1234567890123](barcode) suitable for [vegan](food_property)?
+      - Is [1234567890123](barcode) high in [salt](food_property)?
+      - Is [1234567890123](barcode) low in [salt](food_property)?
+      - Is [1234567890123](barcode) high in [sugar](food_property)?
+      - Is [1234567890123](barcode) low in [sugar](food_property)?
+      - does [1234567890123](barcode) contain [milk](food_property)?
+      - does [1234567890123](barcode) has [additives](food_property)?
+      - what is [1234567890123](barcode) [eco score](food_property)?
+      - what is [1234567890123](barcode) [nutri score](food_property)?
+      - what is [1234567890123](barcode) [nutrition score](food_property)?
+      - what is [1234567890123](barcode) [nova score](food_property)?
+      - is [1234567890123](barcode) [organic](food_property)?
+      - Is [9876543210987](barcode) suitable for [gluten-free](food_property) diets?
+      - Does [9876543210987](barcode) contain [dairy products](food_property)?
+      - Does [9876543210987](barcode) contain [shellfish](food_property)?
+      - Does [9876543210987](barcode) contain [wheat](food_property)?
+      - Is [9876543210987](barcode) suitable for [pescatarian](food_property) diets?
+      - Is [9876543210987](barcode) [high in fiber](food_property)?
+      - Is [9876543210987](barcode) [low in saturated fat](food_property)?
+      - Is [9876543210987](barcode) [high in carbohydrates](food_property)?
+      - Does [9876543210987](barcode) contain [soybeans](food_property)?
+      - Does [9876543210987](barcode) have [preservatives](food_property)?
+      - Is [9876543210987](barcode) certified [organic](food_property)?
+  - intent: ask_about_animal_friendliness_of_product
+    examples: |
+      - Is this product tested on animals?
+      - Is this product animal friendly?
+      - Could you provide information about the animal friendliness of it?
+      - Could you provide information about the animal friendliness of this product?
+      - Are the ingredients used in this product derived from animals?
+      - Does this product contain any animal by-products?
+      - Can you provide information on the ethical sourcing of animal-derived ingredients in this product?
+      - Has this product been certified as cruelty-free by any recognized organizations?
+      - Are any animal testing methods employed during the manufacturing process of this product?
+      - Can you confirm if this product is vegan-friendly?
+      - Is it vegan?
+      - is it animal friendly?
+      - What steps has the company taken to ensure the animal-friendliness of this product?
+      - Are the animal-derived ingredients in this product obtained through sustainable and humane practices?
+      - Has this product been tested on animals at any stage of its development?
+      - Can you provide details about the company's animal testing policies?
+      - Are there any alternative testing methods used for this product instead of animal testing?
+      - Has the company conducted any studies or research to validate the animal-friendliness of this product?
+      - Can you provide information on the environmental impact of this product in relation to animal habitats?
+      - Does the company support any animal welfare organizations or initiatives?
+      - Is the packaging of this product environmentally friendly and designed with animal welfare in mind?
+      - Has this product undergone any animal-free safety assessments or trials?
+      - Can you provide evidence of the company's commitment to animal welfare throughout its supply chain?
+      - Are there any plans in place to further improve the animal-friendliness of this product?
+      - Has this product received any awards or certifications related to its animal-friendliness?
+  - intent: set_ingredient_preference
+    examples: |
+      - I am [vegan](ingredient_preference).
+      - I am [vegetarian](ingredient_preference).
+      - I would like [Palm-oil free](ingredient_preference) choices.
+      - Give choices that have no [palm oil](ingredient_preference).
+      - Give choices that are [palm oil free](ingredient_preference).
+      - Give choices that are [vegan](ingredient_preference).
+  - intent: set_allergen_preference
+    examples: |
+      - I am allergic to [milk](allergen_preference).
+      - I am can't eat [eggs](allergen_preference).
+      - Give me choices that are [gluten-free](allergen_preference).
+      - Give me food that is [gluten-free](allergen_preference).
+      - I have an allergy to [peanuts](allergen_preference).
+  - intent: set_nutr_value_preference
+    examples: |
+      - Please give me choices that are [low in salt](nutr_val_preference).
+      - Set my food preferences to include [low sugar](nutr_val_preference).
+      - I want food low in [fat](nutr_val_preference).
+      - I want [low sugar](nutr_val_preference) choices.
+      - I want [low saturated fat](nutr_val_preference) choices.
+      - Please provide me with choices that are [low in sodium](nutr_val_preference).
+      - Include options that are [low sugar](nutr_val_preference) in my food preferences.
+      - I prefer food that is [low in fat](nutr_val_preference).
+      - Find me choices with [low sugar](nutr_val_preference) content.
+      - I want choices that are [low in saturated fat](nutr_val_preference).
+      - Set my food preferences to include options that are [low in sodium](nutr_val_preference).
+      - Give me choices that are [low in salt](nutr_val_preference).
+      - I want food options that are [low sugar](nutr_val_preference).
+      - Provide me with choices that are [low in fat](nutr_val_preference).
+      - I prefer choices that are [low in sodium](nutr_val_preference).
+      - Include options with [low sugar](nutr_val_preference) content in my preferences.
+      - Set my preferences to prioritize choices that are [low in saturated fat](nutr_val_preference).
+      - I want choices that are [low in sugar](nutr_val_preference).
+      - Find me food options that are [low in fat](nutr_val_preference).
+      - Set my preferences to include choices that are [low in sugar](nutr_val_preference).
+      - I prefer choices that are [low in saturated fat](nutr_val_preference).
+      - Please provide me with options that are [low in sodium](nutr_val_preference).
+      - Include choices that are [low sugar](nutr_val_preference) in my food preferences.
+      - I want food that is [low in fat](nutr_val_preference).
+  - intent: set_food_processing_preference
+    examples: |
+      - I want my food to have no [food processing](food_processing_preference).
+      - Give me choicees with no [processing](food_processing_preference).
+      - I want my food to have no or [little food processing](food_processing_preference).
+      - Give me choices with [no processing](food_processing_preference).
+      - Include options that are [free from additives](food_processing_preference).
+      - Set my preferences to prioritize choices with [no or few additives](food_processing_preference).
+      - Find me choices that are [low in food processing](food_processing_preference).
+      - I prefer food with [minimal processing](food_processing_preference).
+      - Please give me options that are free from [additives](food_processing_preference).
+      - Include choices that have [limited food processing](food_processing_preference).
+      - Set my preferences to prioritize options with few [additives](food_processing_preference).
+      - I want choices with not a lot of [additives](food_processing_preference).
+      - Please provide me with choices that have [limited food processing](food_processing_preference).
+      - Include options that are [minimally processed](food_processing_preference) in my preferences.
+      - Set my preferences to prioritize choices with [few additives](food_processing_preference).
+      - I want choices that have [limited food processing](food_processing_preference).
+      - Please give me options with [minimal processing](food_processing_preference).
+      - Include choices that are free from [additives](food_processing_preference).
+      - Set my preferences to prioritize options with [no or few additives](food_processing_preference).
+      - I want choices with [minimal food processing](food_processing_preference).
+      - Please provide me with options that have [limited additives](food_processing_preference).
+      - Include choices that are [minimally processed](food_processing_preference) in my preferences.
+  - intent: set_label_preference
+    examples: |
+      - I want [organic](label_preference) choices.
+      - I want choices that come from [organic](label_preference) farming.
+      - Please provide me with [organic](label_preference) options.
+      - Set my preferences to prioritize choices that are [organic](label_preference).
+      - I prefer choices that are [fair trade](label_preference).
+      - Include options that come from [fair trade](label_preference) sources in my preferences.
+      - Please give me choices that are [organically produced](label_preference).
+      - Set my preferences to include choices that are [fairly traded](label_preference).
+      - I want choices that are produced using [organic farming](label_preference).
+      - Please provide me with options that are [fairly sourced](label_preference).
+      - Set my preferences to prioritize choices that are [organically](label_preference) grown.
+      - I want choices that are certified [organic](label_preference).
+      - Include options that are [fair trade](label_preference) certified in my preferences.
+      - Please give me choices that are [organically cultivated](label_preference).
+      - I want choices that are [grown organically](label_preference).
+      - Please provide me with options that are [ethically sourced](label_preference).
+      - Set my preferences to prioritize choices that are [organically farmed](label_preference).
+      - I want choices that are [produced sustainably](label_preference).
+      - Include options that are [fair trade](label_preference) verified in my preferences.
+      - Please give me choices that are [organically harvested](label_preference).
+  - intent: set_env_preference
+    examples: |
+      - I want food that has a [low carbon footprint](env_preference).
+      - Give me choices that are [eco-friendly](env_preference).
+      - I want food choices that have [low environmental impact](env_preference).
+      - Please provide me with choices that are [eco-friendly](env_preference).
+      - Set my preferences to prioritize options with [low forest footprint](env_preference).
+      - I prefer choices that have a [high eco-score](env_preference).
+      - Include choices that are [eco-friendly](env_preference) in my preferences.
+      - Please give me choices that have [low environmental impact](env_preference).
+      - Set my preferences to include options with [low forest footprint](env_preference).
+      - I want food choices that are [eco-friendly](env_preference).
+      - Please provide me with choices that have a [low carbon footprint](env_preference).
+      - Set my preferences to prioritize options with [low environmental impact](env_preference).
+      - I prefer choices that have [low forest footprint](env_preference).
+      - Include choices that have a high [eco-score](env_preference) in my preferences.
+      - Please give me choices that are [eco-friendly](env_preference).
+      - Set my preferences to prioritize options with [low carbon footprint](env_preference).
+      - I prefer choices that have [low environmental impact](env_preference).
+      - Include choices that have a [high eco-score](env_preference) in my preferences.
+  - intent: ask_preferences
+    examples: |
+      - What are my preferences?
+      - List my preferences.
+      - Show me preferences.
+      - Show preferences.
+      - List preferences.
+      - Say preferences.
+      - Preferences.
+  - intent: ask_for_product_comparison
+    examples: |
+      - Can you please compare two products?
+      - Can you compare two products?
+      - Can you compare some products?
+      - Can you compare?
+      - Can you compare products?
+      - Please compare these products:
+      - Can you please compare some products?
+      - Can you tell me which one is the best?
+      - Can you tell me which product is better?
+      - Compare them please.
+      - Help me choose a good product.
+      - Which one is the best?
+      - I want to know the best product of these products.
+      - I want to choose the best product.
+      - I want to choose a good product.
+      - I want to pick the best product.
+      - I want to pick a good product.
+      - I want to compare.
+      - Which one is better?
+      - compare
+      - Compare please
+      - Please compare
+      - can you compare products?
+      - Start new comparison please
+      - New comparison
+      - New compare
+  - intent: compare_products_with_name
+    examples: |
+      - Can you please compare [nutella](food) and [chocolate](food)?
+      - Please compare [cow milk](food), [bio cow milk](food) and [soya milk](food).
+  - intent: compare_products_with_barcode_given
+    examples: |
+      - Can you please compare [1234567890123](barcode) and [1234567890123](barcode)?
+      - Can you compare [1234567890123](barcode) and [1234567890123](barcode)?
+      - Please compare [1234567890123](barcode), [1234567890123](barcode) and [1234567890123](barcode).
+      - Compare [1234567890123](barcode) and [1234567890123](barcode).
+      - Compare [1234567890123](barcode), [1234567890123](barcode), [1234567890123](barcode) and [1234567890123](barcode).
+      - Is [1234567890123](barcode) better or [1234567890123](barcode)?
+      - Which one is better, [1234567890123](barcode) or [1234567890123](barcode)?
+      - Please rank these products: [1234567890123](barcode), [1234567890123](barcode), [1234567890123](barcode), [1234567890123](barcode)
+      - compare [3168930009078](barcode) and [3017620422003](barcode)
+      - compare [3168930009078](barcode) and [3017620422003](barcode)
+  - intent: add_more_barcodes_to_comparison_list
+    examples: |
+      - Add following products to comparison list: [1234567890123](barcode), [1234567890123](barcode), [1234567890123](barcode) and [1234567890123](barcode)
+      - Add [1234567890123](barcode) to list
+      - add [1234567890123](barcode), [1234567890123](barcode), [1234567890123](barcode) to compare list
+      - add [1234567890123](barcode) and [1234567890123](barcode) to list
+      - please put [1234567890123](barcode), [1234567890123](barcode), [1234567890123](barcode) in comparison list
+      - put [1234567890123](barcode) and [1234567890123](barcode) in list
+      - put [1234567890123](barcode) in comparison list
+  - intent: start_product_comparison
+    examples: |
+      - Please start the comparison.
+      - Please start compare.
+      - Start comparison.
+      - Start compare.
+  - intent: show_product_comparison_list
+    examples: |
+      - Please show me the comparison list.
+      - Show the comparison list.
+      - What is in the comparison list?
+      - show comparison list
+      - show compare list
+  - intent: provide_multiple_barcodes
+    examples: |
+      - [1234567890123](barcode), [1234567890123](barcode) and [1234567890123](barcode).
+      - [1234567890123](barcode), [1234567890123](barcode) and [1234567890123](barcode)
+      - [1234567890123](barcode), [1234567890123](barcode), [1234567890123](barcode).
+      - [1234567890123](barcode), [1234567890123](barcode), [1234567890123](barcode)
+      - [1234567890123](barcode), [1234567890123](barcode), [1234567890123](barcode), [1234567890123](barcode)
+      - [1234567890123](barcode) [1234567890123](barcode) [1234567890123](barcode)
+      - [1234567890123](barcode) [1234567890123](barcode) [1234567890123](barcode) [1234567890123](barcode)
+      - [1234567890123](barcode) [1234567890123](barcode)
+      - [1234567890123](barcode), [1234567890123](barcode)
+      - [1234567890123](barcode) and [1234567890123](barcode)
+      - [3168930009078](barcode), [7613035974685](barcode), [3017620422003](barcode)
+  - intent: stop_comparing_and_clear_comparison_history
+    examples: |
+      - Stop compare.
+      - Stop and clear.
+      - Stop this comparison please.
+      - I don't want to compare anymore.
+      - Stop comparing and clear the history.
+      - Stop comparing and clear the comparison history.
+      - Stop comparison
+      - Delete this comparison
+      - Delete compare history
+      - Clear compare history
+      - Stop current comparison
+  - intent: know_more_about_comparison_result
+    examples: |
+      - I want to know more about comparison result
+      - Know more about compare result
+      - Know more about result
+      - Inform about compare result
+      - Tell me more about this result
+      - Tell me more about comparison result
+      - Know more
+  - intent: continue_comparison
+    examples: |
+      - Continue compare
+      - Continue comparison
+      - I want to continue.
+      - Continue
+  - intent: out_of_scope_intents
+    examples: |
+      - can you purchase this product for me?
+      - can you order this for me?Please compare the products:
+      - Please compare the products:
+
+  - intent: scan_sustainability_report
+    examples: |
+      - What are the different sustainability models?
+      - How does the SAFA Guidelines define sustainability and what dimensions does it consider?
+      - Who developed the Sustainability Flower model and what dimensions does it include?
+      - What are the four dimensions of the WBAE sustainability model?
+      - What is the WBAE model?
+      - What are the advantages and disadvantages of the WBAE approach?
+      - How do the Sustainable Development Goals (SDGs) relate to the evaluation of individual products' sustainability impact?
+      - What considerations should be taken into account when assessing the environmental dimension at both the product and company levels?
+      - What are the criteria for environmental labels mentioned in the provided information?
+      - How does the WBAE approach address trade-offs in environmental labeling?
+      - What factors are considered in calculating the carbon footprint of groceries?
+      - How do cultivation methods or management forms affect the carbon footprint of food production?
+      - What role does packaging play in the carbon footprint of groceries?
+      - How does the water footprint indicator measure water consumption in different products?
+      - What are the environmental implications of phosphate usage in food production?
+      - How does the nitrogen footprint impact the environment and human health?
+      - What is the significance of land use/land take in evaluating the environmental footprint of agriculture?
+      - How does the WBAE approach consider animal welfare and biodiversity aspects in environmental labeling?
+      - How can agriculture contribute to the cultivation of renewable raw materials and the creation of CO2 sinks in moors and forests?
+      - What are the factors that favor country- and forestry land uses, and how do they affect biodiversity?
+      - In what situations does agriculture bear less than half of the burden on the entire life cycle, and what are the exceptions?
+      - What are the implications of transporting groceries by plane or using energy-intensive packaging in terms of environmental impact?
+      - What measures are recommended for sustainable development of the food system in terms of supply-side and consumption-side approaches?
+      - How do different levels of intensity in farming, such as intensive versus organic farming, impact land consumption and environmental impact?
+      - What are the causes of biodiversity loss in agriculture, and how does landscape structure affect fauna?
+      - How does organic farming contribute to biodiversity preservation compared to conventional farming?
+      - What are the concerns and opinions regarding the use of genetically modified organisms (GMOs) in agriculture?
+      - How does palm oil production pose challenges in terms of balancing economic development, social and environmental standards, and land use change?
+      - What are the four phases involved in the process described?
+      - According to WBAE, what challenges does agriculture face in conducting life cycle assessments?
+      - How does the PEF method differ from traditional life cycle assessment (LCA)?
+      - What is the principle of "Cradle to Cradle" and how does it differ from "cradle to grave"?
+      - What is the Eco-Score and how does it assess the environmental properties of a food product?
+      - What factors can affect the bonuses or penalties in the Eco-Score calculation?
+      - Why is there criticism regarding the use of life cycle analysis as a basis for the Eco-Score?
+      - What aspects are not directly captured by the Eco-Score but are increasingly important to consumers?
+      - How does the Eco-Score rating differ for the two different scores given to the same product?
+      - What is the Planet Score, and how does it differ from the Eco-Score in terms of the factors it considers?
+      - What is the Planet Score based on?
+      - How many product categories are listed in the Agribalyse database?
+      - What aspects are considered in the Mission from Pesticides?
+      - Besides soil carbon stocks, what else is taken into account in the Climate indicator?
+      - What factors are considered in the Biodiversity indicator?
+      - How does the Pro Planet label define sustainable production?
+      - What are the four topics that the Rainforest Alliance works on?
+      - Which organization supports sustainability communication in food retail?
+      - What does the Nutri-Score measure?
+      - What are the limitations of the Nutri Score when it comes to assessing environmental impact?
+      - What are the reasons for the increasing attractiveness of insects as a potential food source?
+      - What are the goals of the MSC seal and the ASC standard in relation to seafood certification?
+      - What are some criticisms of the MSC seal as a certification for wild fish?
+      - How does the Naturland certification represent a premium label for farmed fish?
+      - What are some of the social sustainability rating systems used to assess sustainability in various industries?
+      - How do living wage initiatives aim to improve the livelihoods of workers?
+      - Why is it often unclear whether minimum social standards are being met in certain industries?
+      - What is the We Care standard and how does it address social aspects within sustainability certification?
+      - How can substituting animal products with vegetables, nuts, and legumes contribute to health and environmental goals?
+      - Are regional products always sustainable? What factors should be considered when evaluating the sustainability of regional products?
+      - What are some examples of products that fall under the dimension of "Health"?
+      - How are the indicators/criteria within the dimension of "Health" weighted?
+      - What is the basis for evaluating the dimension of "Social"?
+      - Are there holistic company labels that cover all dimensions, including the social dimension?
+      - How are social standards recognized and rated within the evaluation?
+      - What labeling approaches are considered in the dimension of "Animal Welfare"?
+      - How is livestock farming evaluated within the dimension of "Animal Welfare"?
+      - What is the goal of the "Environment" dimension in terms of sustainable food production?
+      - What indicators/criteria are taken into account in assessing the environmental dimension?
+      - How are the dimensions of sustainability weighted depending on whether a product is from animal production or plant production?
+      - What factors increase the score in the Nutri-Score system?
+      - What factors decrease the score in the Nutri-Score system?
+      - How is the quality of the nutritional value profile determined based on the Nutri-Score?
+      - Is the first yogurt evaluated positively in terms of the health dimension? If so, what is its Nutri-Score?
+      - Is the second yogurt certified organic? What Nutri-Score does it receive?
+      - What is the source of milk for the third yogurt? Is it certified organic?
+      - Are there any additives in the third yogurt?
+      - How does the first pork cutlet score in terms of the health dimension? What is its Nutri-Score?
+      - Does the second pork cutlet have any additives?
+      - Is the rapeseed oil from Ölmühle Solling classified as a good choice in terms of health? What is its Nutri-Score?
+      - What is the main topic or subject covered in the provided information?
+      - Could you share some sources or references pertaining to nutrition and sustainable food practices mentioned in the content?
+      - Are there any resources discussing the sustainability of organic farming?
+      - Are there publications or sources available that discuss the environmental impact of products and services?
+      - Can you provide any references related to strategies for reducing food waste?
+      - Are there any organizations or initiatives mentioned that focus on promoting sustainable food practices?
+      - Is there any information available about certifications or labels associated with food products?
+      - Are there any sources or references discussing land use indicators or consumption-based land use?
+      - Can you provide any resources that explore the impact of food production on water resources?
+      - Are there any publications or organizations mentioned in the content that address fair trade or consumer protection?
+
+  - intent: faq
+    examples: |
+      - What does biodiversity mean?
+      - How is biodiversity defined?
+      - What does biodiversity include?
+      - What does biodiversity have to do with nutrition?
+      - Does our diet depend on biodiversity?
+      - What protects the biodiversity of our food?
+      - Is there a decline in biodiversity?
+      - Causes of biodiversity loss. What is the extent of biodiversity loss?
+      - What leads to biodiversity loss?
+      - Does biodiversity affect all people?
+      - International biological diversity.
+      - Protecting biodiversity.
+      - What measures are being taken to protect biodiversity?
+      - What is Germany doing to preserve biodiversity?
+      - How can biodiversity loss be stopped?
+      - What can I do to contribute to biodiversity conservation?
+      - Why are bees important for biodiversity conservation?
+      - Does bee decline affect biodiversity preservation?
+      - How can bees promote biodiversity?
+      - Which plants promote biodiversity?
+      - Does organic farming support biodiversity in land use?
+      - Which plant varieties in the food sector promote biodiversity?
+      - How important is organic farming for biodiversity conservation?
+      - Does organic farming contribute to biodiversity preservation?
+      - What does organic farming contribute to biodiversity?
+      - Is there a biodiversity footprint for food consumption?
+      - Does our diet have a negative impact on biodiversity?
+      - Are there environmental impacts due to our diet?
+      - What does biodiversity footprint mean?
+      - What factors are considered in assessing the biodiversity footprint?
+      - What are aroma substances?
+      - What do aroma substances do?
+      - How are aroma substances defined?
+      - Definition of aroma substances
+      - What are aroma substances used for?
+      - Aroma substances
+      - Where are the aroma substances listed?
+      - How do I recognize foods with aroma substances?
+      - Which foods have aroma substances?
+      - Where can I see the aroma substances of a food?
+      - What are additives?
+      - What do additives do?
+      - How are additives defined?
+      - Definition of food additives
+      - What are auxiliary substances used for?
+      - Additives?
+      - Where are the additives listed?
+      - How can I see the additives of a food?
+      - How do I recognize foods with additives?
+      - Which foods have additives?
+      - How do I recognize products with a good price-performance ratio in terms of health and sustainability?
+      - How do you recognize healthy foods with a good price-performance ratio?
+      - Is there a seal/sign/label for healthy products with a good price-performance ratio?
+      - How to find healthy products with a good price-performance ratio?
+      - Healthy products with a good price?
+      - Nutrient-poor foods
+      - What are nutrient-poor foods?
+      - How do I recognize nutrient-poor foods?
+      - How do I avoid nutrient-poor foods?
+      - How do you recognize healthy foods?
+      - When are foods considered healthy?
+      - Are healthy foods labeled?
+      - How to recognize healthy food?
+      - How do you recognize healthy products?
+      - Sugar in general
+      - Sugar
+      - What is sugar?
+      - Definition of sugar
+      - Sugar information
+      - How much sugar can you eat per day?
+      - What is the maximum daily amount of sugar?
+      - What is the limit for sugar per day?
+      - How much sugar is allowed to be eaten?
+      - How many grams of sugar per day are okay?
+      - Is sugar harmful?
+      - Is sugar generally harmful?
+      - How harmful is sugar?
+      - Is sugar detrimental to health?
+      - Does sugar harm your health?
+      - Dangers of consuming too much sugar?
+      - Is salt harmful to health?
+      - How much salt is harmful to health?
+      - From how many grams is salt harmful?
+      - Is salt bad?
+      - Is salt healthy?
+      - Is salt harmful?
+      - How much salt can you eat per day?
+      - How much salt can you take per day?
+      - How much salt can you consume per day?
+      - I would like to learn more about salt in food
+      - Are organic apples healthier than conventional apples?
+      - Are organic apples healthier than regular apples?
+      - Which is healthier, organic apples or regular apples?
+      - Are organic apples healthier?
+      - Is an organic apple healthier than a regular apple?
+      - A tomato from southern Spain has traveled a long way. Is it better for the environment if I buy local tomatoes, even if they come from the greenhouse?
+      - Are tomatoes from Spain more climate-friendly in winter than tomatoes from the region with a greenhouse?
+      - Tomatoes from the region or from southern Spain?
+      - What is more sustainable in winter? Tomatoes from the region and from the greenhouse or from Spain?
+      - Which is better for the environment: local tomatoes or tomatoes from southern Spain?
+      - How can I tell that a food is more sustainable than a comparable product?
+      - How do you recognize sustainable food?
+      - How do you know which food is more sustainable?
+      - How do you tell which of two foods is more sustainable?
+      - How do I compare the sustainability of food?
+      - Is there a label/signet/seal/stamp/list for sustainability on food?
+      - Which products are sustainable?
+      - How do I recognize sustainable products?
+      - Shop sustainably
+      - How can I tell if a product is sustainable?
+      - How do I find out if something is sustainable?
+      - How do I recognize regional foods?
+      - Is there a seal for regional food?
+      - How do you recognize regional foods?
+      - Recognize regional foods
+      - Shop local
+      - Which regional seals are trustworthy?
+      - How is regionality defined in the food trade?
+      - What does 'regional' mean for food?
+      - How is regional food defined?
+      - Are regional foods really from the region?
+      - How do I recognize products that offer good value for money in terms of health and sustainability?
+      - How do you recognize sustainable food with a good price-performance ratio?
+      - Is there a seal/sign/signet/label/quality mark for sustainable products with a good price-performance ratio?
+      - How to find sustainable products with a good price-performance ratio?
+      - Recognize sustainable products with a good price
+      - I don't want to pay more than necessary for healthy and socially sustainable products. How do I know that the higher price really benefits the producers/farmers and climate protection?
+      - Does the higher price of sustainable products really benefit the producers?
+      - How can I determine whether the higher price of sustainable products really reaches the producers?
+      - Are there seals/labels/marks/signets/quality marks that guarantee that the higher price of sustainable products benefits the producers?
+      - Does the high price of sustainable products benefit climate protection / the producers / the farmers?
+      - How is food waste tried to be avoided?
+      - Measures against food waste?
+      - What do you do against food waste?
+      - Avoid food waste
+      - How to avoid throwing away food?
+      - Don't throw away food
+      - Don't waste food
+      - Life cycle assessments of food (Eco-Score)
+      - How do you recognize the life cycle assessment of food?
+      - Where is the life cycle assessment of food?
+      - Where does it say how sustainable a food is?
+      - What is Eco Score?
+      - How does Eco Score work?
+      - Find out about the sustainability of food
+      - Explain Eco Score
+      - How can I protect the climate despite food consumption?
+      - How can I protect the climate with my diet?
+      - How can I feed myself in such a way that I do something for the climate?
+      - How do we manage to stop climate change in the best possible way?
+      - What can I do for the climate while eating?
+      - stop climate change
+      - What can I do to stop climate change?
+      - How do you stop climate change?
+      - How do you stop the climate crisis?
+      - How can I become active for the climate?
+      - Make a contribution to change
+      - How can I tell that social standards/human rights are being observed for a food product?
+      - Which social/fair trade seals for food are recommended?
+      - Social/fair trade seal for food
+      - Where does it say whether a food has been produced according to social standards?
+      - How does my money get to the producer?
+      - For which foods are the prices passed on fairly to the producers?
+      - With which foods do I support fair production?
+      - How do I recognize foods where the price is fairly passed on to the producer?
+      - Pay food manufacturers/producers/producers fairly
+      - Fair payment groceries
+      - How can I support food producers in a socially fair way?
+      - Which labels make it easy for me to identify socially responsible food, for example in the value chain?
+      - Which labels show that a food has been produced according to social standards?
+      - Does the higher price of healthy and socially sustainable food really benefit producers?
+      - How can I determine whether the higher price of healthy and socially sustainable food really reaches the producers?
+      - Are there seals/labels/marks/signets/quality marks that guarantee that the higher price of healthy, socially responsible and sustainable products benefits the producers/farmers?
+      - In the case of healthy, socially and sustainable food, does the higher price benefit the producers/farmers?
+      - How do sustainability and social issues go together?
+      - How can sustainability and social standards be combined?
+      - How does the topic of sustainability relate to the topic of social issues?
+      - People should receive an adequate wage.
+      - What wages do you get in the production of food?
+      - How Much Do You Earn Producing Food?
+      - What salary do you get in agriculture / in the food industry?
+      - Are harvest workers / farmers paid fairly / well / badly / appropriately?
+      - Which food categories are Fairtrade products? Why isn't there the Fairtrade seal in all categories?
+      - What does fair trade mean?
+      - How is Fairtrade defined?
+      - Which foods can call themselves fair trade?
+      - What does the Fairtrade seal mean?
+      - Which products are fair trade?
+      - Understand Fair Trade.
+      - How to explain fair trade?
+      - How are the working conditions in food production worldwide and in the EU?
+      - Working conditions in food production
+      - Working conditions in agriculture internationally and in the EU?
+      - exploitation in agriculture
+      - Are you exploited in agriculture?
+      - Which standards were observed during the manufacture of the product?
+      - What standards apply to food production?
+      - Production standards in the food industry / in agriculture
+      - How safe is food?
+      - quality of food
+      - Employment/working conditions in agriculture in Germany.
+      - How are the working conditions in agriculture in Germany.
+      - Working conditions in agriculture?
+      - How much do harvest workers earn in Germany?
+      - Do seasonal workers have social insurance, health insurance, pension insurance, unemployment insurance, accident insurance?
+      - Organic food seal
+      - Differences organic seal
+      - German organic seal
+      - EU organic seal
+      - The best eco-seals for food
+      - Seal for sustainable food
+      - Which seals identify sustainable food?
+      - Which eco-association seals are there?
+      - Association seal for organic food in Germany
+      - Healthy Food Seal
+      - Which seals show me that a food is good for my health?
+      - Which seals confirm that food has a positive effect on my health?
+      - Which regional organic seals are there?
+      - Are regional organic seals better?
+      - Why are regional organic seals awarded?
+      - What seals exist for regionally produced food (conventional farming)?
+      - What seals exist for sustainability in the company?
+      - What seals exist for sustainability in production?
+      - What seal exists for sustainability in supply chain management?
+      - What seals exist confirming transparency?
+      - Seals that take social standards into account
+      - Which seals show fair working conditions in the production of food?
+      - Seals that confirm no child labor for the production of food
+      - Seal good for the environment
+      - Eco-label for food
+      - What seals are there for fishery products?
+      - Seal for sustainable fishing and seafood
+      - How can I know if a fish species comes from sustainable fishing?
+      - Animal Welfare Seal
+      - Which labels show that the animals were doing well?
+      - Which labels indicate species-appropriate animal husbandry?
+      - How do I know if a meat product is factory farmed?
+      - How can you tell if meat is factory farmed?
+      - How do you recognize factory farming?
+      - How do you avoid factory farmed meat?
+      - recognize factory farming
+      - Which animal welfare seals are there?
+      - Which label/seal/symbol/signet/label stand for animal welfare?
+      - How do you recognize foods with a high level of animal welfare?
+      - How do I recognize foods with a high level of animal welfare?
+      - Recognize animal welfare in food
+      - How do I recognize animal welfare?
+      - How do I find food with a high level of animal welfare in the supermarket?
+      - How do I recognize foods that are made with animal welfare in mind?
+      - Are there seals for animal welfare?
+      - Recognize producers of food with a high level of animal welfare
+      - Food from animal-friendly production
+      - husbandry conditions
+      - What are the housing conditions?
+      - housing conditions in animals
+      - forms of animal husbandry
+      - What are the husbandry conditions for chickens?
+      - Egg husbandry conditions
+      - chicken husbandry conditions
+      - What do the different husbandry levels mean for meat?
+      - What are the husbandry levels for meat?
+      - Explain rearing stages for meat
+      - Animal husbandry levels in meat definition
+      - How far did the packaged meat travel from the fattening farm to the slaughterhouse?
+      - How long does it take to transport animals from the fattening farm to slaughter?
+      - Route fattening operation slaughterhouse
+      - Animal transport distances km or hours
+      - How far are animals transported to the slaughterhouse?
+      - Animal transport slaughterhouse how long does the journey take?
+      - Assess labels correctly: Where are the animals really doing better?
+      - Which animal welfare labels are recommended?
+      - Which animal welfare labels are good?
+      - Which animal welfare labels are bad?
+      - Which animal welfare seals do you trust?
+      - Which seals for animal welfare?
+      - Which animal welfare seals are animals really better off with?
+      - What is the Bruderhahn Initiative?
+      - What is the Brother Animal Initiative?
+      - How do I recognize food from species-appropriate animal husbandry?
+      - Which food seals show species-appropriate animal husbandry?
+      - How do I find groceries from species-appropriate animal husbandry?
+      - What does the code on the egg mean?
+      - How do I read the code on the egg?
+      - What does the number code on eggs say?
+      - Does packaging endanger health?
+      - Is food packaging harmful to health?
+      - Which packaging is dangerous?
+      - Is plastic packaging bad for my health?
+      - Will I get sick from eating food wrapped in plastic?
+      - Why is food packaged?
+      - Why does food have to be packed?
+      - Is packaging absolutely necessary?
+      - Why are peppers wrapped in plastic and not offered as a loose product?
+      - Why are cucumbers and tomatoes wrapped in plastic?
+      - What packaging is allowed for food?
+      - packaging categories
+      - packaging materials for food
+      - What is food packaging made of?
+      - type of food packaging
+      - Is reusable food packaging more sustainable than single-use packaging?
+      - Why is disposable packaging used and not reusable packaging?
+      - Why is disposable packaging still used?
+      - Is disposable packaging better for the environment than reusable packaging?
+      - Which is better, disposable or reusable?
+      - How do I recognize sustainable packaging?
+      - How can I know if a type of packaging is sustainable?
+      - Where can I find out more about sustainable types of packaging?
+      - How do I find out whether the packaging is environmentally friendly?
+      - What alternatives are there for plastic packaging?
+      - Avoid plastic packaging
+      - Avoid packaging
+      - Is plastic used as packaging material?
+      - How much plastic packaging is produced in Germany every year?
+      - How much plastic is used in Germany every year?
+      - How can I avoid packaging waste?
+      - How can I buy groceries loose?
+      - Where can I buy loose?
+      - Avoid waste, how does that work?
+      - Is reusable packaging more ecological than disposable packaging?
+      - Which is better, reusable or disposable?
+      - What is ecological reusable packaging or disposable packaging?
+      - Why disposable packaging?
+      - What is true cost of groceries?
+      - What are true costs?
+      - What are hidden costs?
+      - Are the prices I pay for groceries fair prices?
+      - Are the prices I pay for groceries the true prices?
+      - Is the price I pay for meat in the supermarket a fair price?
+      - Are the prices in the supermarket real prices?
+      - Do I pay the true price of the groceries at the weekly market?
+      - Are the actual prices of groceries displayed at the supermarket checkout?
+      - Is the price of Fair trade products really the fair price?
+      - How do I know if I'm paying the true price for potatoes?
+      - What costs are included in the true cost calculation?
+      - Do food prices reflect the true cost?
+      - Do the price tags in the supermarket reflect the real prices?
+      - Are the prices in the supermarket the actual prices of the groceries?
+      - Can true costs be represented?
+      - When we buy groceries, do we pay for ecological damage?
+      - Are the follow-up costs currently included in food prices?
+      - Does true cost include a sustainability assessment?
+      - What is the true cost for?
+      - Do companies know the true cost of the food they produce?
+      - What does true cost say about a business?
+      - Are dumping prices a problem when it comes to real costs?
+      - Are dumping prices banned in the EU?
+      - How are dumping prices for food in Germany avoided?
+      - Pricing environmental impacts from agriculture and food, what can the consumer do?
+      - How do I know if a food has a high environmental impact?
+      - What damage does agriculture cause?
+      - What environmental damage does food production cause?
+      - What environmental damage does agriculture cause?
+      - When I buy a product, do I pay for the environmental damage caused by food production?
+      - Are true costs included in current grocery prices?
+  - lookup: ingredient_preference
+    examples: |
+      - vegan
+      - Vegan
+      - Vegetarian
+      - vegetarian
+      - palm oil
+      - palm-oil free
+      - palm oil free
+  - lookup: allergen_preference
+    examples: |
+      - Gluten
+      - gluten-free
+      - gluten
+      - Milk
+      - milk
+      - Eggs
+      - eggs
+      - Nuts
+      - nuts
+      - Peanuts
+      - peanuts
+      - Sesame Seeds
+      - sesame seeds
+      - sesame
+      - Soybeans
+      - soy
+      - soybeans
+      - Celery
+      - celery
+      - Mustard
+      - mustard
+      - Lupin
+      - lupin
+      - Fish
+      - fish
+      - Crustaceans
+      - crustaceans
+      - Molluscs
+      - molluscs
+      - Sulphur dioxide and sulphites
+      - sulphur dioxide
+      - sulphites
+      - sulphur dioxide and sulphites
+  - lookup: nutr_val_preference
+    examples: |
+      - low in salt
+      - low in sodium
+      - low sugar
+      - Low sugar
+      - Low Fat
+      - Low fat
+      - low saturated fat
+      - Low saturated fat
+  - lookup: food_processing_preference
+    examples: |
+      - no or little food processing
+      - no or few additives
+      - additives
+      - processing
+      - Processing
+      - Additives
+      - Little food processing
+      - Few additives
+      - few additives
+      - not a lot of additives
+      - food processing
+      - Food processing
+  - lookup: label_preference
+    examples: |
+      - organic farming
+      - Organic farming
+      - organic
+      - Fair trade
+      - Fair Trade
+      - fair trade
+  - lookup: env_preference
+    examples: |
+      - low environmental impact
+      - eco-friendly
+      - low forest footprint
+      - high eco-score
+      - Eco-friendly
+      - Eco friendly
+      - eco friendly
+      - Low environmental impact
+      - Low forest footprint
+      - Low carbon footprint
+      - low carbon footprint
+      - high eco score
+      - High eco-score
