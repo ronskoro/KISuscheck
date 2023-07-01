@@ -175,10 +175,6 @@ class QueryEngine():
             pandas.DataFrame: The DataFrame containing the k most similar chunks.
         """
         # Read the embeddings file into a DataFrame
-
-
-        print('The API key is: ', os.environ.get('OPENAI_API_KEY'))
-
         df = pd.read_csv(embeddings_file)
 
         # Convert the 'embedding' column from string to numpy array
