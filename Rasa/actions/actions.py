@@ -4,23 +4,24 @@
 # See this guide on how to implement these action:
 # https://rasa.com/docs/rasa/custom-actions
 
+import torch
+from sentence_transformers import SentenceTransformer
+import os
+from gpt_integration.processor import QueryEngine, openaiChatCompletion
+import numpy as np
+import pandas as pd
+from typing import Text, Dict, Any, List
+from rasa_sdk import Tracker, FormValidationAction, Action
+from rasa_sdk.executor import CollectingDispatcher
+from rasa_sdk.events import SlotSet
+from rasa_sdk.types import DomainDict
+from rasa_sdk.events import EventType
+import requests
+import json
 import sys
 sys.path.append(
     'C:/Users/maria/anaconda3/envs/KI-SusCheck-faq/Lib/site-packages')
-import json
-import requests
-from rasa_sdk.events import EventType
-from rasa_sdk.types import DomainDict
-from rasa_sdk.events import SlotSet
-from rasa_sdk.executor import CollectingDispatcher
-from rasa_sdk import Tracker, FormValidationAction, Action
-from typing import Text, Dict, Any, List
-import pandas as pd
-import numpy as np
-from gpt_integration.processor import QueryEngine, openaiChatCompletion
-import os
-from sentence_transformers import SentenceTransformer
-import torch
+
 
 class getProductAnimalFriendlinessInfo(Action):
     def name(self) -> Text:
@@ -40,11 +41,11 @@ class getProductAnimalFriendlinessInfo(Action):
         palm_oil = 0.5
 
         # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
-        if(barcode is not None):
+        if (barcode is not None):
             response = requests.get(
                 'https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
-            if(response.status_code == 200 and response.json().get('product') is not None):
-                if(response.json()['product'].get("ingredients_analysis_tags") is not None):
+            if (response.status_code == 200 and response.json().get('product') is not None):
+                if (response.json()['product'].get("ingredients_analysis_tags") is not None):
                     for ing in response.json()['product'].get('ingredients_analysis_tags'):
                         if ("vegan" in ing.lower()):
                             if (ing == "en:vegan"):
@@ -157,7 +158,7 @@ class ActionConfirmPreference(Action):
         current_values = tracker.get_slot(preference_type) or []
 
         # extend the previous values with the current values without duplicates.
-        if(previous_value is not None):
+        if (previous_value is not None):
             [current_values.append(x)
              for x in previous_value if x not in current_values]
 
@@ -168,7 +169,7 @@ class ActionConfirmPreference(Action):
         dispatcher.utter_message(text=msg)
 
         product_cat_limit = tracker.get_slot("product_cat_limit")
-        if(product_cat_limit is not None):
+        if (product_cat_limit is not None):
             for key, val in product_cat_limit.items():
                 print(key, val)
                 product_cat_limit[key] = 0
@@ -405,6 +406,7 @@ class ActionCompareProductsByBarcode(Action):
                         text=str(index+1)+". product with barcode "+product_comparison_df.iloc[index]['barcode']+" doesn't found in our database.")
             if product_comparison_df is not None:
                 product_comparison_df = product_comparison_df.to_json()
+                print(product_comparison_df)
         return [SlotSet("product_comparison_result", product_comparison_df)]
 
 
@@ -515,9 +517,11 @@ class ActionSetComparisonPathActiveToTrue(Action):
                     text="The comparison path is already active. Please check if the previous comparison was stopped correctly.")
         return []
 
+
 # Refer: https://github.com/UKPLab/sentence-transformers/blob/master/docs/pretrained-models/nli-models.md
 pretrained_model = 'bert-base-nli-mean-tokens'
 score_threshold = 0.70  # This confidence scores can be adjusted based on your need!!
+
 
 class ActionGetFAQAnswer(Action):
 
@@ -637,24 +641,28 @@ class getProductInfoByBarcode(Action):
                 if (resProduct.get("image_url") is not None):
                     dispatcher.utter_message(image=resProduct['image_url'])
                 if (resProduct.get("product_name_en") is not None):
-                    openaiContent+= "Product Name is " + resProduct['product_name_en'] + "\n"
+                    openaiContent += "Product Name is " + \
+                        resProduct['product_name_en'] + "\n"
                     # dispatcher.utter_message(
                     #     text="Product Name is " + resProduct['product_name_en'])
                 if (resProduct.get("labels") is not None):
-                    openaiContent+= "Product Labels: " + resProduct['labels'] + "\n"
+                    openaiContent += "Product Labels: " + \
+                        resProduct['labels'] + "\n"
                     # dispatcher.utter_message(
                     #     text="Product Labels: " + resProduct['labels'])
                 if (resProduct.get("nutriscore_data") is not None and resProduct['nutriscore_data'].get("score") is not None):
-                    openaiContent+= "Nutrition score = " + resProduct['nutriscore_data']['score'].__str__() + "\n"
+                    openaiContent += "Nutrition score = " + \
+                        resProduct['nutriscore_data']['score'].__str__() + "\n"
                     # dispatcher.utter_message(
                     #     text="Nutrition score = " + resProduct['nutriscore_data']['score'].__str__())
                 if (resProduct.get("nutriscore_grade") is not None):
-                    openaiContent+= "Nutrition grade = " + resProduct['nutriscore_grade'] + "\n"
+                    openaiContent += "Nutrition grade = " + \
+                        resProduct['nutriscore_grade'] + "\n"
                     # dispatcher.utter_message(
                     #     text="Nutrition grade = " + resProduct['nutriscore_grade'])
                 messages = [{"role": "system", "content": "summarize the following information in a nice way"},
-                {"role": "user", "content": openaiContent}]
-                x= openaiChatCompletion(messages)
+                            {"role": "user", "content": openaiContent}]
+                x = openaiChatCompletion(messages)
                 dispatcher.utter_message(x['content'])
                 return []
 
@@ -747,7 +755,7 @@ class getProductInfoByName(Action):
                         # {"role": "user", "content": openaiContent}]
                         # x= openaiChatCompletion(messages)
                         # print(x)
-                        # dispatcher.utter_message(x['content'])    
+                        # dispatcher.utter_message(x['content'])
                     gotProducts = True
 
                     curr_product_cat_limit += 3
@@ -920,6 +928,8 @@ class answerAboutProductPropertyByBarcode(Action):
 
         dispatcher.utter_message(text="Sorry, I did not get that property!")
         return []
+
+
 class ActionScanReport(Action):
     def name(self) -> Text:
         return "action_scan_report"
