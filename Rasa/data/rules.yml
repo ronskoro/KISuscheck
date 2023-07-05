@@ -66,3 +66,8 @@ rules:
       - intent: show_product_comparison_list
       - action: action_show_product_comparison_list
       - action: utter_more_products_or_compare
+
+  - rule: explain kisusscore or comparison result
+    steps:
+      - intent: ask_for_explanation_of_kisusscore_or_comparison_result
+      - action: action_explain_kisusscore_or_comparison_result

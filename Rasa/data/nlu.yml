@@ -446,6 +446,10 @@ nlu:
       - Delete compare history
       - Clear compare history
       - Stop current comparison
+      - Clear previous comparison history
+      - don't show the result of previous comparison
+      - clear history
+      - stop previouse comparison
   - intent: know_more_about_comparison_result
     examples: |
       - I want to know more about comparison result
@@ -914,6 +918,73 @@ nlu:
       - What environmental damage does agriculture cause?
       - When I buy a product, do I pay for the environmental damage caused by food production?
       - Are true costs included in current grocery prices?
+
+  - intent: ask_for_explanation_of_kisusscore_or_comparison_result
+    examples: |
+      - Can you explain this comparison result?
+      - Can you explain this result?
+      - Why is the ranking like this?
+      - How did you rank these products?
+      - Why did you rank the products like this?
+      - Is the last product really bad?
+      - Is the first product very good?
+      - Why is the first product good?
+      - Why has the first product such a high kisus score?
+      - Can you analyze this result?
+      - What is the KISus-Score?
+      - what is the rating criteria?
+      - tell me more about this result
+      - tell me more about the KISus-Score of [Alpro Natural with Coconut](food)
+      - is the KISus-Score reliable?
+      - can I trust the kisus score?
+      - can you talk about this result?
+      - talk about the second product.
+      - can you summerize the comparison result?
+      - is there any specific point in this comparison I should know? 
+      - something specific about this comparison result?
+      - why is [1234567890123](barcode) the best product?
+      - do you notice anything unusual about this product?
+      - why do you think [1234567890123](barcode) is the best product?
+      - What does the Nutri-Score "a" mean for [Flocons d'avoine complète](food)?
+      - What is the Eco-Score "b" for [Flocons d'avoine complète](food) based on?
+      - How does [Nutella](food)'s KISus-Score compare to [Prince Chocolat biscuits](food)?
+      - Is [SKYR Danone](food) healthier than [Alpine Milk Milka](food) based on the Nova-Group rating?
+      - Is Hepar more environmentally friendly than Flocons d'avoine complète?
+      - Can you explain the KISus-Score and how it is calculated?
+      - How does Arome MAGGI compare to Alvalle Gazpacho l'original in terms of sustainability?
+      - Does Flocons d'avoine complète meet my preference for [low sugar](nutr_val_preference)?
+      - Are there any organic products with a high KISus-Score?
+      - How does the KISus-Score of Flocons d'avoine complète compare to Hepar?
+      - why is the KISus-Score of Hepar unknown?
+      - Can you explain the meaning of the KISus-Score?
+      - How do the Nutri-Scores of Flocons d'avoine complète and Nutella compare?
+      - Can you provide more information about the Eco-Scores of the compared products?
+      - Do any of the products meet my preference vegan?
+      - Is Californian Almond suitable for someone with a milk allergy?
+      - Can you explain the significance of the other properties mentioned in the comparison result?
+      - Can you explain why the Nova-Group rating is unknown for Nutella?
+      - Can you explain why the Eco-Score is labeled as "not-applicable" for Hepar?
+      - Can you provide more details about the Nutri-Score "a" of Walnüsse?
+      - Can you explain why the Nova-Group rating is unknown for Nutella?
+      - Is there a specific reason why the Nova-Group rating is not applicable for Hepar?
+      - Is there a specific reason why the KISus-Score is unknown for Hepar?
+      - How does the organic label preference align with the compared products?
+      - Can you explain the criteria used to calculate the KISus-Score?
+      - Is there a significant difference in the eco-scores of the compared products?
+      - Can you provide more information about the properties mentioned for Spaghetti n.5?
+      - Is there any information available about the sustainability practices of Nutella?
+      - Is there a recommended threshold for the KISus-score that consumers should look for when choosing products?
+
+  - intent: calculate_kisusscore_by_barcode
+    examples: |
+      - What is the KISus-score for the product with barcode [1234567890123](barcode)?
+      - calculate kisus score for [1234567890123](barcode)
+      - what is the kisus score of [1234567890123](barcode)?
+      - KISus-Score for [1234567890123](barcode)
+      - Can you calculate the KISus-score for the product with the barcode [1234567890123](barcode)?
+      - tell me the KISus-Score of [1234567890123](barcode)
+      - do you know the kisus score of [1234567890123](barcode)
+
   - lookup: ingredient_preference
     examples: |
       - vegan

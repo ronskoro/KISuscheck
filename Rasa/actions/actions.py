@@ -8,6 +8,7 @@ import torch
 from sentence_transformers import SentenceTransformer
 import os
 from gpt_integration.processor import QueryEngine, openaiChatCompletion
+from explanation.explanation_helper import Explanator
 import numpy as np
 import pandas as pd
 from typing import Text, Dict, Any, List
@@ -282,7 +283,7 @@ class ActionShowProductComparisonList(Action):
                                 text=str(counter)+". "+response.json()['product']['product_name']+" ("+str(response.json()['product']['code'])+")\n   no image available")
                     else:
                         dispatcher.utter_message(
-                            "Oops, I could not find this product with barcode {} 😞 Please recheck if you typed it correctly. Otherwise, it might not be available in our dataset.".format(barcode))
+                            "Oops, I could not find this product with barcode {} 😞 Please recheck if you typed it correctly. Otherwise, it might not be available in our database.".format(barcode))
                 else:
                     dispatcher.utter_message(
                         "Sorry, the {}. barcode is invalid (None).".format(counter))
@@ -344,12 +345,11 @@ class ActionCompareProductsByBarcode(Action):
                         else:
                             product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
                                 'eco_score']] = "unknown"
-                        # product_comparison_df.loc[product_comparison_df['barcode'] == barcode, ['openfood_json']] = openfood_response.text
                         product_comparison_df.loc[product_comparison_df['barcode'] == barcode, [
                             'product_img_url']] = openfood_response.json()['product']['image_url']
                     else:
                         dispatcher.utter_message(
-                            "Oops, I could not find this product with barcode {} 😞 Please recheck if you typed it correctly. Otherwise, it might not be available in our dataset.".format(barcode))
+                            "Oops, I could not find this product with barcode {} 😞 Please recheck if you typed it correctly. Otherwise, it might not be available in our database.".format(barcode))
                         continue
                     susscore_response = requests.get(
                         'https://kisuscheck.org/middleware/productscore/'+barcode)
@@ -366,10 +366,10 @@ class ActionCompareProductsByBarcode(Action):
                                 'kisusscore_json']] = susscore_response.text
                         else:
                             dispatcher.utter_message(
-                                "Oops, I could not calculate the KISus-Score of this product ({}) 😞 If the barcode is correct, it might not be available in our dataset. Otherwise, there might be something wrong with our server, please try again.".format(barcode))
+                                "Oops, I could not calculate the KISus-Score of this product ({}) 😞 If the barcode is correct, it might not be available in our database. Otherwise, there might be something wrong with our server, please try again.".format(barcode))
                     else:
                         dispatcher.utter_message(
-                            "Oops, I could not calculate the KISus-Score of this product ({}) 😞 If the barcode is correct, it might not be available in our dataset. Otherwise, there might be something wrong with our server, please try again.".format(barcode))
+                            "Oops, I could not calculate the KISus-Score of this product ({}) 😞 If the barcode is correct, it might not be available in our database. Otherwise, there might be something wrong with our server, please try again.".format(barcode))
             product_comparison_df.sort_values(
                 by=['kisusscore'], ascending=False, na_position='last', inplace=True)
             product_comparison_df.reset_index(inplace=True)
@@ -406,8 +406,8 @@ class ActionCompareProductsByBarcode(Action):
                         text=str(index+1)+". product with barcode "+product_comparison_df.iloc[index]['barcode']+" doesn't found in our database.")
             if product_comparison_df is not None:
                 product_comparison_df = product_comparison_df.to_json()
-                print(product_comparison_df)
-        return [SlotSet("product_comparison_result", product_comparison_df)]
+                # print(product_comparison_df)
+        return [SlotSet("comparison_or_kisusscore_result", product_comparison_df)]
 
 
 class ActionFillSecondProductForComparison(Action):
@@ -494,7 +494,7 @@ class ActionStopComparingAndClearCompareHistory(Action):
             return [SlotSet("product_comparison_list", None), SlotSet("product_comparison_list_length", 0),
                     SlotSet("first_product_for_comparison", None), SlotSet(
                         "second_product_for_comparison", None),
-                    SlotSet("product_comparison_result", None), SlotSet("comparison_path_active", False), SlotSet("barcode_list", None)]
+                    SlotSet("comparison_or_kisusscore_result", None), SlotSet("comparison_path_active", False), SlotSet("barcode_list", None)]
         return []
 
 
@@ -511,11 +511,34 @@ class ActionSetComparisonPathActiveToTrue(Action):
         if intent_of_latest_message in ["ask_for_product_comparison", "compare_products_with_name", "compare_products_with_barcode_given"]:
             comparison_path_active = tracker.get_slot("comparison_path_active")
             if comparison_path_active == False:
-                return [SlotSet("comparison_path_active", True)]
+                return [SlotSet("comparison_path_active", True),
+                        SlotSet("product_comparison_list", None), SlotSet(
+                            "product_comparison_list_length", 0),
+                        SlotSet("first_product_for_comparison", None), SlotSet(
+                            "second_product_for_comparison", None),
+                        SlotSet("comparison_or_kisusscore_result", None), SlotSet("barcode_list", None)]
             else:
-                dispatcher.utter_message(
-                    text="The comparison path is already active. Please check if the previous comparison was stopped correctly.")
+                # dispatcher.utter_message(
+                #     text="The comparison path is already active. Please check if the previous comparison was stopped correctly.")
+                return [SlotSet("comparison_path_active", True),
+                        SlotSet("product_comparison_list", None), SlotSet(
+                            "product_comparison_list_length", 0),
+                        SlotSet("first_product_for_comparison", None), SlotSet(
+                            "second_product_for_comparison", None),
+                        SlotSet("comparison_or_kisusscore_result", None), SlotSet("barcode_list", None)]
         return []
+
+
+class ActionSetComparisonPathActiveToFalse(Action):
+    def name(self) -> Text:
+        return "action_set_comparison_path_active_to_false"
+
+    async def run(self,
+                  dispatcher: CollectingDispatcher,
+                  tracker: Tracker,
+                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        return [SlotSet("comparison_path_active", False)]
 
 
 # Refer: https://github.com/UKPLab/sentence-transformers/blob/master/docs/pretrained-models/nli-models.md
@@ -955,5 +978,144 @@ class ActionScanReport(Action):
         text = gpt_response.content
 
         dispatcher.utter_message(text=text)
+
+        return []
+
+
+class ActionCalculateKisusscoreByBarcode(Action):
+    def name(self) -> Text:
+        return "action_calculate_kisusscore_by_barcode"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+                  tracker: Tracker,
+                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        kisusscore_df = None
+        barcode = tracker.get_slot("barcode")
+        if (barcode == None):
+            dispatcher.utter_message(
+                "Please specify the barcode of the product to calculate its KISus-Score.")
+        else:
+            data = {'barcode': barcode,
+                    'product_name': None,
+                    'kisusscore': None,
+                    'nutri_score': None,
+                    'nova_score': None,
+                    'eco_score': None,
+                    'input_quality': None,
+                    'other_properties': None,
+                    'product_img_url': None,
+                    'kisusscore_json': None}
+            kisusscore_df = pd.DataFrame(data)
+            openfood_response = requests.get(
+                'https://world.openfoodfacts.org/api/v2/product/'+barcode)
+            if (openfood_response.status_code == 200 and openfood_response.json().get('product') is not None):
+                kisusscore_df.loc[kisusscore_df['barcode'] == barcode, [
+                    'product_name']] = openfood_response.json()['product']['product_name']
+                if "nutriscore_grade" in openfood_response.json()['product']:
+                    kisusscore_df.loc[kisusscore_df['barcode'] == barcode, [
+                        'nutri_score']] = openfood_response.json()['product']['nutriscore_grade']
+                else:
+                    kisusscore_df.loc[kisusscore_df['barcode'] == barcode, [
+                        'nutri_score']] = "unknown"
+                if "nova_group" in openfood_response.json()['product']:
+                    kisusscore_df.loc[kisusscore_df['barcode'] == barcode, [
+                        'nova_score']] = openfood_response.json()['product']['nova_group']
+                else:
+                    kisusscore_df.loc[kisusscore_df['barcode'] == barcode, [
+                        'nova_score']] = "unknown"
+                if "ecoscore_grade" in openfood_response.json()['product']:
+                    kisusscore_df.loc[kisusscore_df['barcode'] == barcode, [
+                        'eco_score']] = openfood_response.json()['product']['ecoscore_grade']
+                else:
+                    kisusscore_df.loc[kisusscore_df['barcode'] == barcode, [
+                        'eco_score']] = "unknown"
+                kisusscore_df.loc[kisusscore_df['barcode'] == barcode, [
+                    'product_img_url']] = openfood_response.json()['product']['image_url']
+            else:
+                dispatcher.utter_message(
+                    "Oops, I could not find this product with barcode {} 😞 Please recheck if you typed it correctly. Otherwise, it might not be available in our database.".format(barcode))
+            susscore_response = requests.get(
+                'https://kisuscheck.org/middleware/productscore/'+barcode)
+            if susscore_response.status_code == 200 and "error" not in susscore_response.json():
+                if susscore_response.json().get('id') == int(barcode):
+                    kisusscore_df.loc[kisusscore_df['barcode'] == barcode, [
+                        'kisusscore']] = round(susscore_response.json()['KISusScore']['totalScore'], 1)
+                    kisusscore_df.loc[kisusscore_df['barcode'] == barcode, [
+                        'input_quality']] = susscore_response.json()['inputQuality']
+                    kisusscore_df.loc[kisusscore_df['barcode'] == barcode, [
+                        'other_properties']] = str(susscore_response.json()['other_properties'])
+                    kisusscore_df.loc[kisusscore_df['barcode'] == barcode, [
+                        'kisusscore_json']] = susscore_response.text
+                else:
+                    dispatcher.utter_message(
+                        "Oops, I could not calculate the KISus-Score of this product ({}) 😞 If the barcode is correct, it might not be available in our database. Otherwise, there might be something wrong with our server, please try again.".format(barcode))
+            else:
+                dispatcher.utter_message(
+                    "Oops, I could not calculate the KISus-Score of this product ({}) 😞 If the barcode is correct, it might not be available in our database. Otherwise, there might be something wrong with our server, please try again.".format(barcode))
+            kisusscore_df.loc[kisusscore_df['kisusscore'].isnull(
+            ), 'kisusscore'] = "unknown"
+            if (kisusscore_df.iloc[0]['product_name'] is not None):
+                if (kisusscore_df.iloc[0]['product_img_url'] is not None):
+                    dispatcher.utter_message(
+                        text=kisusscore_df.iloc[0]['product_name']+" ("+kisusscore_df.iloc[0]['barcode']+") \n" +
+                        "   KISus-Score: " + str(kisusscore_df.iloc[0]['kisusscore'])+"\n" +
+                        "   (Nutri-Score: " + str(kisusscore_df.iloc[0]['nutri_score']) +
+                        ", Nova-Group: "+str(kisusscore_df.iloc[0]['nova_score']) +
+                        ", Eco-Score: "+str(kisusscore_df.iloc[0]['eco_score'])+") \n" +
+                        "   Other properties: " +
+                        str(kisusscore_df.iloc[0]
+                            ['other_properties']),
+                        image=kisusscore_df.iloc[0]['product_img_url'])
+                else:
+                    dispatcher.utter_message(
+                        text=kisusscore_df.iloc[0]['product_name']+" ("+kisusscore_df.iloc[0]['barcode']+") \n" +
+                        "   KISus-Score: " + str(kisusscore_df.iloc[0]['kisusscore'])+" \n" +
+                        "   (Nutri-Score: " + str(kisusscore_df.iloc[0]['nutri_score']) +
+                        ", Nova-Group: "+str(kisusscore_df.iloc[0]['nova_score']) +
+                        ", Eco-Score: "+str(kisusscore_df.iloc[0]['eco_score'])+") \n" +
+                        "   Other properties: "+str(kisusscore_df.iloc[0]['other_properties']) +
+                        " \n   no image available")
+            if kisusscore_df is not None:
+                kisusscore_df = kisusscore_df.to_json()
+                print(kisusscore_df)
+        return [SlotSet("comparison_or_kisusscore_result", kisusscore_df)]
+
+
+class ActionExplainKisusscoreOrComparisonResult(Action):
+    def name(self) -> Text:
+        return "action_explain_kisusscore_or_comparison_result"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+                  tracker: Tracker,
+                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        comparison_or_kisusscore_result = tracker.get_slot(
+            "comparison_or_kisusscore_result")
+        print(type(comparison_or_kisusscore_result))
+        comparison_or_kisusscore_result = json.loads(
+            comparison_or_kisusscore_result)
+
+        knowledge_base_type = "empty"
+        if len(comparison_or_kisusscore_result['barcode']) == 1:
+            knowledge_base_type = "single product"
+        elif len(comparison_or_kisusscore_result['barcode']) > 1:
+            knowledge_base_type = "comparison result"
+
+        user_preferences = {}
+        user_preferences["ingredient_preference"] = tracker.get_slot(
+            "ingredient_preference")
+        user_preferences["allergen_preference"] = tracker.get_slot(
+            "allergen_preference")
+        user_preferences["nutr_value_preference"] = tracker.get_slot(
+            "nutr_value_preference")
+        user_preferences["food_processing_preference"] = tracker.get_slot(
+            "food_processing_preference")
+        user_preferences["label_preference"] = tracker.get_slot(
+            "label_preference")
+        user_preferences["env_preference"] = tracker.get_slot("env_preference")
+
+        explanator = Explanator(comparison_or_kisusscore_result=comparison_or_kisusscore_result,
+                                knowledge_base_type=knowledge_base_type, user_preferences=user_preferences)
 
         return []

@@ -214,7 +214,10 @@ stories:
     steps:
       - action: utter_stop_compare_or_know_more_about_the_result
       - intent: know_more_about_comparison_result
+      - action: action_set_comparison_path_active_to_false
       - action: utter_specify_question
+      - intent: ask_for_explanation_of_kisusscore_or_comparison_result
+      - action: action_explain_kisusscore_or_comparison_result
   - story: compare multiple products - all barcodes provided at beginning
     steps:
       - intent: compare_products_with_barcode_given
@@ -665,3 +668,26 @@ stories:
       - action: utter_did_that_help
       - intent: affirm
       - action: utter_happy
+
+  - story: calculate kisusscore by barcode and ask about result
+    steps:
+      - intent: calculate_kisusscore_by_barcode
+      - action: action_calculate_kisusscore_by_barcode
+      - action: utter_know_more_about_kisusscore
+      - intent: affirm
+      - action: action_explain_kisusscore_or_comparison_result
+
+  - story: calculate kisusscore by barcode and ask about result
+    steps:
+      - intent: calculate_kisusscore_by_barcode
+      - action: action_calculate_kisusscore_by_barcode
+      - intent: ask_for_explanation_of_kisusscore_or_comparison_result
+      - action: action_explain_kisusscore_or_comparison_result
+
+  - story: calculate kisusscore by barcode
+    steps:
+      - intent: calculate_kisusscore_by_barcode
+      - action: action_calculate_kisusscore_by_barcode
+      - action: utter_know_more_about_kisusscore
+      - intent: deny
+      - action: utter_greet
