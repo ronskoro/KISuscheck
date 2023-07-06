@@ -332,7 +332,7 @@ stories:
       - slot_was_set:
           - second_product_for_comparison: null
       - slot_was_set:
-          - product_comparison_result: null
+          - comparison_or_kisusscore_result: null
       - slot_was_set:
           - comparison_path_active: false
       - slot_was_set:
@@ -475,7 +475,7 @@ stories:
       - slot_was_set:
           - second_product_for_comparison: null
       - slot_was_set:
-          - product_comparison_result: null
+          - comparison_or_kisusscore_result: null
       - slot_was_set:
           - comparison_path_active: false
       - slot_was_set:
@@ -571,7 +571,7 @@ stories:
       - slot_was_set:
           - second_product_for_comparison: null
       - slot_was_set:
-          - product_comparison_result: null
+          - comparison_or_kisusscore_result: null
       - slot_was_set:
           - comparison_path_active: false
       - slot_was_set:
@@ -644,7 +644,7 @@ stories:
       - slot_was_set:
           - second_product_for_comparison: null
       - slot_was_set:
-          - product_comparison_result: null
+          - comparison_or_kisusscore_result: null
       - slot_was_set:
           - comparison_path_active: false
       - slot_was_set:
