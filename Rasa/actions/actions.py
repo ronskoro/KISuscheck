@@ -1117,5 +1117,9 @@ class ActionExplainKisusscoreOrComparisonResult(Action):
 
         explanator = Explanator(comparison_or_kisusscore_result=comparison_or_kisusscore_result,
                                 knowledge_base_type=knowledge_base_type, user_preferences=user_preferences)
+        user_question = tracker.latest_message['text']
+
+        dispatcher.utter_message(
+            text=explanator.get_answer(user_question=user_question))
 
         return []
