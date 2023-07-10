@@ -19,8 +19,9 @@ import pandas as pd
 import numpy as np
 from gpt_integration.processor import QueryEngine, openaiChatCompletion
 import os
-from sentence_transformers import SentenceTransformer
-import torch
+from sentence_transformers import SentenceTransformer, util
+# import torch
+import time
 
 class getProductAnimalFriendlinessInfo(Action):
     def name(self) -> Text:
@@ -516,7 +517,8 @@ class ActionSetComparisonPathActiveToTrue(Action):
         return []
 
 # Refer: https://github.com/UKPLab/sentence-transformers/blob/master/docs/pretrained-models/nli-models.md
-pretrained_model = 'bert-base-nli-mean-tokens'
+# pretrained_model = 'bert-base-nli-mean-tokens'
+pretrained_model = 'all-mpnet-base-v2'
 score_threshold = 0.70  # This confidence scores can be adjusted based on your need!!
 
 class ActionGetFAQAnswer(Action):
@@ -524,25 +526,40 @@ class ActionGetFAQAnswer(Action):
     def __init__(self):
         print("ActionGetFAQAnswer init")
         super(ActionGetFAQAnswer, self).__init__()
+        self.bc = SentenceTransformer(pretrained_model)
         self.faq_data = json.load(
             open("./data/faq.json", "rt", encoding="utf-8"))
-        self.sentence_embedding_choose(pretrained_model)
+        self.faq_questions = [each['q'] for each in self.faq_data]
         self.standard_questions_encoder = np.load(
-            "./data/standard_questions.npy")
-        self.standard_questions_encoder_len = np.load(
-            "./data/standard_questions_len.npy")
-        print(self.standard_questions_encoder.shape)
+            "./data/standard_questions-all-mpnet-base-v2.npy")
 
-    def sentence_embedding_choose(self, pretrained_model='bert-base-nli-mean-tokens'):
-        self.bc = SentenceTransformer(pretrained_model)
+        # self.standard_questions_encoder = np.load(
+        #     "./data/standard_questions.npy")
+        # self.standard_questions_encoder_len = np.load(
+        #     "./data/standard_questions_len.npy")
+        # print(self.standard_questions_encoder.shape)
 
     def get_most_similar_standard_question_id(self, query_question):
-        query_vector = torch.tensor(
-            self.bc.encode([query_question])[0]).numpy()
+
+        start_time = time.time()
+
+        # Code to measure the execution time
+
+        # query_vector = torch.tensor(
+        #     self.bc.encode([query_question])[0]).numpy()
+        query_vector = self.bc.encode([query_question])[0]
         print("Question received at action engineer")
-        score = np.sum((self.standard_questions_encoder * query_vector), axis=1) / (
-            self.standard_questions_encoder_len * (np.sum(query_vector * query_vector) ** 0.5))
+        # score = np.sum((self.standard_questions_encoder * query_vector), axis=1) / (
+        #     self.standard_questions_encoder_len * (np.sum(query_vector * query_vector) ** 0.5))
+        score = util.cos_sim(query_vector, self.standard_questions_encoder).tolist()[0]
+        score = [(x + 1) / 2 for x in score]
+        print(score)
+        print(len(score))
         top_id = np.argsort(score)[::-1][0]
+
+        end_time = time.time()
+        execution_time = end_time - start_time
+        print(f"Execution time: {execution_time} seconds")
         return top_id, score[top_id]
 
     def name(self) -> Text:
@@ -552,7 +569,6 @@ class ActionGetFAQAnswer(Action):
             tracker: Tracker,
             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         query = tracker.latest_message['text']
-        # print(query)
         most_similar_id, score = self.get_most_similar_standard_question_id(
             query)
         print("The question is matched with id:{} with score: {}".format(
@@ -576,8 +592,6 @@ class ActionGetFAQAnswer(Action):
                         dispatcher.utter_message(i)
                 else:
                     dispatcher.utter_message(resources)
-
-            # dispatcher.utter_message("Problem solved?")
         else:
             response = "Sorry, this question is beyond my ability..."
             print(response)
@@ -587,7 +601,7 @@ class ActionGetFAQAnswer(Action):
         return []
 
 
-def encode_standard_question(pretrained_model='bert-base-nli-mean-tokens'):
+def encode_standard_question(pretrained_model):
     """
     This will encode all the questions available in question database into sentence embedding. The result will be stored into numpy array for comparision purpose.
     """
@@ -596,14 +610,16 @@ def encode_standard_question(pretrained_model='bert-base-nli-mean-tokens'):
     standard_questions = [each['q'] for each in data]
     print("Standard question size", len(standard_questions))
     print("Start to calculate encoder....")
-    standard_questions_encoder = torch.tensor(
-        bc.encode(standard_questions)).numpy()
-    np.save("./data/standard_questions", standard_questions_encoder)
-    standard_questions_encoder_len = np.sqrt(
-        np.sum(standard_questions_encoder * standard_questions_encoder, axis=1))
-    np.save("./data/standard_questions_len", standard_questions_encoder_len)
+    standard_questions_encoder = bc.encode(standard_questions)
+    np.save("./data/standard_questions-all-mpnet-base-v2", standard_questions_encoder)
+    # standard_questions_encoder = torch.tensor(
+    #     bc.encode(standard_questions)).numpy()
+    # np.save("./data/standard_questions", standard_questions_encoder)
+    # standard_questions_encoder_len = np.sqrt(
+    #     np.sum(standard_questions_encoder * standard_questions_encoder, axis=1))
+    # np.save("./data/standard_questions_len", standard_questions_encoder_len)
 
-# encode_standard_question(sentence_transformer_select,pretrained_model)
+# encode_standard_question(pretrained_model)
 # x = ActionGetFAQAnswer()
 # x.run()
 
