@@ -540,11 +540,6 @@ class ActionGetFAQAnswer(Action):
         # print(self.standard_questions_encoder.shape)
 
     def get_most_similar_standard_question_id(self, query_question):
-
-        start_time = time.time()
-
-        # Code to measure the execution time
-
         # query_vector = torch.tensor(
         #     self.bc.encode([query_question])[0]).numpy()
         query_vector = self.bc.encode([query_question])[0]
@@ -556,10 +551,6 @@ class ActionGetFAQAnswer(Action):
         print(score)
         print(len(score))
         top_id = np.argsort(score)[::-1][0]
-
-        end_time = time.time()
-        execution_time = end_time - start_time
-        print(f"Execution time: {execution_time} seconds")
         return top_id, score[top_id]
 
     def name(self) -> Text:
