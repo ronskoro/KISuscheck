@@ -922,6 +922,23 @@ nlu:
   - intent: ask_for_explanation_of_kisusscore_or_comparison_result
     examples: |
       - Can you explain this comparison result?
+      - why is [hepar](food)'s score unkown?
+      - how do you compare them, and did you considered my preferences while comparing?
+      - did you take user preferences into account?
+      - Just tell me something more about this result
+      - can you explain it, and highlight which product fulfill my personal preferences?
+      - tell me some more about this result generally, and tell me why is heper the last one
+      - why do you think Nutella is the best product, even if I'm vegetarian?
+      - Why has [Alpro Natural with Coconut](food) a high kisus score?
+      - Why has [Nutella](food) a poor kisus score?
+      - Why has [Nutella](food) such a poor KISus-score?
+      - Why is the kisus score of [Nutella](food) so low?
+      - Why does [Nutella](food) only have 15.8 poins?
+      - how are the 15.8 poins of [Nutella](food) calculated?
+      - General about the compare result
+      - Summarize this result
+      - Can you summarize the result?
+      - Give me general information about this ranking list
       - Can you explain this result?
       - Why is the ranking like this?
       - How did you rank these products?
@@ -981,6 +998,7 @@ nlu:
       - calculate kisus score for [1234567890123](barcode)
       - what is the kisus score of [1234567890123](barcode)?
       - KISus-Score for [1234567890123](barcode)
+      - kisus score of [1234567890123](barcode)
       - Can you calculate the KISus-score for the product with the barcode [1234567890123](barcode)?
       - tell me the KISus-Score of [1234567890123](barcode)
       - do you know the kisus score of [1234567890123](barcode)

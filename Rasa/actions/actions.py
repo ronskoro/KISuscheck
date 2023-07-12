@@ -516,7 +516,7 @@ class ActionSetComparisonPathActiveToTrue(Action):
                             "product_comparison_list_length", 0),
                         SlotSet("first_product_for_comparison", None), SlotSet(
                             "second_product_for_comparison", None),
-                        SlotSet("comparison_or_kisusscore_result", None), SlotSet("barcode_list", None)]
+                        SlotSet("comparison_or_kisusscore_result", None)]
             else:
                 # dispatcher.utter_message(
                 #     text="The comparison path is already active. Please check if the previous comparison was stopped correctly.")
@@ -525,7 +525,7 @@ class ActionSetComparisonPathActiveToTrue(Action):
                             "product_comparison_list_length", 0),
                         SlotSet("first_product_for_comparison", None), SlotSet(
                             "second_product_for_comparison", None),
-                        SlotSet("comparison_or_kisusscore_result", None), SlotSet("barcode_list", None)]
+                        SlotSet("comparison_or_kisusscore_result", None)]
         return []
 
 
@@ -538,7 +538,11 @@ class ActionSetComparisonPathActiveToFalse(Action):
                   tracker: Tracker,
                   domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
 
-        return [SlotSet("comparison_path_active", False)]
+        return [SlotSet("comparison_path_active", False),
+                SlotSet("product_comparison_list", None), SlotSet(
+            "product_comparison_list_length", 0),
+            SlotSet("first_product_for_comparison", None), SlotSet(
+            "second_product_for_comparison", None), SlotSet("barcode_list", None)]
 
 
 # Refer: https://github.com/UKPLab/sentence-transformers/blob/master/docs/pretrained-models/nli-models.md
@@ -1006,7 +1010,7 @@ class ActionCalculateKisusscoreByBarcode(Action):
                     'other_properties': None,
                     'product_img_url': None,
                     'kisusscore_json': None}
-            kisusscore_df = pd.DataFrame(data)
+            kisusscore_df = pd.DataFrame(data, index=[0])
             openfood_response = requests.get(
                 'https://world.openfoodfacts.org/api/v2/product/'+barcode)
             if (openfood_response.status_code == 200 and openfood_response.json().get('product') is not None):
@@ -1078,7 +1082,7 @@ class ActionCalculateKisusscoreByBarcode(Action):
                         " \n   no image available")
             if kisusscore_df is not None:
                 kisusscore_df = kisusscore_df.to_json()
-                print(kisusscore_df)
+                # print(kisusscore_df)
         return [SlotSet("comparison_or_kisusscore_result", kisusscore_df)]
 
 
@@ -1092,9 +1096,11 @@ class ActionExplainKisusscoreOrComparisonResult(Action):
 
         comparison_or_kisusscore_result = tracker.get_slot(
             "comparison_or_kisusscore_result")
-        print(type(comparison_or_kisusscore_result))
+        # print(type(comparison_or_kisusscore_result)) # str
         comparison_or_kisusscore_result = json.loads(
             comparison_or_kisusscore_result)
+        del comparison_or_kisusscore_result["product_img_url"]
+        # print(comparison_or_kisusscore_result)
 
         knowledge_base_type = "empty"
         if len(comparison_or_kisusscore_result['barcode']) == 1:
@@ -1114,6 +1120,7 @@ class ActionExplainKisusscoreOrComparisonResult(Action):
         user_preferences["label_preference"] = tracker.get_slot(
             "label_preference")
         user_preferences["env_preference"] = tracker.get_slot("env_preference")
+        # print(user_preferences)
 
         explanator = Explanator(comparison_or_kisusscore_result=comparison_or_kisusscore_result,
                                 knowledge_base_type=knowledge_base_type, user_preferences=user_preferences)

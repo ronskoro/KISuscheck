@@ -6,7 +6,7 @@ import tiktoken
 from dotenv import load_dotenv, find_dotenv
 
 _ = load_dotenv(find_dotenv())
-openai.api_key = os.environ['OPENAI_API_KEY_NIKI']
+openai.api_key = os.environ['OPENAI_API_KEY']
 
 MODEL = "gpt-3.5-turbo"
 TEMPERATURE = 0.2
@@ -25,7 +25,7 @@ def get_completion_from_messages(messages,
         temperature=temperature,
         max_tokens=max_tokens,
     )
-    print(response)
+    # print(response)
     return response.choices[0].message["content"]
 
 
@@ -53,9 +53,8 @@ class Explanator():
         You are a chatbot serving as a sustainable shopping assistant. You help consumers make informed, healthier, and more sustainable food choices by providing food information from \
         4 perspectives: health, social, environment, and animal welfare.
         You assist users only based on your knowledge base and the user preferences.
+        What you can do: explain, analyze, summarize.
         For each answer generation, complete the two tasks in the following.
-
-        Your knowledge base: {delimiter}{str(self.comparison_or_kisusscore_result)}{delimiter}
 
         Knowledge base type: {delimiter}{self.knowledge_base_type}{delimiter}
 
@@ -67,8 +66,6 @@ class Explanator():
         Your task 1: Consider your knowledge base type, determine wheather the user is asking about product(s) or comparison result contained in your knowledge base.
         user_question_type - related: User is asking about product(s) or comparison result contained in your knowledge base.
         user_question_type - out of scope: User is asking about product(s) or comparion result that is not contained in your knowledge base.
-
-        User preferences: {delimiter}{str(self.user_preferences)}{delimiter}
 
         Your task 2: Consider the user question type, generate your answer following the corresponding requirements. \
         Your answer should only based on your knowledge base and the user preferences.
@@ -85,8 +82,9 @@ class Explanator():
         The more input information provided, the more accurate and usually higher the score.
         The comparison result is a ranking list of products, the ranking order is based only on the KISus-Score i.e. the total score, higher KISus-Score indicates more sustainable product.
         Requirements:
-        Analyse and explain the information in your knowledge base to users.
-        Inform the user if a KISus-Score is calculated based on incomplete input information, mention the names of missing information in your answer. 
+        Analyse, explain and summarize the information in your knowledge base to users.
+        Inform the user about the input data completeness of KISus-score(s), i.e. the quality of the KISus-score(s). If a KISus-Score is calculated based on incomplete input information, \
+        mention the names of missing information in your answer. 
         The comparison result contains specific details and data of the products in the list, you can use them for your analsis and explanation.
         While generating your answer, you should consider the preferences of the user. Highlight the product properties that match or mismatch some user preferences, \
         as we want to provide users personalized suggestions.
@@ -95,8 +93,12 @@ class Explanator():
         a low/high sustainability, or this score is low/high mainly due to missing/present input data.
         Also, look at the input scores and other input information, explain them to the user from the 4 sustainable perspectives above.
         Generate a comprehensive response to user to answer user's question.
-        Try to include detailed product information from your knowledge base in your answer, so the user can be well informed about the product(s).
+        Try to include useful product details from your knowledge base in your answer, so the user can be well informed about the product(s).
         Answer the user in a friendly tone. Limit your anser under 400 tokens.\
+        
+        User preferences: {delimiter}{str(self.user_preferences)}{delimiter}
+
+        Your knowledge base: {delimiter}{str(self.comparison_or_kisusscore_result)}{delimiter}
         """
 
         user_question = user_question

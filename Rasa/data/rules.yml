@@ -46,6 +46,7 @@ rules:
   - rule: know more about the comparison result
     steps:
       - intent: know_more_about_comparison_result
+      - action: action_set_comparison_path_active_to_false
       - action: utter_specify_question
 
   - rule: out of scope intents
