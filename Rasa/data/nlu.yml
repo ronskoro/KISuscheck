@@ -1005,3 +1005,31 @@ nlu:
     - low carbon footprint
     - high eco score
     - High eco-score
+- intent: ask_about_product
+  examples: |
+    - I would like to get more info about a product
+    - I would like to ask about a product
+    - What can you tell me about a product?
+    - Could you provide some information on a product?
+    - I'm interested in learning more about a product. Can you help?
+    - Where can I find details about a product?
+    - What are the features and specifications of a product?
+    - Do you have any information on a product?
+    - Can you give me an overview of a product?
+    - I'd like to know more about a product. What can you tell me?
+    - Could you share some insights about a product?
+    - What do I need to know about a product?
+    - Tell me about the benefits of using a product."
+    - Can you describe the functionality of a product?
+    - What sets a product apart from its competitors?
+    - I'm curious about a product. What makes it special?
+    - Can you explain how a product works?
+    - What kind of problems does a product solve?
+    - Tell me about the pricing and availability of a product.
+    - Where can I purchase a product?
+    - Is there a demo or trial version available for a product?
+    - Can you recommend any resources for further information on a product?
+- regex: barcode
+  examples: |
+    - \d{5,13}
+    
