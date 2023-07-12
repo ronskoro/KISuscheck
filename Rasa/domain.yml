@@ -32,6 +32,7 @@ intents:
   - start_product_comparison
   - stop_comparing_and_clear_comparison_history
   - scan_sustainability_report
+  - ask_about_product
   - ask_for_explanation_of_kisusscore_or_comparison_result
   - calculate_kisusscore_by_barcode
 
@@ -77,6 +78,24 @@ slots:
       - type: from_entity
         entity: barcode
     influence_conversation: false
+  product_vegan:
+    type: text
+    initial_value: "0.5"
+    mappings:
+      - type: custom
+    influence_conversation: true
+  product_palm_oil:
+    type: text
+    initial_value: "0.5"
+    mappings:
+      - type: custom
+    influence_conversation: true
+  product_vegetarian:
+    type: text
+    initial_value: "0.5"
+    mappings:
+      - type: custom
+    influence_conversation: true
   food:
     type: text
     mappings:
@@ -202,10 +221,12 @@ actions:
   - action_confirm_preference
   - action_print_preferences
   - action_get_product_animal_friendliness_info
+  - action_check_animal_friendly_alternative
   - utter_specify_question
   - action_faq_get_answer
   - validate_product_comparison_form
   - action_scan_report
+  - suggest_animal_friendly_alternative
   - action_calculate_kisusscore_by_barcode
   - action_explain_kisusscore_or_comparison_result
   - action_set_comparison_path_active_to_false
@@ -255,6 +276,11 @@ responses:
     - text: Sure. What would you like to know?
   utter_ask_to_show_more_products:
     - text: Would you like to see more products?
+  utter_give_me_product_barcode_or_name:
+    - text: Sure! Could you provide me with the product barcode or name?
+  utter_alternative_suggestion:
+    - text: Here you go!
+
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true

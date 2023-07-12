@@ -31,9 +31,6 @@ stories:
       - action: utter_ask_to_show_more_products
   - story: search product by name and show more products 2
     steps:
-      - action: utter_like_to_know_more
-      - intent: get_top_product_info_by_name
-      - action: action_get_top_product_info_by_name
       - action: utter_ask_to_show_more_products
       - intent: affirm
       - action: action_get_top_product_info_by_name
@@ -61,6 +58,23 @@ stories:
       - action: utter_like_to_know_more
       - intent: scan_barcode
       - action: action_get_product_info_by_barcode
+
+  - story: search product by barcode or name 1
+    steps:
+      - intent: ask_about_product
+      - action: utter_give_me_product_barcode_or_name
+      - intent: scan_barcode
+      - action: action_get_product_info_by_barcode
+      - action: utter_like_to_know_more
+
+  - story: search product by barcode or name 2
+    steps:
+      - intent: ask_about_product
+      - action: utter_give_me_product_barcode_or_name
+      - intent: get_top_product_info_by_name
+      - action: action_get_top_product_info_by_name
+      - action: utter_like_to_know_more
+
   - story: search product by barcode and ask about property 1
     steps:
       - action: utter_like_to_know_more
@@ -90,6 +104,38 @@ stories:
       - action: utter_did_that_help
       - intent: deny
       - action: utter_goodbye
+
+  - story: ask about animal friendliness and alternative
+    steps:
+      - action: utter_like_to_know_more
+      - slot_was_set:
+          - barcode
+      - intent: affirm
+      - action: utter_specify_question
+      - intent: ask_about_animal_friendliness_of_product
+      - action: action_get_product_animal_friendliness_info
+      - action: action_check_animal_friendly_alternative
+      - intent: affirm
+      - action: suggest_animal_friendly_alternative
+      - action: utter_did_that_help
+      - intent: deny
+      - action: utter_goodbye
+
+  - story: ask about animal friendliness and alternative 2
+    steps:
+      - action: utter_like_to_know_more
+      - slot_was_set:
+          - barcode
+      - intent: affirm
+      - action: utter_specify_question
+      - intent: ask_about_animal_friendliness_of_product
+      - action: action_get_product_animal_friendliness_info
+      - action: action_check_animal_friendly_alternative
+      - intent: deny
+      - action: utter_did_that_help
+      - intent: deny
+      - action: utter_goodbye
+
   - story: ask about animal friendliness 2
     steps:
       - action: utter_like_to_know_more

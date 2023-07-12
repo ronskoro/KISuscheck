@@ -102,7 +102,6 @@ class TextEmbedder:
             encoded_text = encoding.encode(text)
 
             # Split the text into chunks based on the maximum token length
-            # TODO: Find a solution to chunk the document semantically, i.e., semantic segmentations.
             encoded_chunks = [encoded_text[i:i + max_token_length] for i in range(0, len(encoded_text), max_token_length)]
 
             # Overwrite the directory if it exists
@@ -121,12 +120,12 @@ class TextEmbedder:
                 with open(output_file, 'w', encoding='utf-8') as file:
                     file.write(decoded_text)  
 
-    def embed_chunks(self, embeddings_file):
+    def embed_chunks(self, csv_embeddings_file=None, vector_db=None):
         """
         Embeds the chunks of text and saves the embeddings with the corresponding text to a CSV file.
 
         Args:
-            embeddings_file (str): Path to the output CSV file to save the embeddings.
+            csv_embeddings_file (str): Path to the output CSV file to save the embeddings.
 
         Returns:
             None
@@ -138,6 +137,7 @@ class TextEmbedder:
         # Iterate over the files in the output directory
         for filename in os.listdir(self.output_dir):
             file_path = os.path.join(self.output_dir, filename)
+
 
             # Check if the file is a regular file
             if os.path.isfile(file_path):
@@ -151,22 +151,26 @@ class TextEmbedder:
                         model=EMBEDDING_MODEL
                     )['data'][0]['embedding']
 
-                    # Append the text and embedding to the DataFrame
-                    print(f'The text: {text}\n')
-                    print(f'The embedding: {embedding}')
-                    df = df.append({'text': text, 'embedding': embedding}, ignore_index=True)
+                    # Append the text and embedding to the DataFrame if using a csv for storing the embeddings.
+                    if csv_embeddings_file:
+                        df = df.append({'text': text, 'embedding': embedding}, ignore_index=True)
+
+                    # Save the text and the embedding in the vector database
+                    if vector_db:
+                        vector_db.upsert([(filename, embedding)])
 
         # Save the DataFrame to a CSV file
-        df.to_csv(embeddings_file, index=False, mode='w')
+        if csv_embeddings_file:
+            df.to_csv(csv_embeddings_file, index=False, mode='w')
 
 class QueryEngine():
-    def search_chunks(self, embeddings_file, query, k=3, pprint=True):
+    def search_chunks(self, csv_embeddings_file, query, k=3, pprint=True):
         """
         This function provides semantic search using embeddings.
         Search the chunks and find the k most similar chunks based on the query.
 
         Args:
-            embeddings_file (str): Path to the embeddings file.
+            csv_embeddings_file (str): Path to the embeddings file.
             query (str): The query string used for similarity search.
             k (int, optional): The number of most similar chunks to retrieve. Defaults to 3.
             pprint (bool, optional): Whether to print the results. Defaults to True.
@@ -175,11 +179,7 @@ class QueryEngine():
             pandas.DataFrame: The DataFrame containing the k most similar chunks.
         """
         # Read the embeddings file into a DataFrame
-
-
-        print('The API key is: ', os.environ.get('OPENAI_API_KEY'))
-
-        df = pd.read_csv(embeddings_file)
+        df = pd.read_csv(csv_embeddings_file)
 
         # Convert the 'embedding' column from string to numpy array
         df["embedding"] = df.embedding.apply(eval).apply(np.array)
