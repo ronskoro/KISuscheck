@@ -459,8 +459,8 @@ class suggestAnimalFriendlyAlternative(Action):
                         categories_tags_str = ','.join(categories_tags)
                         ingredients_analysis_tags = resProduct['ingredients_analysis_tags']
                         ingredients_analysis_tags_str = ','.join(ingredients_analysis_tags)
-                        
-                        dispatcher.utter_message(text="Here you go! These are the top 3 products:")
+                        print(categories_tags_str)
+                        print(ingredients_analysis_tags_str)
                         
 
                         if(vegan == 1 and palm_oil != 0):
@@ -473,6 +473,7 @@ class suggestAnimalFriendlyAlternative(Action):
                                 ingredients_analysis_tags_str = "en:palm-oil-free,en:vegan"
                                 url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str+"&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
                             else:
+                                print("vegetarian and palm oil free and the user doesn't prefer vegan products")
                                 return []
 
                         elif(vegetarian == 1 and palm_oil != 0):
@@ -484,7 +485,20 @@ class suggestAnimalFriendlyAlternative(Action):
                                 #Would you like an alternative that is palm oil free and is also vegetarian?
                                 ingredients_analysis_tags_str = "en:palm-oil-free,en:vegetarian"
                                 url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str+"&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
-                                            
+                        
+                        elif(palm_oil == 0):
+                            if(vegan_preference):
+                                #"Would you like a vegan alternative that is also palm oil free?
+                                ingredients_analysis_tags_str = "en:palm-oil-free,en:vegan"
+                                url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str+"&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
+
+                            else:
+                                #Would you like a vegetarian alternative that is also palm oil free?  
+                                ingredients_analysis_tags_str = "en:palm-oil-free,en:vegetarian"
+                                url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str+"&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
+
+                                
+                            
                         elif(palm_oil != 0):
                             if(vegan_preference):
                                 #Would you like a vegan alternative that is palm oil free?
@@ -497,6 +511,7 @@ class suggestAnimalFriendlyAlternative(Action):
                                 url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str+"&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
                             
                         else:
+                            print("nothing wrong with product")
                             return []
                         
                         # Send GET request
@@ -508,8 +523,11 @@ class suggestAnimalFriendlyAlternative(Action):
                             print("Success")
                             products = response.json()["products"]
 
-
-                            if(len(products) > 0):                   
+                            if(len(products) > 0):
+                                if(len(products) < 3):    
+                                    dispatcher.utter_message(text="Here you go!")
+                                else:    
+                                    dispatcher.utter_message(text="Here you go! These are the top 3 products:")
                                 for i, alternativeProduct in enumerate(products):
                                     if i == 3:
                                         break
@@ -525,10 +543,13 @@ class suggestAnimalFriendlyAlternative(Action):
                                         dispatcher.utter_message(image = img, text = msg )
                                     else:
                                         dispatcher.utter_message(text = msg )
-                            
-                            return []
+                                return[]
+                            else:
+                                dispatcher.utter_message(text="There were no alternative products found that match the criteria :/")
+                                return []
                         else:
                             dispatcher.utter_message(text="There were no alternative products found that match the criteria :/")
+                            return []
                     else:
                         dispatcher.utter_message(text="I don't have information about this product's ingredients, sorry :/")
                         return []
