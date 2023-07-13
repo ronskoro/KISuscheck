@@ -33,6 +33,8 @@ intents:
   - stop_comparing_and_clear_comparison_history
   - scan_sustainability_report
   - ask_about_product
+  - ask_for_explanation_of_kisusscore_or_comparison_result
+  - calculate_kisusscore_by_barcode
 
 entities:
   - barcode
@@ -183,7 +185,7 @@ slots:
       - type: custom
         action: action_update_comparison_list_and_length
     influence_conversation: true
-  product_comparison_result:
+  comparison_or_kisusscore_result:
     type: any
     mappings:
       - type: custom
@@ -225,6 +227,10 @@ actions:
   - validate_product_comparison_form
   - action_scan_report
   - suggest_animal_friendly_alternative
+  - action_calculate_kisusscore_by_barcode
+  - action_explain_kisusscore_or_comparison_result
+  - action_set_comparison_path_active_to_false
+  - utter_know_more_about_kisusscore
 
 responses:
   utter_greet:
@@ -260,8 +266,10 @@ responses:
           payload: /stop_comparing_and_clear_comparison_history
         - title: Know more about the result
           payload: /know_more_about_comparison_result
+  utter_know_more_about_kisusscore:
+    - text: Would you like to know more about the KISus-Score of this product ({barcode})?
   utter_out_of_scope:
-    - text: Sorry, I can't handle that request.
+    - text: Sorry, I can't handle that request. Can I help you with anything else?
   utter_like_to_know_more:
     - text: Would you like to know more?
   utter_specify_question:
@@ -272,7 +280,7 @@ responses:
     - text: Sure! Could you provide me with the product barcode or name?
   utter_alternative_suggestion:
     - text: Here you go!
-    
+
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
