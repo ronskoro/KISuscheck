@@ -226,7 +226,7 @@ actions:
   - action_faq_get_answer
   - validate_product_comparison_form
   - action_scan_report
-  - suggest_animal_friendly_alternative
+  - action_suggest_animal_friendly_alternative
   - action_calculate_kisusscore_by_barcode
   - action_explain_kisusscore_or_comparison_result
   - action_set_comparison_path_active_to_false

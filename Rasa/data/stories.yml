@@ -116,7 +116,7 @@ stories:
       - action: action_get_product_animal_friendliness_info
       - action: action_check_animal_friendly_alternative
       - intent: affirm
-      - action: suggest_animal_friendly_alternative
+      - action: action_suggest_animal_friendly_alternative
       - action: utter_did_that_help
       - intent: deny
       - action: utter_goodbye

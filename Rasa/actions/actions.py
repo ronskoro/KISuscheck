@@ -237,155 +237,139 @@ class checkAnimalFriendlyAlternative(Action):
 
 
 class suggestAnimalFriendlyAlternative(Action):
-    def name(self) -> Text:
-        return "suggest_animal_friendly_alternative"
+        def name(self) -> Text:
+            return "action_suggest_animal_friendly_alternative"
+        async def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+            # Extract the barcode from the user input
+            barcode = None
+            barcode_slot = tracker.get_slot("barcode")
+            barcode = barcode_slot
 
-    async def run(self, dispatcher: CollectingDispatcher,
-                  tracker: Tracker,
-                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+            vegan = float(tracker.slots["product_vegan"])
+            vegetarian = float(tracker.slots["product_vegetarian"])
+            palm_oil = float(tracker.slots["product_palm_oil"])
 
-        # Extract the barcode from the user input
-        barcode = None
-        barcode_slot = tracker.get_slot("barcode")
-        barcode = barcode_slot
+            ingredient_preferences = tracker.slots["ingredient_preference"]
+            vegan_preference = False
+            if(ingredient_preferences is not None and "Vegetarian" in ingredient_preferences):
+                vegan_preference = True
 
-        vegan = float(tracker.slots["product_vegan"])
-        vegetarian = float(tracker.slots["product_vegetarian"])
-        palm_oil = float(tracker.slots["product_palm_oil"])
+            # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
+            if(barcode is not None):
+                response = requests.get('https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
+                
+                if(response.status_code == 200 and response.json().get('product') is not None):
+                    resProduct = response.json()['product']
 
-        ingredient_preferences = tracker.slots["ingredient_preference"]
-        vegan_preference = False
-        if (ingredient_preferences is not None and "Vegetarian" in ingredient_preferences):
-            vegan_preference = True
+                    if(resProduct['ingredients_analysis_tags'] is not None
+                       and resProduct['categories_tags'] is not None):
+                        categories_tags = resProduct['categories_tags']
+                        categories_tags_str = ','.join(categories_tags)
+                        ingredients_analysis_tags = resProduct['ingredients_analysis_tags']
+                        ingredients_analysis_tags_str = ','.join(ingredients_analysis_tags)
+                        print(categories_tags_str)
+                        print(ingredients_analysis_tags_str)
+                        
 
-        # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
-        if (barcode is not None):
-            response = requests.get(
-                'https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
-
-            if (response.status_code == 200 and response.json().get('product') is not None):
-                resProduct = response.json()['product']
-
-                if (resProduct['ingredients_analysis_tags'] is not None
-                   and resProduct['categories_tags'] is not None):
-                    categories_tags = resProduct['categories_tags']
-                    categories_tags_str = ','.join(categories_tags)
-                    ingredients_analysis_tags = resProduct['ingredients_analysis_tags']
-                    ingredients_analysis_tags_str = ','.join(
-                        ingredients_analysis_tags)
-                    print(categories_tags_str)
-                    print(ingredients_analysis_tags_str)
-
-                    if (vegan == 1 and palm_oil != 0):
-                        ingredients_analysis_tags_str = "en:palm-oil-free,en:vegan"
-                        url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str + \
-                            "&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
-
-                    elif (vegetarian == 1 and palm_oil == 0):
-                        if (vegan_preference):
-                            # Since you prefer vegan products, would you like a vegan alternative that is also palm oil free?
+                        if(vegan == 1 and palm_oil != 0):
                             ingredients_analysis_tags_str = "en:palm-oil-free,en:vegan"
-                            url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str + \
-                                "&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
-                        else:
-                            print(
-                                "vegetarian and palm oil free and the user doesn't prefer vegan products")
-                            return []
+                            url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str+"&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
 
-                    elif (vegetarian == 1 and palm_oil != 0):
-                        if (vegan_preference):
-                            # Since you prefer vegan products, would you like a vegan alternative that is palm oil free?
-                            ingredients_analysis_tags_str = "en:palm-oil-free,en:vegan"
-                            url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str + \
-                                "&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
-                        else:
-                            # Would you like an alternative that is palm oil free and is also vegetarian?
-                            ingredients_analysis_tags_str = "en:palm-oil-free,en:vegetarian"
-                            url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str + \
-                                "&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
-
-                    elif (palm_oil == 0):
-                        if (vegan_preference):
-                            # "Would you like a vegan alternative that is also palm oil free?
-                            ingredients_analysis_tags_str = "en:palm-oil-free,en:vegan"
-                            url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str + \
-                                "&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
-
-                        else:
-                            # Would you like a vegetarian alternative that is also palm oil free?
-                            ingredients_analysis_tags_str = "en:palm-oil-free,en:vegetarian"
-                            url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str + \
-                                "&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
-
-                    elif (palm_oil != 0):
-                        if (vegan_preference):
-                            # Would you like a vegan alternative that is palm oil free?
-                            ingredients_analysis_tags_str = "en:palm-oil-free,en:vegan"
-                            url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str + \
-                                "&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
-
-                        else:
-                            # Would you like a vegetarian alternative that is palm oil free?
-                            ingredients_analysis_tags_str = "en:palm-oil-free,en:vegetarian"
-                            url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str + \
-                                "&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
-
-                    else:
-                        print("nothing wrong with product")
-                        return []
-
-                    # Send GET request
-                    response = requests.get(url)
-
-                    # Check if the request was successful
-                    if response.status_code == 200:
-                        print(url)
-                        print("Success")
-                        products = response.json()["products"]
-
-                        if (len(products) > 0):
-                            if (len(products) < 3):
-                                dispatcher.utter_message(text="Here you go!")
+                        elif(vegetarian == 1 and palm_oil == 0):
+                            if(vegan_preference):
+                                #Since you prefer vegan products, would you like a vegan alternative that is also palm oil free?
+                                ingredients_analysis_tags_str = "en:palm-oil-free,en:vegan"
+                                url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str+"&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
                             else:
-                                dispatcher.utter_message(
-                                    text="Here you go! These are the top 3 products:")
-                            for i, alternativeProduct in enumerate(products):
-                                if i == 3:
-                                    break
-                                msg = str(i+1) + "- "
-                                img = None
-                                if (alternativeProduct.get("image_url") is not None):
-                                    img = alternativeProduct['image_url']
-                                if (alternativeProduct.get("code") is not None):
-                                    msg += "("+alternativeProduct['code']+") "
-                                if (alternativeProduct.get("product_name") is not None):
-                                    msg += alternativeProduct['product_name']
-                                if (img is not None):
-                                    dispatcher.utter_message(
-                                        image=img, text=msg)
-                                else:
-                                    dispatcher.utter_message(text=msg)
-                            return []
+                                print("vegetarian and palm oil free and the user doesn't prefer vegan products")
+                                return []
+
+                        elif(vegetarian == 1 and palm_oil != 0):
+                            if(vegan_preference):
+                                #Since you prefer vegan products, would you like a vegan alternative that is palm oil free?
+                                ingredients_analysis_tags_str = "en:palm-oil-free,en:vegan"
+                                url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str+"&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
+                            else:
+                                #Would you like an alternative that is palm oil free and is also vegetarian?
+                                ingredients_analysis_tags_str = "en:palm-oil-free,en:vegetarian"
+                                url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str+"&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
+                        
+                        elif(palm_oil == 0):
+                            if(vegan_preference):
+                                #"Would you like a vegan alternative that is also palm oil free?
+                                ingredients_analysis_tags_str = "en:palm-oil-free,en:vegan"
+                                url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str+"&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
+
+                            else:
+                                #Would you like a vegetarian alternative that is also palm oil free?  
+                                ingredients_analysis_tags_str = "en:palm-oil-free,en:vegetarian"
+                                url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str+"&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
+
+                                
+                            
+                        elif(palm_oil != 0):
+                            if(vegan_preference):
+                                #Would you like a vegan alternative that is palm oil free?
+                                ingredients_analysis_tags_str = "en:palm-oil-free,en:vegan"
+                                url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str+"&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
+                                
+                            else:
+                                #Would you like a vegetarian alternative that is palm oil free?
+                                ingredients_analysis_tags_str = "en:palm-oil-free,en:vegetarian"
+                                url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str+"&ingredients_analysis_tags="+ingredients_analysis_tags_str+"&sort_by=popularity_key"
+                            
                         else:
-                            dispatcher.utter_message(
-                                text="There were no alternative products found that match the criteria :/")
+                            print("nothing wrong with product")
+                            return []
+                        
+                        # Send GET request
+                        response = requests.get(url)
+
+                        # Check if the request was successful
+                        if response.status_code == 200:
+                            print(url)
+                            print("Success")
+                            products = response.json()["products"]
+
+                            if(len(products) > 0):
+                                if(len(products) < 3):    
+                                    dispatcher.utter_message(text="Here you go!")
+                                else:    
+                                    dispatcher.utter_message(text="Here you go! These are the top 3 products:")
+                                for i, alternativeProduct in enumerate(products):
+                                    if i == 3:
+                                        break
+                                    msg = str(i+1) +"- "
+                                    img = None
+                                    if(alternativeProduct.get("image_url") is not None):
+                                        img = alternativeProduct['image_url']
+                                    if(alternativeProduct.get("code") is not None):
+                                        msg += "("+alternativeProduct['code']+") "
+                                    if(alternativeProduct.get("product_name") is not None):
+                                        msg += alternativeProduct['product_name']
+                                    if(img is not None):
+                                        dispatcher.utter_message(image = img, text = msg )
+                                    else:
+                                        dispatcher.utter_message(text = msg )
+                                return[]
+                            else:
+                                dispatcher.utter_message(text="There were no alternative products found that match the criteria :/")
+                                return []
+                        else:
+                            dispatcher.utter_message(text="There were no alternative products found that match the criteria :/")
                             return []
                     else:
-                        dispatcher.utter_message(
-                            text="There were no alternative products found that match the criteria :/")
+                        dispatcher.utter_message(text="I don't have information about this product's ingredients, sorry :/")
                         return []
                 else:
-                    dispatcher.utter_message(
-                        text="I don't have information about this product's ingredients, sorry :/")
+                    dispatcher.utter_message(text="Sorry, I can't find the product.")
                     return []
-            else:
-                dispatcher.utter_message(
-                    text="Sorry, I can't find the product.")
-                return []
-        dispatcher.utter_message(
-            text="Oh I could not find that product! Please recheck that you entered it correctly.")
-
-        return []
+            dispatcher.utter_message(text="Oh I could not find that product! Please recheck that you entered it correctly.")
+            
+            return []
 
 
 class ActionConfirmPreference(Action):
@@ -985,7 +969,37 @@ class getProductInfoByBarcode(Action):
                             {"role": "user", "content": openaiContent}]
                 x = openaiChatCompletion(messages)
                 dispatcher.utter_message(x['content'])
-                return []
+
+                # set animal friendliness slots
+                if(resProduct.get("ingredients_analysis_tags") is not None):
+                    vegan=0.5
+                    vegetarian=0.5
+                    palm_oil=0.5
+                    for ing in resProduct.get('ingredients_analysis_tags'):
+                        if("vegan" in ing.lower()):
+                            if(ing == "en:vegan"):
+                                vegan = 1
+                            elif(ing == "en:non-vegan"):
+                                vegan = 0
+                                
+                        if("vegetarian" in ing.lower()):
+                            if(ing == "en:vegetarian"):
+                                vegetarian = 1
+                            elif(ing == "en:non-vegetarian"):
+                                vegetarian = 0
+                        if("palm" in ing.lower()):
+                            if(ing == "en:palm-oil-free"):
+                                palm_oil = 0
+                            elif(ing == "en:palm-oil"):
+                                palm_oil = 1
+                    return [
+                            SlotSet("product_vegan", str(vegan)),
+                            SlotSet("product_vegetarian", str(vegetarian)),
+                            SlotSet("product_palm_oil", str(palm_oil))]
+                return [
+                            SlotSet("product_vegan", None),
+                            SlotSet("product_vegetarian", None),
+                            SlotSet("product_palm_oil", None)]
 
             dispatcher.utter_message(text="Sorry, I can't find the product.")
         dispatcher.utter_message(
