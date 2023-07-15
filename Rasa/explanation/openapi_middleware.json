@@ -1,0 +1,310 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Express App",
+    "version": "1.0.0",
+    "description": "Generated docs from an express api"
+  },
+  "servers": [
+    {
+      "url": "https://kisuscheck.org/middleware",
+      "description": "Fortiss (ODIM) Development Server"
+    }
+  ],
+  "paths": {
+    "/productscore/{barcode}": {
+      "get": {
+        "summary": "get product score given a barcode",
+        "description": "send the barcode of the product as json and get their final score returned",
+        "parameters": [
+          {
+            "name": "barcode",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string" },
+            "example": "005906002765",
+            "description": "barcode of the product to get"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Succesful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "integer" },
+                    "productName": { "type": "string" },
+                    "dataSource": { "type": "string" },
+                    "KISusScore": {
+                      "type": "object",
+                      "properties": {
+                        "totalScore": { "type": "integer" },
+                        "gesundheit": {
+                          "type": "object",
+                          "properties": {
+                            "gesundheitScore": { "type": "integer" },
+                            "nova": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 100
+                              }
+                            },
+                            "nutriScore": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 100
+                              }
+                            }
+                          }
+                        },
+                        "sozial": {
+                          "type": "object",
+                          "properties": {
+                            "sozialScore": { "type": "integer" },
+                            "siegel": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 100
+                              }
+                            }
+                          }
+                        },
+                        "tierwohl": {
+                          "type": "object",
+                          "properties": {
+                            "tierwohlScore": { "type": "integer" },
+                            "tierhaltung": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 100
+                              }
+                            }
+                          }
+                        },
+                        "umwelt": {
+                          "type": "object",
+                          "properties": {
+                            "umweltScore": { "type": "integer" },
+                            "okobilanz": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 100
+                              }
+                            },
+                            "produktionsform": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 100
+                              }
+                            },
+                            "biodiversitat": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 100
+                              }
+                            },
+                            "psmeinsatz": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 100
+                              }
+                            },
+                            "gvofrei": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 100
+                              }
+                            },
+                            "futtermittelherkunft": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 100
+                              }
+                            },
+                            "regionalität": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 100
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+                    "inputScores": {
+                      "type": "object",
+                      "properties": {
+                        "nutriScore": {
+                          "type": "string",
+                          "enum": ["A", "B", "C", "D", "E"]
+                        },
+                        "nova": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "maximum": 4
+                        },
+                        "ecoscore": {
+                          "type": "string",
+                          "enum": ["A", "B", "C", "D", "E"]
+                        }
+                      }
+                    },
+                    "labels": {
+                      "type": "array",
+                      "items": { "type": "string" }
+                    },
+                    "other_properties": {
+                      "type": "object",
+                      "properties": {
+                        "vegetarian": {
+                          "type": "string",
+                          "enum": ["yes", "no"]
+                        },
+                        "meat_typ": {
+                          "type": "string",
+                          "enum": [
+                            "fish",
+                            "pork",
+                            "chicken",
+                            "beef",
+                            "ham",
+                            "meat",
+                            "no meat"
+                          ]
+                        },
+                        "futtermittelinfo": {
+                          "type": "string",
+                          "enum": ["yes", "no"]
+                        }
+                      }
+                    },
+                    "inputQuality": { "type": "string" },
+                    "locations": {
+                      "type": "array",
+                      "items": { "type": "string" }
+                    }
+                  },
+                  "example": {
+                    "id": 4104060011245,
+                    "productName": "Jogurt mild Natur",
+                    "dataSource": "Open Food Facts",
+                    "KISusScore": {
+                      "totalScore": 77,
+                      "gesundheit": {
+                        "gesundheitScore": 68,
+                        "nova": { "3": 50 },
+                        "nutriScore": { "B": 80 }
+                      },
+                      "sozial": {
+                        "sozialScore": 70,
+                        "siegel": { "b-corp": 70 }
+                      },
+                      "tierwohl": {
+                        "tierwohlScore": 100,
+                        "tierhaltung": { "demeter": 100 }
+                      },
+                      "umwelt": {
+                        "umweltScore": 70,
+                        "okobilanz": { "A": 100 },
+                        "produktionsform": { "demeter": 100 },
+                        "biodiversitat": { "bio": 50 },
+                        "psmeinsatz": { "bio": 100 },
+                        "gvofrei": { "no label": 0 },
+                        "futtermittelherkunft": { "no information": 0 },
+                        "regionalität": { "no label": 0 }
+                      }
+                    },
+                    "inputScores": {
+                      "nutriScore": "B",
+                      "nova": 3,
+                      "ecoscore": "A"
+                    },
+                    "labels": ["bio", "demeter", "b-corp", "haltungsform 4"],
+                    "other_properties": {
+                      "vegetarian": "no",
+                      "meat_typ": "no meat",
+                      "futtermittelinfo": "no"
+                    },
+                    "inputQuality": "complete",
+                    "locations": [
+                      "KI-SusCheck Zentrallager 1",
+                      "KI-SusCheck Supermarkt 1"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/exampleproducts": {
+      "get": {
+        "summary": "get example products",
+        "description": "get barcode and name of example products",
+        "responses": {
+          "200": {
+            "description": "Succesful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "products": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "integer" },
+                          "productName": { "type": "string" }
+                        }
+                      }
+                    }
+                  },
+                  "example": {
+                    "products": [
+                      {
+                        "id": 4104060011245,
+                        "productName": "joghurt andechser"
+                      },
+                      {
+                        "id": 4101530001942,
+                        "productName": "joghurt berchtesgadener"
+                      },
+                      { "id": 3228020481426, "productName": "kase camembert" },
+                      { "id": 4056489135623, "productName": "rapsol rapunzel" }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

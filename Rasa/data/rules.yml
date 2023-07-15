@@ -40,12 +40,13 @@ rules:
       - action: action_compare_products_by_barcode
       - action: utter_stop_compare_or_know_more_about_the_result
   - rule: answer questions based on the sustainability report
-    steps: 
-    - intent: scan_sustainability_report
-    - action: action_scan_report
+    steps:
+      - intent: scan_sustainability_report
+      - action: action_scan_report
   - rule: know more about the comparison result
     steps:
       - intent: know_more_about_comparison_result
+      - action: action_set_comparison_path_active_to_false
       - action: utter_specify_question
 
   - rule: out of scope intents
@@ -66,3 +67,8 @@ rules:
       - intent: show_product_comparison_list
       - action: action_show_product_comparison_list
       - action: utter_more_products_or_compare
+
+  - rule: explain kisusscore or comparison result
+    steps:
+      - intent: ask_for_explanation_of_kisusscore_or_comparison_result
+      - action: action_explain_kisusscore_or_comparison_result
