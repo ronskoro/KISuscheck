@@ -971,7 +971,7 @@ class getProductInfoByBarcode(Action):
                 messages = [{"role": "system", "content": "summarize the following information in a nice way"},
                             {"role": "user", "content": openaiContent}]
                 x = openaiChatCompletion(messages)
-                dispatcher.utter_message(x['content'])
+                dispatcher.utter_message(text=x['content'])
 
                 # set animal friendliness slots
                 if(resProduct.get("ingredients_analysis_tags") is not None):

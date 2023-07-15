@@ -170,9 +170,6 @@ stories:
     steps:
       - intent: scan_barcode
       - action: action_get_product_info_by_barcode
-      - action: utter_did_that_help
-      - intent: affirm
-      - action: utter_happy
       - intent: set_label_preference
       - action: action_confirm_preference
   - story: set label preference path 3
@@ -181,9 +178,6 @@ stories:
       - action: action_confirm_preference
       - intent: scan_barcode
       - action: action_get_product_info_by_barcode
-      - action: utter_did_that_help
-      - intent: affirm
-      - action: utter_happy
   - story: set environment preference
     steps:
       - intent: set_env_preference
@@ -196,9 +190,6 @@ stories:
     steps:
       - intent: scan_barcode
       - action: action_get_product_info_by_barcode
-      - action: utter_did_that_help
-      - intent: deny
-      - action: utter_goodbye
   - story: compare multiple products - ask for first two products' barcode
     steps:
       - or:
@@ -640,9 +631,6 @@ stories:
           - barcode_list:
               - "3168930009078"
       - action: action_get_product_info_by_barcode
-      - action: utter_did_that_help
-      - intent: affirm
-      - action: utter_happy
       - intent: compare_products_with_barcode_given
         entities:
           - barcode: "3168930009078"
@@ -711,9 +699,6 @@ stories:
           - barcode_list:
               - "3017620422003"
       - action: action_get_product_info_by_barcode
-      - action: utter_did_that_help
-      - intent: affirm
-      - action: utter_happy
 
   - story: calculate kisusscore by barcode and ask about result
     steps:
