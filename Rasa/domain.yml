@@ -77,6 +77,24 @@ slots:
       - type: from_entity
         entity: barcode
     influence_conversation: false
+  product_vegan:
+    type: text
+    initial_value: "0.5"
+    mappings:
+      - type: custom
+    influence_conversation: true
+  product_palm_oil:
+    type: text
+    initial_value: "0.5"
+    mappings:
+      - type: custom
+    influence_conversation: true
+  product_vegetarian:
+    type: text
+    initial_value: "0.5"
+    mappings:
+      - type: custom
+    influence_conversation: true
   food:
     type: text
     mappings:
@@ -202,6 +220,7 @@ actions:
   - action_confirm_preference
   - action_print_preferences
   - action_get_product_animal_friendliness_info
+  - action_check_animal_friendly_alternative
   - utter_specify_question
   - action_faq_get_answer
   - validate_product_comparison_form

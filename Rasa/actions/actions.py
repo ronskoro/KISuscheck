@@ -27,6 +27,7 @@ from rasa_sdk.events import EventType
 import requests
 import json
 
+
 class getProductAnimalFriendlinessInfo(Action):
     def name(self) -> Text:
         return "action_get_product_animal_friendliness_info"
@@ -38,6 +39,7 @@ class getProductAnimalFriendlinessInfo(Action):
         # Extract the barcode from the user input
         barcode = None
         barcode_slot = tracker.get_slot("barcode")
+
         barcode = barcode_slot
 
         # vegan=0.5
@@ -1279,13 +1281,13 @@ class ActionScanReport(Action):
 
         print('The API key is:', os.environ.get('OPENAI_API_KEY'))
 
-        embeddings_file = 'gpt_integration/embeddings.csv'
+        csv_embeddings_file = 'gpt_integration/embeddings.csv'
         K_DOCS = 5
 
         queryEngine = QueryEngine()
         # search and return the 5 most similar documents
         res = queryEngine.search_chunks(
-            embeddings_file=embeddings_file, query=query, k=K_DOCS, pprint=False)
+            csv_embeddings_file=csv_embeddings_file, query=query, k=K_DOCS, pprint=False)
         # query
         gpt_response = queryEngine.query(res, query, 2, 20)
         text = gpt_response.content
