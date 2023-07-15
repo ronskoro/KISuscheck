@@ -939,13 +939,13 @@ class ActionScanReport(Action):
 
         print('The API key is:', os.environ.get('OPENAI_API_KEY'))
 
-        embeddings_file = 'gpt_integration/embeddings.csv'
+        csv_embeddings_file = 'gpt_integration/embeddings.csv'
         K_DOCS = 5
 
         queryEngine = QueryEngine()
         # search and return the 5 most similar documents
         res = queryEngine.search_chunks(
-            embeddings_file=embeddings_file, query=query, k=K_DOCS, pprint=False)
+            csv_embeddings_file=csv_embeddings_file, query=query, k=K_DOCS, pprint=False)
         # query
         gpt_response = queryEngine.query(res, query, 2, 20)
         text = gpt_response.content
