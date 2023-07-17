@@ -130,6 +130,12 @@ nlu:
       - scan [3017620422003](barcode)
   - intent: get_top_product_info_by_name
     examples: |
+      - could you give me some options for [milk](food)
+      - could you give me some options for [yogurt](food) please
+      - I want [chicken](food) options
+      - I want [pasta](food) options please
+      - could you suggest me some options for [bread](food)
+      - could you suggest me some options for [cheese](food) please
       - I want to know info about [milk](food)
       - I need to know details about [yogurt](food)
       - I want to know info about [chocolate](food) please
@@ -143,6 +149,10 @@ nlu:
       - what do you know about [milk](food)
       - what info do you know about [yogurt](food)
       - what details do you know about [chocolate](food)
+      - suggest me some options for [bread](food)
+      - suggest me some options for [cheese](food) please
+      - recommend me some options for [milk](food)
+      - [beef](food) recommendations please
       - [nutella](food)
       - [chocolate](food)
       - Please provide information about [bread](food).
@@ -160,26 +170,6 @@ nlu:
       - What details do you know about [grapes](food)?
       - Tell me more about [strawberries](food).
       - I'm curious about [watermelon](food).
-  - intent: ask_about_product_property_by_name
-    examples: |
-      - Is [cereal](food) suitable for [vegetarians](food_property)?
-      - Does [pasta](food) contain [gluten](food_property)?
-      - Any information on the [fat](food_property) content in [fish](food)?
-      - does [honey](food) contain [palm oil](food_property)?
-      - does [bread](food) contain [nuts](food_property)?
-      - does [chips](food) contain [soy](food_property)?
-      - Is [nuts](food) suitable for [vegan](food_property)?
-      - Is [banana](food) high in [salt](food_property)?
-      - Is [nuts](food) low in [salt](food_property)?
-      - Is [cake](food) high in [sugar](food_property)?
-      - Is [cereal](food) low in [sugar](food_property)?
-      - does [pasta](food) contain [milk](food_property)?
-      - does [lasagna](food) has [additives](food_property)?
-      - what is [nutella](food) [eco score](food_property)?
-      - what is [chocolate](food) [nutri score](food_property)?
-      - what is [meat](food) [nutrition score](food_property)?
-      - what is [chicken](food) [nova score](food_property)?
-      - is [cheese](food) [organic](food_property)?
   - intent: ask_about_product_property_by_barcode
     examples: |
       - Is [1234567890123](barcode) suitable for [vegetarians](food_property)?

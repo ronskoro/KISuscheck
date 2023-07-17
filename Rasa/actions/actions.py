@@ -4,10 +4,14 @@
 # See this guide on how to implement these action:
 # https://rasa.com/docs/rasa/custom-actions
 
-import time
+import sys
+sys.path.append(
+    'C:/Users/maria/anaconda3/envs/KI-SusCheck-faq/Lib/site-packages')
+# import time
 from sentence_transformers import SentenceTransformer, util
-from rasa_sdk.events import SlotSet, FollowupAction, EventType
-import torch
+from rasa_sdk.events import SlotSet, FollowupAction
+# , EventType
+# import torch
 from sentence_transformers import SentenceTransformer
 import os
 from gpt_integration.processor import QueryEngine, openaiChatCompletion
@@ -22,10 +26,6 @@ from rasa_sdk.types import DomainDict
 from rasa_sdk.events import EventType
 import requests
 import json
-import sys
-sys.path.append(
-    'C:/Users/maria/anaconda3/envs/KI-SusCheck-faq/Lib/site-packages')
-# import torch
 
 
 class getProductAnimalFriendlinessInfo(Action):
@@ -418,8 +418,9 @@ class ActionConfirmPreference(Action):
         # remove duplicate values
         current_values = list({x for x in current_values})
 
-        msg = f"Ok, got it! I've updated your {preferences[preference_type]} to: {', '.join(current_values)}. Is this correct?"
+        msg = f"Ok, got it! I've updated your {preferences[preference_type]} to: {', '.join(current_values)}."
         dispatcher.utter_message(text=msg)
+        dispatcher.utter_message(text="Now all you search for will be based on your preferences!🥳")
 
         product_cat_limit = tracker.get_slot("product_cat_limit")
         if (product_cat_limit is not None):
@@ -800,7 +801,7 @@ class ActionSetComparisonPathActiveToFalse(Action):
 # Refer: https://github.com/UKPLab/sentence-transformers/blob/master/docs/pretrained-models/nli-models.md
 # pretrained_model = 'bert-base-nli-mean-tokens'
 pretrained_model = 'all-mpnet-base-v2'
-score_threshold = 0.70  # This confidence scores can be adjusted based on your need!!
+score_threshold = 0.80  # This confidence scores can be adjusted based on your need!!
 
 
 class ActionGetFAQAnswer(Action):
@@ -871,7 +872,9 @@ class ActionGetFAQAnswer(Action):
             print(response)
             dispatcher.utter_message(response)
             dispatcher.utter_message(
-                "Sorry, I can't answer your question. You can dial the manual service...")
+                "You can check these links for more information: ")
+            dispatcher.utter_message("https://gesund.bund.de/")
+            dispatcher.utter_message("https://www.bmel.de/")
         return []
 
 
@@ -950,7 +953,7 @@ class getProductInfoByBarcode(Action):
                 messages = [{"role": "system", "content": "summarize the following information in a nice way"},
                             {"role": "user", "content": openaiContent}]
                 x = openaiChatCompletion(messages)
-                dispatcher.utter_message(x['content'])
+                dispatcher.utter_message(text=x['content'])
 
                 # set animal friendliness slots
                 if(resProduct.get("ingredients_analysis_tags") is not None):
@@ -1260,13 +1263,13 @@ class ActionScanReport(Action):
 
         print('The API key is:', os.environ.get('OPENAI_API_KEY'))
 
-        embeddings_file = 'gpt_integration/embeddings.csv'
+        csv_embeddings_file = 'gpt_integration/embeddings.csv'
         K_DOCS = 5
 
         queryEngine = QueryEngine()
         # search and return the 5 most similar documents
         res = queryEngine.search_chunks(
-            embeddings_file=embeddings_file, query=query, k=K_DOCS, pprint=False)
+            csv_embeddings_file=csv_embeddings_file, query=query, k=K_DOCS, pprint=False)
         # query
         gpt_response = queryEngine.query(res, query, 2, 20)
         text = gpt_response.content
