@@ -4,7 +4,6 @@ intents:
   - affirm
   - ask_about_animal_friendliness_of_product
   - ask_about_product_property_by_barcode
-  - ask_about_product_property_by_name
   - ask_for_product_comparison
   - ask_preferences
   - bot_challenge
@@ -33,6 +32,8 @@ intents:
   - stop_comparing_and_clear_comparison_history
   - scan_sustainability_report
   - ask_about_product
+  - ask_for_explanation_of_kisusscore_or_comparison_result
+  - calculate_kisusscore_by_barcode
   - ask_for_explanation_of_kisusscore_or_comparison_result
   - calculate_kisusscore_by_barcode
 
@@ -186,6 +187,7 @@ slots:
         action: action_update_comparison_list_and_length
     influence_conversation: true
   comparison_or_kisusscore_result:
+  comparison_or_kisusscore_result:
     type: any
     mappings:
       - type: custom
@@ -226,7 +228,7 @@ actions:
   - action_faq_get_answer
   - validate_product_comparison_form
   - action_scan_report
-  - suggest_animal_friendly_alternative
+  - action_suggest_animal_friendly_alternative
   - action_calculate_kisusscore_by_barcode
   - action_explain_kisusscore_or_comparison_result
   - action_set_comparison_path_active_to_false
