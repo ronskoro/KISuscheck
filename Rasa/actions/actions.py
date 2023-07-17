@@ -41,6 +41,8 @@ class getProductAnimalFriendlinessInfo(Action):
         barcode_slot = tracker.get_slot("barcode")
 
         barcode = barcode_slot
+        openaiContent = ""
+        followupActionFlag = False
 
         # vegan=0.5
         # vegetarian=0.5
@@ -51,7 +53,7 @@ class getProductAnimalFriendlinessInfo(Action):
 
         ingredient_preferences = tracker.slots["ingredient_preference"]
         vegan_preference = False
-        if (ingredient_preferences is not None and "Vegetarian" in ingredient_preferences):
+        if (ingredient_preferences is not None and "vegan" in ingredient_preferences):
             vegan_preference = True
 
         # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
@@ -66,85 +68,65 @@ class getProductAnimalFriendlinessInfo(Action):
                     print(palm_oil)
 
                     if (vegan == 1 and palm_oil == 0):
-                        dispatcher.utter_message(
-                            text="The product is vegan and it is palm oil free!")
-                        dispatcher.utter_message(
-                            text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
-                        return [FollowupAction("utter_did_that_help")]
+                        openaiContent +="The product is vegan and it is palm oil free!"
+                        openaiContent +="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                        
                     if (vegan == 1 and palm_oil == 1):
-                        dispatcher.utter_message(
-                            text="The product is vegan but it contains palm oil.")
-                        dispatcher.utter_message(
-                            text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
-                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                        openaiContent +="The product is vegan but it contains palm oil."
+                        openaiContent +="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                        followupActionFlag = True
                     if (vegan == 1 and palm_oil == 0.5):
-                        dispatcher.utter_message(
-                            text="The product is vegan. However, it may contain palm oil.")
-                        dispatcher.utter_message(
-                            text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
-                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                        openaiContent +="The product is vegan. However, it may contain palm oil."
+                        openaiContent +="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                        followupActionFlag = True
 
                     if (vegetarian == 1 and palm_oil == 0):
-                        dispatcher.utter_message(
-                            text="The product is vegetarian and it is palm oil free!")
-                        dispatcher.utter_message(
-                            text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
+                        openaiContent +="The product is vegetarian and it is palm oil free!"
+                        openaiContent +="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
                         if (vegan_preference):
-                            return [FollowupAction("action_check_animal_friendly_alternative")]
-                        else:
-                            return [FollowupAction("utter_did_that_help")]
+                            followupActionFlag = True
                     if (vegetarian == 1 and palm_oil == 1):
-                        dispatcher.utter_message(
-                            text="The product is vegetarian. However, it contains palm oil.")
-                        dispatcher.utter_message(
-                            text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
-                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                        openaiContent +="The product is vegetarian. However, it contains palm oil."
+                        openaiContent +="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                        followupActionFlag = True
                     if (vegetarian == 1 and palm_oil == 0.5):
-                        dispatcher.utter_message(
-                            text="The product is vegetarian. However, it may contain palm oil.")
-                        dispatcher.utter_message(
-                            text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
-                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                        openaiContent +="The product is vegetarian. However, it may contain palm oil."
+                        openaiContent +="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                        followupActionFlag = True
 
                     if (vegetarian == 0 and palm_oil == 0):
-                        dispatcher.utter_message(
-                            text="The product is non-vegetarian but it is palm oil free.")
-                        dispatcher.utter_message(
-                            text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
-                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                        openaiContent +="The product is non-vegetarian but it is palm oil free."
+                        openaiContent +="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                        followupActionFlag = True
                     if (vegetarian == 0 and palm_oil == 1):
-                        dispatcher.utter_message(
-                            text="The product is non-vegetarian and it contains palm oil.")
-                        dispatcher.utter_message(
-                            text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
-                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                        openaiContent +="The product is non-vegetarian and it contains palm oil."
+                        openaiContent +="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                        followupActionFlag = True
                     if (vegetarian == 0 and palm_oil == 0.5):
-                        dispatcher.utter_message(
-                            text="The product is non-vegetarian and it may contain palm oil.")
-                        dispatcher.utter_message(
-                            text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
-                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                        openaiContent +="The product is non-vegetarian and it may contain palm oil."
+                        openaiContent +="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                        followupActionFlag = True
 
                     if (palm_oil == 0):
-                        dispatcher.utter_message(
-                            text="The product may be vegan/vegetarian but it is palm oil free.")
-                        dispatcher.utter_message(
-                            text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
-                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                        openaiContent +="The product may be vegan/vegetarian but it is palm oil free."
+                        openaiContent +="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                        followupActionFlag = True
                     if (palm_oil == 1):
-                        dispatcher.utter_message(
-                            text="The product may be vegan/vegetarian and it contains palm oil.")
-                        dispatcher.utter_message(
-                            text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
-                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                        openaiContent +="The product may be vegan/vegetarian and it contains palm oil."
+                        openaiContent +="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                        followupActionFlag = True
                     if (palm_oil == 0.5):
-                        dispatcher.utter_message(
-                            text="The product may be vegan/vegetarian and it may contain palm oil.")
-                        dispatcher.utter_message(
-                            text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
+                        openaiContent +="The product may be vegan/vegetarian and it may contain palm oil."
+                        openaiContent +="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                        followupActionFlag = True
+                    messages = [{"role": "system", "content": openaiContent + "Rephrase the statement to match the user's question. Provide context that this determines the animal-friendliness status of the product. The answer should not be vague and shouldn't contain any questions."},
+                            {"role": "user", "content": tracker.latest_message['text']},]
+                    x = openaiChatCompletion(messages)
+                    dispatcher.utter_message(x['content'])
+                    if(followupActionFlag == True):
                         return [FollowupAction("action_check_animal_friendly_alternative")]
-
-                    return []
+                    else:
+                        return [FollowupAction("utter_did_that_help")]
                 else:
                     dispatcher.utter_message(
                         text="I don't have information about this product's ingredients, sorry :/")
@@ -179,7 +161,7 @@ class checkAnimalFriendlyAlternative(Action):
 
         ingredient_preferences = tracker.slots["ingredient_preference"]
         vegan_preference = False
-        if (ingredient_preferences is not None and "Vegetarian" in ingredient_preferences):
+        if (ingredient_preferences is not None and "vegan" in ingredient_preferences):
             vegan_preference = True
 
         # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
