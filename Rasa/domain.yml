@@ -3,10 +3,13 @@ intents:
   - add_more_barcodes_to_comparison_list
   - affirm
   - ask_about_animal_friendliness_of_product
+  - ask_about_product
   - ask_about_product_property_by_barcode
+  - ask_for_explanation_of_kisusscore_or_comparison_result
   - ask_for_product_comparison
   - ask_preferences
   - bot_challenge
+  - calculate_kisusscore_by_barcode
   - compare_products_with_barcode_given
   - compare_products_with_name
   - continue_comparison
@@ -21,6 +24,7 @@ intents:
   - out_of_scope_intents
   - provide_multiple_barcodes
   - scan_barcode
+  - scan_sustainability_report
   - set_allergen_preference
   - set_env_preference
   - set_food_processing_preference
@@ -30,10 +34,6 @@ intents:
   - show_product_comparison_list
   - start_product_comparison
   - stop_comparing_and_clear_comparison_history
-  - scan_sustainability_report
-  - ask_about_product
-  - ask_for_explanation_of_kisusscore_or_comparison_result
-  - calculate_kisusscore_by_barcode
 entities:
   - barcode
   - user_name
@@ -199,18 +199,18 @@ forms:
       - first_product_for_comparison
       - second_product_for_comparison
 actions:
-  - utter_did_that_help
+  - action_set_comparison_path_active_to_true
   - action_update_comparison_list_and_length
+  - utter_more_products_or_compare
+  - action_show_product_comparison_list
+  - action_fill_second_product_for_comparison
+  - utter_did_that_help
   - action_stop_comparing_and_clear_compare_history
   - action_get_product_info_by_barcode
   - utter_happy
-  - utter_more_products_or_compare
   - action_compare_products_by_barcode
   - utter_greet
-  - action_set_comparison_path_active_to_true
   - utter_stop_compare_or_know_more_about_the_result
-  - action_show_product_comparison_list
-  - action_fill_second_product_for_comparison
   - utter_like_to_know_more
   - utter_ask_first_product_for_comparison
   - action_greet
@@ -231,32 +231,24 @@ actions:
   - utter_know_more_about_kisusscore
 responses:
   utter_greet:
-    - text: "Hi, I'm Eco! \U0001F44B I'm a sustainable nutritional bot. \U0001F33F Can I assist you by providing information about a product or giving you recommendations for food? \U0001F440"
+    - text: Hi, I'm Eco! 👋 I'm a sustainable nutritional bot. 🌿 Can I assist you by providing information about a product or giving you recommendations for food? 👀
   utter_cheer_up:
     - text: "Here is something to cheer you up:"
-      image: "https://i.imgur.com/nGF1K8f.jpg"
+      image: https://i.imgur.com/nGF1K8f.jpg
   utter_happy:
-    - text: "Great, carry on!"
+    - text: Great, carry on!
   utter_goodbye:
     - text: Bye
   utter_iamabot:
-    - text: "I am a bot, powered by Rasa."
+    - text: I am a bot, powered by Rasa.
   utter_did_that_help:
     - text: Did that help you?
   utter_ask_first_product_for_comparison:
-    - text: >-
-        Sure! Could you please provide me the barcode of the first product? Or
-        you can also give me multiple barcodes.
+    - text: Sure! Could you please provide me the barcode of the first product? Or you can also give me multiple barcodes.
   utter_ask_second_product_for_comparison:
-    - text: >-
-        1 product is currently in the comparison list. I need at least one more
-        product's barcode to start comparison. Could you please provide me the
-        barcode of the next product?
+    - text: 1 product is currently in the comparison list. I need at least one more product's barcode to start comparison. Could you please provide me the barcode of the next product?
   utter_more_products_or_compare:
-    - text: >-
-        {product_comparison_list_length} products are currently in the
-        comparison list (at least 2 needed). You can add more products by giving
-        barcodes.
+    - text: "{product_comparison_list_length} products are currently in the comparison list (at least 2 needed). You can add more products by giving barcodes."
       buttons:
         - title: Start compare
           payload: /start_product_comparison
@@ -265,21 +257,16 @@ responses:
   utter_ask_for_product_barcode:
     - text: Could you please provide me the barcode of the next product?
   utter_stop_compare_or_know_more_about_the_result:
-    - text: >-
-        Would you like to stop the product comparison between
-        {product_comparison_list} and clear this comparison history, or would
-        you like to know more about this comparison result?
+    - text: Would you like to stop the product comparison between {product_comparison_list} and clear this comparison history, or would you like to know more about this comparison result?
       buttons:
         - title: Stop and clear
           payload: /stop_comparing_and_clear_comparison_history
         - title: Know more about the result
           payload: /know_more_about_comparison_result
   utter_know_more_about_kisusscore:
-    - text: >-
-        Would you like to know more about the KISus-Score of this product
-        ({barcode})?
+    - text: Would you like to know more about the KISus-Score of this product ({barcode})?
   utter_out_of_scope:
-    - text: "Sorry, I can't handle that request. Can I help you with anything else?"
+    - text: Sorry, I can't handle that request. Can I help you with anything else?
   utter_like_to_know_more:
     - text: Would you like to know more?
   utter_specify_question:
