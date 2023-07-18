@@ -72,13 +72,3 @@ rules:
     steps:
       - intent: ask_for_explanation_of_kisusscore_or_comparison_result
       - action: action_explain_kisusscore_or_comparison_result
-
-  - rule: update compare list
-    condition:
-      - active_loop: product_comparison_form
-    steps:
-      - intent: scan_barcode
-      # - slot_was_set:
-      #     - comparison_path_active: true
-      - action: action_update_comparison_list_and_length
-    wait_for_user_input: false
