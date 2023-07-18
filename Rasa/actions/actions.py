@@ -1176,7 +1176,7 @@ class answerAboutProductPropertyByBarcode(Action):
                 barcode = entity["value"]
             elif entity["entity"] == "food_property":
                 property = entity["value"]
-                propertyFirst = property[0]
+                propertyFirst = property.split(' ')[0]
 
         # API endpoint
         if (barcode is not None and propertyFirst is not None):
