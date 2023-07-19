@@ -3,6 +3,9 @@ intents:
   - add_more_barcodes_to_comparison_list
   - affirm
   - ask_about_animal_friendliness_of_product
+  - ask_about_social_impact_of_a_product
+  - ask_about_nutritional_value_of_a_product
+  - ask_about_environmental_impact_of_a_product
   - ask_about_product_property_by_barcode
   - ask_for_product_comparison
   - ask_preferences
@@ -221,11 +224,20 @@ actions:
   - action_print_preferences
   - action_get_product_animal_friendliness_info
   - action_check_animal_friendly_alternative
+  - action_suggest_animal_friendly_alternative
+  - action_get_product_social_impact_info
+  - action_check_positive_social_impact_alternative
+  - action_suggest_positive_social_impact_alternative
+  - action_get_product_nutritional_value_info
+  - action_check_high_nutritional_value_alternative
+  - action_suggest_high_nutritional_value_alternative
+  - action_get_product_environmental_impact_info
+  - action_check_positive_environmental_impact_alternative
+  - action_suggest_positive_environmental_impact_alternative
   - utter_specify_question
   - action_faq_get_answer
   - validate_product_comparison_form
   - action_scan_report
-  - action_suggest_animal_friendly_alternative
   - action_calculate_kisusscore_by_barcode
   - action_explain_kisusscore_or_comparison_result
   - action_set_comparison_path_active_to_false

@@ -41,6 +41,8 @@ class getProductAnimalFriendlinessInfo(Action):
         barcode_slot = tracker.get_slot("barcode")
 
         barcode = barcode_slot
+        openaiContent = ""
+        followupActionFlag = False
 
         # vegan=0.5
         # vegetarian=0.5
@@ -51,7 +53,7 @@ class getProductAnimalFriendlinessInfo(Action):
 
         ingredient_preferences = tracker.slots["ingredient_preference"]
         vegan_preference = False
-        if (ingredient_preferences is not None and "Vegetarian" in ingredient_preferences):
+        if (ingredient_preferences is not None and "vegan" in ingredient_preferences):
             vegan_preference = True
 
         # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
@@ -66,85 +68,65 @@ class getProductAnimalFriendlinessInfo(Action):
                     print(palm_oil)
 
                     if (vegan == 1 and palm_oil == 0):
-                        dispatcher.utter_message(
-                            text="The product is vegan and it is palm oil free!")
-                        dispatcher.utter_message(
-                            text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
-                        return [FollowupAction("utter_did_that_help")]
+                        openaiContent +="The product is vegan and it is palm oil free!"
+                        openaiContent +="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                        
                     if (vegan == 1 and palm_oil == 1):
-                        dispatcher.utter_message(
-                            text="The product is vegan but it contains palm oil.")
-                        dispatcher.utter_message(
-                            text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
-                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                        openaiContent +="The product is vegan but it contains palm oil."
+                        openaiContent +="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                        followupActionFlag = True
                     if (vegan == 1 and palm_oil == 0.5):
-                        dispatcher.utter_message(
-                            text="The product is vegan. However, it may contain palm oil.")
-                        dispatcher.utter_message(
-                            text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
-                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                        openaiContent +="The product is vegan. However, it may contain palm oil."
+                        openaiContent +="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                        followupActionFlag = True
 
                     if (vegetarian == 1 and palm_oil == 0):
-                        dispatcher.utter_message(
-                            text="The product is vegetarian and it is palm oil free!")
-                        dispatcher.utter_message(
-                            text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
+                        openaiContent +="The product is vegetarian and it is palm oil free!"
+                        openaiContent +="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
                         if (vegan_preference):
-                            return [FollowupAction("action_check_animal_friendly_alternative")]
-                        else:
-                            return [FollowupAction("utter_did_that_help")]
+                            followupActionFlag = True
                     if (vegetarian == 1 and palm_oil == 1):
-                        dispatcher.utter_message(
-                            text="The product is vegetarian. However, it contains palm oil.")
-                        dispatcher.utter_message(
-                            text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
-                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                        openaiContent +="The product is vegetarian. However, it contains palm oil."
+                        openaiContent +="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                        followupActionFlag = True
                     if (vegetarian == 1 and palm_oil == 0.5):
-                        dispatcher.utter_message(
-                            text="The product is vegetarian. However, it may contain palm oil.")
-                        dispatcher.utter_message(
-                            text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
-                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                        openaiContent +="The product is vegetarian. However, it may contain palm oil."
+                        openaiContent +="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                        followupActionFlag = True
 
                     if (vegetarian == 0 and palm_oil == 0):
-                        dispatcher.utter_message(
-                            text="The product is non-vegetarian but it is palm oil free.")
-                        dispatcher.utter_message(
-                            text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
-                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                        openaiContent +="The product is non-vegetarian but it is palm oil free."
+                        openaiContent +="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                        followupActionFlag = True
                     if (vegetarian == 0 and palm_oil == 1):
-                        dispatcher.utter_message(
-                            text="The product is non-vegetarian and it contains palm oil.")
-                        dispatcher.utter_message(
-                            text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
-                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                        openaiContent +="The product is non-vegetarian and it contains palm oil."
+                        openaiContent +="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                        followupActionFlag = True
                     if (vegetarian == 0 and palm_oil == 0.5):
-                        dispatcher.utter_message(
-                            text="The product is non-vegetarian and it may contain palm oil.")
-                        dispatcher.utter_message(
-                            text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
-                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                        openaiContent +="The product is non-vegetarian and it may contain palm oil."
+                        openaiContent +="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                        followupActionFlag = True
 
                     if (palm_oil == 0):
-                        dispatcher.utter_message(
-                            text="The product may be vegan/vegetarian but it is palm oil free.")
-                        dispatcher.utter_message(
-                            text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
-                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                        openaiContent +="The product may be vegan/vegetarian but it is palm oil free."
+                        openaiContent +="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                        followupActionFlag = True
                     if (palm_oil == 1):
-                        dispatcher.utter_message(
-                            text="The product may be vegan/vegetarian and it contains palm oil.")
-                        dispatcher.utter_message(
-                            text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
-                        return [FollowupAction("action_check_animal_friendly_alternative")]
+                        openaiContent +="The product may be vegan/vegetarian and it contains palm oil."
+                        openaiContent +="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                        followupActionFlag = True
                     if (palm_oil == 0.5):
-                        dispatcher.utter_message(
-                            text="The product may be vegan/vegetarian and it may contain palm oil.")
-                        dispatcher.utter_message(
-                            text="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino.")
+                        openaiContent +="The product may be vegan/vegetarian and it may contain palm oil."
+                        openaiContent +="Palm oil which drives deforestation that contributes to climate change, and endangers species such as the orangutan, the pigmy elephant and the Sumatran rhino."
+                        followupActionFlag = True
+                    messages = [{"role": "system", "content": openaiContent + "Rephrase the statement to match the user's question. Provide context that this determines the animal-friendliness status of the product. The answer should not be vague and shouldn't contain any questions."},
+                            {"role": "user", "content": tracker.latest_message['text']},]
+                    x = openaiChatCompletion(messages)
+                    dispatcher.utter_message(x['content'])
+                    if(followupActionFlag == True):
                         return [FollowupAction("action_check_animal_friendly_alternative")]
-
-                    return []
+                    else:
+                        return [FollowupAction("utter_did_that_help")]
                 else:
                     dispatcher.utter_message(
                         text="I don't have information about this product's ingredients, sorry :/")
@@ -157,7 +139,6 @@ class getProductAnimalFriendlinessInfo(Action):
             text="Oh I could not find that product! Please recheck that you entered it correctly.")
 
         return []
-
 
 class checkAnimalFriendlyAlternative(Action):
     def name(self) -> Text:
@@ -179,7 +160,7 @@ class checkAnimalFriendlyAlternative(Action):
 
         ingredient_preferences = tracker.slots["ingredient_preference"]
         vegan_preference = False
-        if (ingredient_preferences is not None and "Vegetarian" in ingredient_preferences):
+        if (ingredient_preferences is not None and "vegan" in ingredient_preferences):
             vegan_preference = True
 
         # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
@@ -372,6 +353,487 @@ class suggestAnimalFriendlyAlternative(Action):
             return []
 
 
+#region social impact
+class getProductSocialImpactInfo(Action):
+    def name(self) -> Text:
+        return "action_get_product_social_impact_info"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+                  tracker: Tracker,
+                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        # Extract the barcode from the user input
+        barcode = None
+        barcode_slot = tracker.get_slot("barcode")
+
+        barcode = barcode_slot
+        fairTradeLabel = False
+        openaiContent = ""
+        followupActionFlag = False
+
+        
+        response = requests.get(
+                'https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
+        
+        if (response.status_code == 200 and response.json().get('product') is not None):
+            resProduct = response.json()['product']
+            if (resProduct.get("labels_tags") is not None):
+                if("en:fair-trade" in resProduct.get("labels_tags")):
+                    fairTradeLabel = True
+            else:
+                dispatcher.utter_message("I can't find any labels on this product to answer your question, sorry :/")
+                return []
+        else:
+            dispatcher.utter_message("I can't find this product sorry :/")
+            return []
+        
+        if(fairTradeLabel == False):
+            openaiContent += "The product doesn't have a Fair Trade Lable indicating a negative social impact."
+            openaiContent += "The fair trade label indicates that the product meets certain social and economic standards, such as fair wages and working conditions, and supports small-scale farmers and workers in developing countries."
+            followupActionFlag = True
+        else:
+            openaiContent += "The product has a Fair Trade Lable indicating a positive social impact."
+            openaiContent += "The fair trade label indicates that the product meets certain social and economic standards, such as fair wages and working conditions, and supports small-scale farmers and workers in developing countries."
+
+        messages = [{"role": "system", "content": openaiContent + "Rephrase the statement to match the user's question. Provide context that this determines the social impact status of the product according to the fair trade label. The answer should not be vague and shouldn't contain any questions."},
+        {"role": "user", "content": tracker.latest_message['text']},]
+        x = openaiChatCompletion(messages)
+        dispatcher.utter_message(x['content'])
+        if(followupActionFlag == True):
+            return [FollowupAction("action_check_positive_social_impact_alternative")]
+        else:
+            return [FollowupAction("utter_did_that_help")]
+class checkPositiveSocialImpactAlternative(Action):
+    def name(self) -> Text:
+        return "action_check_positive_social_impact_alternative"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+                  tracker: Tracker,
+                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        print("getting an alternative")
+
+        # Extract the barcode from the user input
+        barcode = None
+        barcode_slot = tracker.get_slot("barcode")
+        barcode = barcode_slot
+
+        # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
+        if (barcode is not None):
+            response = requests.get(
+                'https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
+            if (response.status_code == 200 and response.json().get('product') is not None and 
+                response.json()['product'].get("categories_tags") is not None):
+                #https://world.openfoodfacts.org/api/v2/search?categories_tags_en=en:breakfasts&sort_by=popularity_key&labels_tags=en:fair-trade
+                dispatcher.utter_message(text="Would you like an alternative that has the Fair Trade label?")
+                return []
+            else:
+                dispatcher.utter_message(text="Sorry, I can't find products of the same category.")
+                return []
+        dispatcher.utter_message(
+            text="Oh I could not find that product! Please recheck that you entered it correctly.")
+        return []
+class suggestPositiveSocialImpactAlternative(Action):
+        def name(self) -> Text:
+            return "action_suggest_positive_social_impact_alternative"
+        async def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+            # Extract the barcode from the user input
+            barcode = None
+            barcode_slot = tracker.get_slot("barcode")
+            barcode = barcode_slot
+
+            # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
+            if(barcode is not None):
+                response = requests.get('https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
+                
+                if (response.status_code == 200 and response.json().get('product') is not None and 
+                    response.json()['product'].get("categories_tags") is not None):
+                    resProduct = response.json()['product']
+                    categories_tags = resProduct['categories_tags']
+                    categories_tags_str = ','.join(categories_tags)
+                    print(categories_tags_str)
+                        
+                    url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str+"sort_by=popularity_key&labels_tags=en:fair-trade"
+                    print(url)
+                    # Send GET request
+                    response = requests.get(url)
+
+                    # Check if the request was successful
+                    if response.status_code == 200:
+                        print("Success")
+                        products = response.json()["products"]
+
+                        if(len(products) > 0):
+                            if(len(products) < 3):    
+                                dispatcher.utter_message(text="Here you go!")
+                            else:    
+                                dispatcher.utter_message(text="Here you go! These are the top 3 products:")
+                            for i, alternativeProduct in enumerate(products):
+                                if i == 3:
+                                    break
+                                msg = str(i+1) +"- "
+                                img = None
+                                if(alternativeProduct.get("image_url") is not None):
+                                    img = alternativeProduct['image_url']
+                                if(alternativeProduct.get("code") is not None):
+                                    msg += "("+alternativeProduct['code']+") "
+                                if(alternativeProduct.get("product_name") is not None):
+                                    msg += alternativeProduct['product_name']
+                                if(img is not None):
+                                    dispatcher.utter_message(image = img, text = msg )
+                                else:
+                                    dispatcher.utter_message(text = msg )
+                            return[]
+                        else:
+                            dispatcher.utter_message(text="There were no alternative products found that match the criteria :/")
+                            return []
+                        
+                    else:
+                        dispatcher.utter_message(text="I don't have information about this product's ingredients, sorry :/")
+                        return []
+                else:
+                    dispatcher.utter_message(text="Sorry, I can't find the product.")
+                    return []
+            dispatcher.utter_message(text="Oh I could not find that product! Please recheck that you entered it correctly.")
+            
+            return []
+
+#endregion
+
+#region nutritional value
+class getProductNutritionalValueInfo(Action):
+    def name(self) -> Text:
+        return "action_get_product_nutritional_value_info"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+                  tracker: Tracker,
+                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        # Extract the barcode from the user input
+        barcode = None
+        barcode_slot = tracker.get_slot("barcode")
+
+        barcode = barcode_slot
+        nutriscore = "e"
+        nutrient_levels_tags = ""
+        openaiContent = ""
+        followupActionFlag = False
+
+        response = requests.get(
+                'https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
+        
+        if (response.status_code == 200 and response.json().get('product') is not None):
+            resProduct = response.json()['product']
+            if (resProduct.get("nutriscore_grade") is not None 
+                and resProduct.get("nutrient_levels_tags") is not None):
+                nutrient_levels_tags = resProduct['nutrient_levels_tags']
+                nutriscore = resProduct['nutriscore_grade']
+                nutrient_levels_tags_str = ','.join(nutrient_levels_tags)
+            else:
+                dispatcher.utter_message("I can't find the nutritional value information of this product, sorry :/")
+                return []
+        else:
+            dispatcher.utter_message("I can't find this product sorry :/")
+            return []
+        
+        
+        if(nutriscore == "a"):
+            openaiContent += "The product has a nutriscore (a) which indicates a high nutritional value."
+        elif(nutriscore == "b"):
+            openaiContent += "The product has a nutriscore (b) which indicates a relatively high nutritional value."
+            followupActionFlag = True
+        elif(nutriscore == "c"):
+            openaiContent += "The product has a nutriscore (c) which indicates a moderate nutritional value."
+            followupActionFlag = True
+        elif(nutriscore == "d"):
+            openaiContent += "The product has a nutriscore (d) which indicates a low nutritional value."
+            followupActionFlag = True
+        else:
+            openaiContent += "The product has a nutriscore (e) which indicates a very low nutritional value."
+            followupActionFlag = True
+
+        messages = [{"role": "system", "content": openaiContent + "Rephrase the statement to match the user's question. Use the following tags to explain why the product has this nutriscore:"+nutrient_levels_tags_str+" The answer should not be vague and shouldn't contain any questions."},
+        {"role": "user", "content": tracker.latest_message['text']},]
+        x = openaiChatCompletion(messages)
+        dispatcher.utter_message(x['content'])
+        if(followupActionFlag == True):
+            return [FollowupAction("action_check_high_nutritional_value_alternative")]
+        else:
+            return [FollowupAction("utter_did_that_help")]
+class checkHighNutritionalValueAlternative(Action):
+    def name(self) -> Text:
+        return "action_check_high_nutritional_value_alternative"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+                  tracker: Tracker,
+                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        print("getting an alternative")
+
+        # Extract the barcode from the user input
+        barcode = None
+        barcode_slot = tracker.get_slot("barcode")
+        barcode = barcode_slot
+
+        # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
+        if (barcode is not None):
+            response = requests.get(
+                'https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
+            if (response.status_code == 200 and response.json().get('product') is not None and 
+                response.json()['product'].get("categories_tags") is not None and
+                response.json()['product'].get("nutriscore_grade") is not None 
+                and response.json()['product'].get("nutrient_levels_tags") is not None):
+                #https://world.openfoodfacts.org/api/v2/search?categories_tags_en=en:breakfasts&sort_by=popularity_key&labels_tags=en:fair-trade
+                dispatcher.utter_message(text="Would you like an alternative that has a higher nutriscore?")
+                return []
+            else:
+                dispatcher.utter_message(text="Sorry, I can't find products of the same category.")
+                return []
+        dispatcher.utter_message(
+            text="Oh I could not find that product! Please recheck that you entered it correctly.")
+        return []
+class suggestHighNutritionalValueAlternative(Action):
+        def name(self) -> Text:
+            return "action_suggest_high_nutritional_value_alternative"
+        async def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+            # Extract the barcode from the user input
+            barcode = None
+            barcode_slot = tracker.get_slot("barcode")
+            barcode = barcode_slot
+
+            # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
+            if(barcode is not None):
+                response = requests.get('https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
+                
+                if (response.status_code == 200 and response.json().get('product') is not None and 
+                    response.json()['product'].get("categories_tags") is not None and
+                    response.json()['product'].get("nutriscore_grade") is not None 
+                    and response.json()['product'].get("nutrient_levels_tags")is not None):
+                    resProduct = response.json()['product']
+                    categories_tags = resProduct['categories_tags']
+                    categories_tags_str = ','.join(categories_tags)
+                    print(categories_tags_str)
+                        
+                    url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str+"&sort_by=nutriscore_score"
+                    print(url)
+                    # Send GET request
+                    response = requests.get(url)
+
+                    # Check if the request was successful
+                    if response.status_code == 200:
+                        print("Success")
+                        products = response.json()["products"]
+
+                        if(len(products) > 0):
+                            if(len(products) < 3):    
+                                dispatcher.utter_message(text="Here you go!")
+                            else:    
+                                dispatcher.utter_message(text="Here you go! These are the top 3 products sorted by nutriscore:")
+                            for i, alternativeProduct in enumerate(products):
+                                if i == 3:
+                                    break
+                                msg = str(i+1) +"- "
+                                img = None
+                                if(alternativeProduct.get("image_url") is not None):
+                                    img = alternativeProduct['image_url']
+                                if(alternativeProduct.get("code") is not None):
+                                    msg += "("+alternativeProduct['code']+") "
+                                if(alternativeProduct.get("product_name") is not None):
+                                    msg += alternativeProduct['product_name']
+                                if(img is not None):
+                                    dispatcher.utter_message(image = img, text = msg )
+                                else:
+                                    dispatcher.utter_message(text = msg )
+                            return[]
+                        else:
+                            dispatcher.utter_message(text="There were no alternative products found that match the criteria :/")
+                            return []
+                        
+                    else:
+                        dispatcher.utter_message(text="I don't have information about this product's ingredients, sorry :/")
+                        return []
+                else:
+                    dispatcher.utter_message(text="Sorry, I can't find the product.")
+                    return []
+            dispatcher.utter_message(text="Oh I could not find that product! Please recheck that you entered it correctly.")
+            
+            return []
+
+#endregion
+#region environmental impact
+class getProductEnvironmentalImpactInfo(Action):
+    def name(self) -> Text:
+        return "action_get_product_environmental_impact_info"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+                  tracker: Tracker,
+                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        # Extract the barcode from the user input
+        barcode = None
+        barcode_slot = tracker.get_slot("barcode")
+
+        barcode = barcode_slot
+        ecoscore = "e"
+        packagings = []
+        packagings_str = ""
+        palm_oil = float(tracker.slots["product_palm_oil"])
+        openaiContent = ""
+        followupActionFlag = False
+
+        response = requests.get(
+                'https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
+        
+        if (response.status_code == 200 and response.json().get('product') is not None):
+            resProduct = response.json()['product']
+            if (resProduct.get("ecoscore_grade") is not None 
+                and resProduct["ecoscore_data"].get("adjustments").get("packaging").get("packagings") is not None):
+                packagings = resProduct["ecoscore_data"].get("adjustments").get("packaging").get("packagings")
+                packagings_str = str(packagings)
+                ecoscore = resProduct['ecoscore_grade']
+            else:
+                dispatcher.utter_message("I can't find the environmental impact information of this product, sorry :/")
+                return []
+        else:
+            dispatcher.utter_message("I can't find this product sorry :/")
+            return []
+        
+        if(ecoscore == "a"):
+            openaiContent += "The product has a ecoscore (a) which indicates very low environmental impact."
+        elif(ecoscore == "b"):
+            openaiContent += "The product has a ecoscore (b) which indicates relatively low environmental impact."
+            followupActionFlag = True
+        elif(ecoscore == "c"):
+            openaiContent += "The product has a ecoscore (c) which indicates moderate environmental impact."
+            followupActionFlag = True
+        elif(ecoscore == "d"):
+            openaiContent += "The product has a ecoscore (d) which indicates a high environmental impact."
+            followupActionFlag = True
+        else:
+            openaiContent += "The product has a ecoscore (e) which indicates a very high environmental impact."
+            followupActionFlag = True
+
+
+        if(palm_oil == 0.5):
+            openaiContent += "The product may contain palm oil which is bad for the environment as it endangers species and causes deforestation."
+        elif(palm_oil == 1):
+            openaiContent += "The product contains palm oil which is bad for the environment as it endangers species and causes deforestation."
+        else:
+            openaiContent += "The product is palm oil free which is good for the environment as it protects endangered species and avoids deforestation."
+
+        messages = [{"role": "system", "content": openaiContent + "Rephrase the statement to match the user's question and explain why the product has the specific ecoscore. Use the following list of packagings to suggest why the product might have this ecoscore:"+packagings_str+" The answer should not be vague and shouldn't contain any questions."},
+        {"role": "user", "content": tracker.latest_message['text']},]
+        x = openaiChatCompletion(messages)
+        dispatcher.utter_message(x['content'])
+        if(followupActionFlag == True):
+            return [FollowupAction("action_check_positive_environmental_impact_alternative")]
+        else:
+            return [FollowupAction("utter_did_that_help")]
+class checkPositiveEnvironmentalImpactAlternative(Action):
+    def name(self) -> Text:
+        return "action_check_positive_environmental_impact_alternative"
+
+    async def run(self, dispatcher: CollectingDispatcher,
+                  tracker: Tracker,
+                  domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        print("getting an alternative")
+
+        # Extract the barcode from the user input
+        barcode = None
+        barcode_slot = tracker.get_slot("barcode")
+        barcode = barcode_slot
+
+        # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
+        if (barcode is not None):
+            response = requests.get(
+                'https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
+            if (response.status_code == 200 and response.json().get('product') is not None and 
+                response.json()['product'].get("categories_tags") is not None and
+                response.json()['product'].get("ecoscore_data").get("adjustments").get("packaging").get("packagings") is not None):
+                #https://world.openfoodfacts.org/api/v2/search?categories_tags_en=en:breakfasts&sort_by=popularity_key&labels_tags=en:fair-trade
+                dispatcher.utter_message(text="Would you like an alternative that has a higher ecoscore?")
+                return []
+            else:
+                dispatcher.utter_message(text="Sorry, I can't find products of the same category.")
+                return []
+        dispatcher.utter_message(
+            text="Oh I could not find that product! Please recheck that you entered it correctly.")
+        return []
+class suggestPositiveEnvironmentalImpactAlternative(Action):
+        def name(self) -> Text:
+            return "action_suggest_positive_environmental_impact_alternative"
+        async def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        
+            # Extract the barcode from the user input
+            barcode = None
+            barcode_slot = tracker.get_slot("barcode")
+            barcode = barcode_slot
+
+            # fetch product info from https://world.openfoodfacts.org/api/v0/product/barcode.json
+            if(barcode is not None):
+                response = requests.get('https://world.openfoodfacts.org/api/v0/product/'+barcode+'.json')
+                
+                if (response.status_code == 200 and response.json().get('product') is not None and 
+                    response.json()['product'].get("categories_tags") is not None and
+                    response.json()['product'].get("ecoscore_data").get("adjustments").get("packaging").get("packagings") is not None):
+                    resProduct = response.json()['product']
+                    categories_tags = resProduct['categories_tags']
+                    categories_tags_str = ','.join(categories_tags)
+                    print(categories_tags_str)
+                        
+                    url = "https://world.openfoodfacts.org/api/v2/search?categories_tags_en="+categories_tags_str+"&sort_by=ecoscore_score"
+                    print(url)
+                    # Send GET request
+                    response = requests.get(url)
+
+                    # Check if the request was successful
+                    if response.status_code == 200:
+                        print("Success")
+                        products = response.json()["products"]
+
+                        if(len(products) > 0):
+                            if(len(products) < 3):    
+                                dispatcher.utter_message(text="Here you go!")
+                            else:    
+                                dispatcher.utter_message(text="Here you go! These are the top 3 products sorted by ecoscore:")
+                            for i, alternativeProduct in enumerate(products):
+                                if i == 3:
+                                    break
+                                msg = str(i+1) +"- "
+                                img = None
+                                if(alternativeProduct.get("image_url") is not None):
+                                    img = alternativeProduct['image_url']
+                                if(alternativeProduct.get("code") is not None):
+                                    msg += "("+alternativeProduct['code']+") "
+                                if(alternativeProduct.get("product_name") is not None):
+                                    msg += alternativeProduct['product_name']
+                                if(img is not None):
+                                    dispatcher.utter_message(image = img, text = msg )
+                                else:
+                                    dispatcher.utter_message(text = msg )
+                            return[]
+                        else:
+                            dispatcher.utter_message(text="There were no alternative products found that match the criteria :/")
+                            return []
+                        
+                    else:
+                        dispatcher.utter_message(text="I don't have information about this product's ingredients, sorry :/")
+                        return []
+                else:
+                    dispatcher.utter_message(text="Sorry, I can't find the product.")
+                    return []
+            dispatcher.utter_message(text="Oh I could not find that product! Please recheck that you entered it correctly.")
+            
+            return []
+
+#endregion
+
 class ActionConfirmPreference(Action):
     def name(self) -> Text:
         return "action_confirm_preference"
@@ -448,7 +910,6 @@ class ActionConfirmPreference(Action):
                 print(key, product_cat_limit[key])
 
         return [SlotSet(preference_type, current_values), SlotSet("product_cat_limit", product_cat_limit)]
-
 
 class ActionPrintPreferences(Action):
     def name(self) -> Text:

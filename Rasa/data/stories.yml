@@ -96,7 +96,7 @@ stories:
     steps:
       - action: utter_like_to_know_more
       - slot_was_set:
-          - barcode
+          - barcode: "3168930009078"
       - intent: affirm
       - action: utter_specify_question
       - intent: ask_about_animal_friendliness_of_product
@@ -109,7 +109,7 @@ stories:
     steps:
       - action: utter_like_to_know_more
       - slot_was_set:
-          - barcode
+          - barcode: "3168930009078"
       - intent: affirm
       - action: utter_specify_question
       - intent: ask_about_animal_friendliness_of_product
@@ -125,7 +125,7 @@ stories:
     steps:
       - action: utter_like_to_know_more
       - slot_was_set:
-          - barcode
+          - barcode: "3168930009078"
       - intent: affirm
       - action: utter_specify_question
       - intent: ask_about_animal_friendliness_of_product
@@ -140,12 +140,139 @@ stories:
     steps:
       - action: utter_like_to_know_more
       - slot_was_set:
-          - barcode
+          - barcode: "3168930009078"
       - intent: ask_about_animal_friendliness_of_product
       - action: action_get_product_animal_friendliness_info
       - action: utter_did_that_help
       - intent: deny
       - action: utter_goodbye
+
+  - story: ask about social impact and alternative
+    steps:
+      - action: utter_like_to_know_more
+      - slot_was_set:
+          - barcode
+      - intent: affirm
+      - action: utter_specify_question
+      - intent: ask_about_social_impact_of_a_product
+      - action: action_get_product_social_impact_info
+      - action: action_check_positive_social_impact_alternative
+      - intent: affirm
+      - action: action_suggest_positive_social_impact_alternative
+      - action: utter_did_that_help
+      - intent: deny
+      - action: utter_goodbye
+
+  - story: ask about social impact and alternative 2
+    steps:
+      - action: utter_like_to_know_more
+      - slot_was_set:
+          - barcode
+      - intent: affirm
+      - action: utter_specify_question
+      - intent: ask_about_social_impact_of_a_product
+      - action: action_get_product_social_impact_info
+      - action: action_check_positive_social_impact_alternative
+      - intent: deny
+      - action: utter_did_that_help
+      - intent: deny
+      - action: utter_goodbye
+
+  - story: ask about social impact 2
+    steps:
+      - action: utter_like_to_know_more
+      - slot_was_set:
+          - barcode
+      - intent: ask_about_social_impact_of_a_product
+      - action: action_get_product_social_impact_info
+      - action: utter_did_that_help
+      - intent: deny
+      - action: utter_goodbye
+
+  - story: ask about nutritional value and alternative
+    steps:
+      - action: utter_like_to_know_more
+      - slot_was_set:
+          - barcode
+      - intent: affirm
+      - action: utter_specify_question
+      - intent: ask_about_nutritional_value_of_a_product
+      - action: action_get_product_nutritional_value_info
+      - action: action_check_high_nutritional_value_alternative
+      - intent: affirm
+      - action: action_suggest_high_nutritional_value_alternative
+      - action: utter_did_that_help
+      - intent: deny
+      - action: utter_goodbye
+
+  - story: ask about nutritional value and alternative 2
+    steps:
+      - action: utter_like_to_know_more
+      - slot_was_set:
+          - barcode
+      - intent: affirm
+      - action: utter_specify_question
+      - intent: ask_about_nutritional_value_of_a_product
+      - action: action_get_product_nutritional_value_info
+      - action: action_check_high_nutritional_value_alternative
+      - intent: deny
+      - action: utter_did_that_help
+      - intent: deny
+      - action: utter_goodbye
+
+  - story: ask about nutritional value 2
+    steps:
+      - action: utter_like_to_know_more
+      - slot_was_set:
+          - barcode
+      - intent: ask_about_nutritional_value_of_a_product
+      - action: action_get_product_nutritional_value_info
+      - action: utter_did_that_help
+      - intent: deny
+      - action: utter_goodbye
+
+  - story: ask about environmental impact and alternative
+    steps:
+      - action: utter_like_to_know_more
+      - slot_was_set:
+          - barcode: "3168930009078"
+      - intent: affirm
+      - action: utter_specify_question
+      - intent: ask_about_environmental_impact_of_a_product
+      - action: action_get_product_environmental_impact_info
+      - action: action_check_positive_environmental_impact_alternative
+      - intent: affirm
+      - action: action_suggest_positive_environmental_impact_alternative
+      - action: utter_did_that_help
+      - intent: deny
+      - action: utter_goodbye
+
+  - story: ask about environmental impact and alternative 2
+    steps:
+      - action: utter_like_to_know_more
+      - slot_was_set:
+          - barcode: "3168930009078"
+      - intent: affirm
+      - action: utter_specify_question
+      - intent: ask_about_environmental_impact_of_a_product
+      - action: action_get_product_environmental_impact_info
+      - action: action_check_positive_environmental_impact_alternative
+      - intent: deny
+      - action: utter_did_that_help
+      - intent: deny
+      - action: utter_goodbye
+
+  - story: ask about environmental impact 2
+    steps:
+      - action: utter_like_to_know_more
+      - slot_was_set:
+          - barcode: "3168930009078"
+      - intent: ask_about_environmental_impact_of_a_product
+      - action: action_get_product_environmental_impact_info
+      - action: utter_did_that_help
+      - intent: deny
+      - action: utter_goodbye
+
   - story: set ingredient preference
     steps:
       - intent: set_ingredient_preference
