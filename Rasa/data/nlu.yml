@@ -86,20 +86,20 @@ nlu:
       - am I talking to a human?
   - intent: scan_barcode
     examples: |
-      - scan barcode [1234567890123] (barcode)
-      - scan barcode [1234567890123] (barcode) please
-      - scan barco [1234567890123] (barcode)
-      - scan barcod [1234567890123] (barcode)
-      - scan this barcode [1234567890123] (barcode)
-      - [1234567890123] (barcode)
-      - barcode [1234567890123] (barcode)
-      - barcode is [1234567890123] (barcode)
-      - barcode "[1234567890123] (barcode)"
-      - barcode: "[1234567890123] (barcode)"
-      - barcode: [1234567890123] (barcode)
-      - The barcode is [1234567890123] (barcode)
-      - The barcode: "[1234567890123] (barcode)"
-      - product barcode [1234567890123] (barcode)
+      - scan barcode [- (barcode)
+      - scan barcode [- (barcode) please
+      - scan barco [- (barcode)
+      - scan barcod [- (barcode)
+      - scan this barcode [- (barcode)
+      - [- (barcode)
+      - barcode [- (barcode)
+      - barcode is [- (barcode)
+      - barcode "[- (barcode)"
+      - barcode: "[- (barcode)"
+      - barcode: [- (barcode)
+      - The barcode is [- (barcode)
+      - The barcode: "[- (barcode)"
+      - product barcode [- (barcode)
       - scan barcode [1234567890123](barcode)
       - scan barcode [1234567890123](barcode) please
       - scan barco [1234567890123](barcode)
@@ -228,6 +228,94 @@ nlu:
       - Can you provide evidence of the company's commitment to animal welfare throughout its supply chain?
       - Are there any plans in place to further improve the animal-friendliness of this product?
       - Has this product received any awards or certifications related to its animal-friendliness?
+  - intent: ask_about_social_impact_of_a_product
+    examples: |
+      - How does this food product claim to have a positive social impact?
+      - How does it claim to have a positive social impact?
+      - Does this product have any labels to show its social impact?
+      - Does it have any labels to show its social impact?
+      - Does this product have a fair trade label?
+      - Does it have a fair trade label?
+      - What specific social initiatives or programs does the company support through the sales of this product?
+      - How does the fair trade label on this food product benefit the farmers or producers involved in its supply chain?
+      - Does the fair trade certification guarantee a living wage and decent working conditions for farmers or workers?
+      - What steps are taken to ensure that the fair trade principles are adhered to throughout the entire production process?
+      - Are there any third-party audits or certifications to verify the social impact and fair trade claims of this food product?
+      - How does the company engage with local communities to assess and address their needs and concerns?
+      - Are there any partnerships with NGOs or social organizations to further enhance the social impact of this food product?
+      - Does the company provide transparency regarding the allocation of funds from fair trade premiums?
+      - How has the fair trade label positively influenced the lives of farmers or producers in the past?
+      - Are there any success stories or testimonials from individuals or communities benefiting from the fair trade practices of this product?
+      - How does the fair trade label contribute to sustainable development and poverty alleviation in the regions where the product is sourced?
+      - Does the company invest in training and capacity-building programs to empower farmers and workers in the supply chain?
+      - Are there any environmental considerations tied to the fair trade practices of this food product?
+      - How does the company ensure that women and marginalized groups are equally represented and supported in the fair trade process?
+      - Does the fair trade label encompass not only economic benefits but also social and cultural aspects for the communities involved?
+      - Are there any ongoing projects or future plans to expand the social impact and fair trade practices of this food product?
+      - What measures are in place to prevent any exploitation or abuse within the fair trade supply chain?
+      - How does the company communicate the value of the fair trade label to consumers and promote awareness about its significance?
+      - Are there any opportunities for consumers to directly engage with the communities or farmers benefiting from the fair trade practices of this food product?
+  - intent: ask_about_nutritional_value_of_a_product
+    examples: |
+      - Does the product have a high nutriscore?
+      - Does it have a high nutriscore?
+      - Is the product healthy?
+      - Is it healthy?
+      - What are the nutritional ingredients of the product?
+      - What are the nutritional ingredients of it?
+      - why is the nutriscore low?
+      - What is the serving size of the product?
+      - How many calories does the product contain per serving?
+      - How many calories does it contain per serving?
+      - What is the breakdown of macronutrients (carbohydrates, proteins, and fats) in the product?
+      - What is the breakdown of macronutrients (carbohydrates, proteins, and fats) in it?
+      - Does the product contain any added sugars?
+      - Is the product a good source of dietary fiber?
+      - How much sodium does the product contain per serving?
+      - What vitamins and minerals are present in the product and in what quantities?
+      - Is the product suitable for individuals with specific dietary restrictions, such as gluten-free or lactose-free?
+      - What is the percentage of recommended daily intake of key nutrients provided by the product?
+      - How does the product compare to similar products in terms of nutritional value?
+      - Can you explain the potential health benefits or drawbacks of consuming this product regularly?
+      - What are the potential health risks associated with consuming this product excessively?
+      - Is the product suitable for individuals with certain health conditions, such as diabetes or hypertension?
+      - What is the glycemic index or glycemic load of the product?
+      - Are there any natural or organic ingredients used in the product?
+      - What are the specific sources of fats used in the product (e.g., saturated, unsaturated, trans fats)?
+  - intent: ask_about_environmental_impact_of_a_product
+    examples: |
+      - What is the environmental impact of the product?
+      - What is the ecoscore of the product?
+      - Why is the ecoscore for the product so low?
+      - Does the product contain any ingredients that threaten species?
+      - Does the product contain any ingredients that have a bad environmental impact?
+      - How is this product packaged?
+      - Is the product packaging recyclable?
+      - Is the product packaging biodegradable?
+      - Can the can be recycled?
+      - Is the foil environmentally friendly?
+      - Is the product environmentall friendly?
+      - What are the primary environmental concerns associated with this food product?
+      - Does the production of this food product result in deforestation or habitat destruction?
+      - What is the carbon footprint of this product, from production to transportation?
+      - Are the farming practices used for this product sustainable and environmentally friendly?
+      - Does the product contribute to water pollution or excessive water usage during its production?
+      - Are there any certifications or labels indicating the product's environmental sustainability?
+      - How does the packaging of this product contribute to its overall environmental impact?
+      - Does the product contain any genetically modified organisms (GMOs), and if so, what are the implications?
+      - Is the product sourced locally, or does it require long-distance transportation, impacting emissions?
+      - Can you provide information about the waste generated in the product's manufacturing process?
+      - What efforts does the company make to reduce food waste throughout the supply chain?
+      - Has the product undergone a life cycle assessment to evaluate its environmental impact comprehensively?
+      - Are there any social or ethical considerations tied to the production of this food product?
+      - Are pesticides or chemical fertilizers used during the cultivation of ingredients for this product?
+      - Is the product part of any sustainable sourcing programs or initiatives?
+      - How does the product's environmental impact compare to similar products in the market?
+      - Can you suggest alternative food products with lower environmental impacts?
+      - What steps is the company taking to improve the product's environmental performance over time?
+      - Is the product's packaging made from recycled materials, and how much recycled content does it have?
+      - How do the nutritional choices of this product impact its overall environmental footprint?
+
   - intent: set_ingredient_preference
     examples: |
       - I am [vegan](ingredient_preference).
@@ -463,6 +551,8 @@ nlu:
 
   - intent: scan_sustainability_report
     examples: |
+      - How is the ecoscore of a product calculated?
+      - How does the packaging affect the ecoscore?
       - What are the different sustainability models?
       - How does the SAFA Guidelines define sustainability and what dimensions does it consider?
       - Who developed the Sustainability Flower model and what dimensions does it include?
